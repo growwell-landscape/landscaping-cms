@@ -22,12 +22,16 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./components/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/app/*": ["./app/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/components/ui/*": ["./components/ui/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/app/*": ["./src/app/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./lib/utils.ts"]
+      "@/utils/*": ["./lib/utils.ts"],
+      "@/data/*": ["./src/data/*"],
+      "@/store/*": ["./src/store/*"],
+      "@/config/*": ["./src/config/*"]
     }
   },
   "include": [

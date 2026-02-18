@@ -52,10 +52,10 @@ export function getEnv(): Environment {
     return validatedEnv;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errorMessages = error.errors
+      const errorMessages: string[] = error.issues
         .map((err) => `${err.path.join(".")}: ${err.message}`)
-        .join(", ");
-      throw new Error(`Invalid environment variables: ${errorMessages}`);
+        .filter((msg): msg is string => typeof msg === 'string');
+      throw new Error(`Invalid environment variables: ${errorMessages.join(", ")}`);
     }
     throw error;
   }

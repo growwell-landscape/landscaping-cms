@@ -1,14 +1,38 @@
 [
   {
+    "id": "turfing",
+    "category": "turfing",
+    "completedDate": "2025",
+    "description": "turfing",
+    "enabled": true,
+    "image": "/images/projects/terrace-garden.jpg, /images/projects/terrace-2.jpg",
+    "images": [
+      "/images/projects/terrace-garden.jpg",
+      "/images/projects/terrace-2.jpg"
+    ],
+    "location": "Chennai, Tamil Nadu",
+    "services": [
+      "turfing"
+    ],
+    "sortOrder": 1,
+    "title": "Turfing"
+  },
+  {
     "id": "residential-terrace-garden",
     "title": "Residential Terrace Garden",
     "description": "A stunning transformation of a residential terrace into a lush, green oasis. Complete with lawn area, ornamental plants, and seating space.",
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
     "image": "/images/projects/terrace-garden.jpg",
-    "images": ["/images/projects/terrace-garden.jpg", "/images/projects/terrace-2.jpg"],
-    "completedDate": "2024",
-    "services": ["turfing-lawn-making", "planting-landscaping"],
+    "images": [
+      "/images/projects/terrace-garden.jpg",
+      "/images/projects/terrace-2.jpg"
+    ],
+    "completedDate": "2025",
+    "services": [
+      "turfing-lawn-making",
+      "planting-landscaping"
+    ],
     "sortOrder": 1,
     "enabled": true
   },
@@ -19,9 +43,13 @@
     "location": "Chennai, Tamil Nadu",
     "category": "Commercial",
     "image": "/images/projects/commercial.jpg",
-    "images": ["/images/projects/commercial.jpg"],
-    "completedDate": "2023",
-    "services": ["planting-landscaping"],
+    "images": [
+      "/images/projects/commercial.jpg"
+    ],
+    "completedDate": "2025",
+    "services": [
+      "planting-landscaping"
+    ],
     "sortOrder": 2,
     "enabled": true
   },
@@ -32,9 +60,13 @@
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
     "image": "/images/projects/vertical-apt.jpg",
-    "images": ["/images/projects/vertical-apt.jpg"],
-    "completedDate": "2024",
-    "services": ["vertical-green-walls"],
+    "images": [
+      "/images/projects/vertical-apt.jpg"
+    ],
+    "completedDate": "2025",
+    "services": [
+      "vertical-green-walls"
+    ],
     "sortOrder": 3,
     "enabled": true
   }
