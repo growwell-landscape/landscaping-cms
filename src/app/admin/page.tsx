@@ -221,9 +221,9 @@ export default function AdminDashboard() {
    * DASHBOARD
    */
   return (
-    <div className="flex min-h-screen bg-gray-50 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* SIDEBAR */}
-      <aside className="hidden md:flex w-64 bg-white border-r flex-col md:sticky md:top-0 md:h-screen md:flex-shrink-0">
+      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 bg-white border-r flex-col z-30">
         <div className="p-4 border-b font-semibold text-base">
           CMS Admin
         </div>
@@ -265,9 +265,10 @@ export default function AdminDashboard() {
       </aside>
 
       {/* MAIN */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex min-h-screen md:pl-64">
+        <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* HEADER */}
-        <header className="sticky top-0 bg-white border-b px-4 py-3 flex justify-between items-center">
+        <header className="sticky top-0 z-20 bg-white border-b px-4 py-3 flex justify-between items-center">
           <div>
             <h1 className="font-semibold text-lg">Dashboard</h1>
             <p className="text-sm text-gray-500">Manage content</p>
@@ -289,7 +290,7 @@ export default function AdminDashboard() {
         </header>
 
         {/* CONTENT */}
-        <main className="flex-1 p-6 space-y-6 overflow-auto">
+        <main className="flex-1 p-6 space-y-6 overflow-y-auto">
           {/* Field manager + controls when file is loaded */}
           {selectedFile && (
             <FieldManagerComponent
@@ -361,6 +362,7 @@ export default function AdminDashboard() {
             </div>
           )}
         </main>
+        </div>
       </div>
     </div>
   );
