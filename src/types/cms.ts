@@ -127,6 +127,12 @@ export interface CompressionOptions {
   maxWidthOrHeight: number;
   /** Use web worker for compression */
   useWebWorker: boolean;
+  /** Initial quality hint (0 to 1) */
+  initialQuality?: number;
+  /** Max compression iterations */
+  maxIteration?: number;
+  /** Output mime type */
+  fileType?: "image/jpeg" | "image/png" | "image/webp";
 }
 
 /**

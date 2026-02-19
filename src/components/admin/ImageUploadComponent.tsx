@@ -6,15 +6,14 @@
 "use client";
 
 import { useState } from "react";
-import { Upload, X, AlertCircle } from "lucide-react";
+import { Upload, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import {
   validateImageFile,
   compressImage,
   formatFileSize,
-  fileToBase64,
-  generateUniqueFileName,
   DEFAULT_COMPRESSION_OPTIONS,
+  MAX_IMAGE_INPUT_SIZE_MB,
 } from "@/lib/image-compression";
 
 interface ImageUploadComponentProps {
@@ -61,10 +60,7 @@ export function ImageUploadComponent({
       validateImageFile(file);
 
       // Compress image
-      const result = await compressImage(
-        file,
-        DEFAULT_COMPRESSION_OPTIONS
-      );
+      const result = await compressImage(file, DEFAULT_COMPRESSION_OPTIONS);
 
       // Show compression info
       setCompressionInfo({
@@ -131,7 +127,7 @@ export function ImageUploadComponent({
           </label>
         </p>
         <p className="text-xs text-gray-500 mt-2">
-          Max 5MB • JPG, PNG, WebP
+          Max {MAX_IMAGE_INPUT_SIZE_MB}MB - JPG, PNG, WebP
         </p>
       </div>
 
@@ -157,7 +153,7 @@ export function ImageUploadComponent({
             <div>
               <p className="font-medium text-blue-900">Compression Complete</p>
               <p className="text-blue-800 text-xs mt-1">
-                Original: {compressionInfo.originalSize} → Compressed:{" "}
+                Original: {compressionInfo.originalSize} to Compressed:{" "}
                 {compressionInfo.compressedSize} ({compressionInfo.ratio}{" "}
                 reduced)
               </p>

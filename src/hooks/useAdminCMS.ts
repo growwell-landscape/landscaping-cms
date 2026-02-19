@@ -22,6 +22,7 @@ import {
 } from "@/lib/cms-utils";
 import {
   compressImage,
+  DEFAULT_COMPRESSION_OPTIONS,
   fileToBase64,
   generateUniqueFileName,
 } from "@/lib/image-compression";
@@ -51,6 +52,12 @@ const IMAGE_UPLOAD_FOLDER_BY_FILE: Record<string, string> = {
   [CMS_FILES.PROJECTS]: "projects",
   [CMS_FILES.SERVICES]: "services",
   [CMS_FILES.TRANSLATIONS]: "translations",
+};
+const IMAGE_UPLOAD_COMPRESSION_OPTIONS = {
+  ...DEFAULT_COMPRESSION_OPTIONS,
+  maxSizeMB: 0.35,
+  maxWidthOrHeight: 1400,
+  initialQuality: 0.8,
 };
 
 interface SaveAllResult {
@@ -997,7 +1004,10 @@ export function useAdminCMS() {
 
       setIsLoading(true);
       try {
-        const compressed = await compressImage(file);
+        const compressed = await compressImage(
+          file,
+          IMAGE_UPLOAD_COMPRESSION_OPTIONS
+        );
         const base64Content = await fileToBase64(compressed.file);
         const payload: ImageUploadPayload = {
           fileName: generateUniqueFileName(file.name),
@@ -1040,7 +1050,11 @@ export function useAdminCMS() {
           });
         }
 
-        toast.success("Image uploaded successfully");
+        toast.success(
+          compressed.ratio > 0
+            ? `Image uploaded successfully (${compressed.ratio.toFixed(1)}% smaller)`
+            : "Image uploaded successfully"
+        );
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Failed to upload image";
         toast.error(errorMessage);

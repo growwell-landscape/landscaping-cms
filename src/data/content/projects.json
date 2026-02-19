@@ -5,9 +5,9 @@
     "completedDate": "2025",
     "description": "turfing",
     "enabled": true,
-    "image": "/images/projects/terrace-garden.jpg, /images/projects/terrace-2.jpg",
+    "image": "",
     "images": [
-      "/images/projects/terrace-garden.jpg",
+      "/uploads/projects/images/img-1771425133524.png",
       "/images/projects/terrace-2.jpg"
     ],
     "location": "Chennai, Tamil Nadu",

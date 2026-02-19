@@ -10,15 +10,19 @@ import type { CompressionOptions, CompressionResult } from "@/types/cms";
  * Default compression options
  */
 export const DEFAULT_COMPRESSION_OPTIONS: CompressionOptions = {
-  maxSizeMB: 0.5,
-  maxWidthOrHeight: 1200,
+  maxSizeMB: 0.4,
+  maxWidthOrHeight: 1400,
   useWebWorker: true,
+  initialQuality: 0.82,
+  maxIteration: 10,
 };
 
 /**
- * Maximum allowed file size before compression (5MB)
+ * Maximum upload size accepted before compression (25MB)
  */
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+export const MAX_IMAGE_INPUT_SIZE_MB = 25;
+const MAX_IMAGE_INPUT_SIZE_BYTES = MAX_IMAGE_INPUT_SIZE_MB * 1024 * 1024;
+const BYTES_IN_MB = 1024 * 1024;
 
 /**
  * Allowed image MIME types
@@ -39,11 +43,39 @@ export function validateImageFile(file: File): void {
   }
 
   // Check file size
-  if (file.size > MAX_FILE_SIZE) {
+  if (file.size > MAX_IMAGE_INPUT_SIZE_BYTES) {
     throw new Error(
-      `File size exceeds maximum allowed size of 5MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`
+      `File size exceeds maximum allowed size of ${MAX_IMAGE_INPUT_SIZE_MB}MB. Current size: ${(file.size / BYTES_IN_MB).toFixed(2)}MB`
     );
   }
+}
+
+function resolveCompressionOptions(options: CompressionOptions): CompressionOptions {
+  return {
+    ...DEFAULT_COMPRESSION_OPTIONS,
+    ...options,
+  };
+}
+
+function getFallbackCompressionOptions(
+  baseOptions: CompressionOptions
+): CompressionOptions[] {
+  return [
+    {
+      ...baseOptions,
+      maxSizeMB: Math.max(baseOptions.maxSizeMB * 0.75, 0.2),
+      maxWidthOrHeight: Math.max(Math.floor(baseOptions.maxWidthOrHeight * 0.85), 960),
+      initialQuality: Math.min(baseOptions.initialQuality ?? 0.82, 0.72),
+      maxIteration: Math.max(baseOptions.maxIteration ?? 10, 10),
+    },
+    {
+      ...baseOptions,
+      maxSizeMB: Math.max(baseOptions.maxSizeMB * 0.5, 0.12),
+      maxWidthOrHeight: Math.max(Math.floor(baseOptions.maxWidthOrHeight * 0.7), 800),
+      initialQuality: Math.min(baseOptions.initialQuality ?? 0.82, 0.6),
+      maxIteration: Math.max(baseOptions.maxIteration ?? 10, 12),
+    },
+  ];
 }
 
 /**
@@ -61,16 +93,36 @@ export async function compressImage(
     // Validate file before compression
     validateImageFile(file);
 
+    const compressionOptions = resolveCompressionOptions(options);
     const originalSize = file.size;
+    const targetSizeBytes = compressionOptions.maxSizeMB * BYTES_IN_MB;
 
     // Compress image
-    const compressedFile = await imageCompression(file, options);
+    let compressedFile = await imageCompression(file, compressionOptions);
+
+    // If still above target, retry with more aggressive settings.
+    if (compressedFile.size > targetSizeBytes) {
+      const fallbackOptions = getFallbackCompressionOptions(compressionOptions);
+      for (const fallback of fallbackOptions) {
+        const candidate = await imageCompression(file, fallback);
+        if (candidate.size < compressedFile.size) {
+          compressedFile = candidate;
+        }
+        if (compressedFile.size <= targetSizeBytes) {
+          break;
+        }
+      }
+    }
+
+    if (compressedFile.size > originalSize) {
+      compressedFile = file;
+    }
 
     // Calculate compression ratio
     const compressedSize = compressedFile.size;
-    const ratio = (
-      ((originalSize - compressedSize) / originalSize) *
-      100
+    const ratio = Math.max(
+      0,
+      ((originalSize - compressedSize) / originalSize) * 100
     ).toFixed(2);
 
     return {
