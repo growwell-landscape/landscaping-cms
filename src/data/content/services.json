@@ -5,7 +5,7 @@
     "shortDescription": "Professional lawn installation and maintenance for lush, long-lasting green spaces.",
     "description": "Transform your outdoor space with our expert turfing services. We specialize in creating beautiful, sustainable lawns using high-quality grass varieties suited to Chennai's climate. Our process includes soil preparation, proper grading, and installation of premium turf that establishes quickly and remains green year-round.",
     "icon": "leaf",
-    "image": "/uploads/site/site/img-1771472600648.jpeg",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
         "title": "Site preparation and soil treatment"
@@ -21,8 +21,8 @@
       }
     ],
     "gallery": [
-      "/uploads/site/site/img-1771472600648.jpeg",
-      "/uploads/projects/images/img-1771425133524.png"
+      "/uploads/site/about/img-1771504255188.jpg",
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 1,
     "enabled": true
@@ -33,7 +33,7 @@
     "shortDescription": "Comprehensive landscape design and planting services tailored to your space.",
     "description": "Our planting and landscaping services bring your vision to life. We design and execute complete landscape transformations including flower beds, shrub borders, ornamental gardens, and themed plantings. Each project is customized to match your aesthetic preferences and site conditions.",
     "icon": "flower",
-    "image": "/uploads/projects/images/img-1771425133524.png",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
         "title": "Custom landscape design"
@@ -49,8 +49,8 @@
       }
     ],
     "gallery": [
-      "/uploads/projects/images/img-1771425133524.png",
-      "/uploads/site/site/img-1771472600648.jpeg"
+      "/uploads/site/about/img-1771504255188.jpg",
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 2,
     "enabled": true
@@ -61,7 +61,7 @@
     "shortDescription": "Innovative vertical gardens for modern indoor and outdoor spaces.",
     "description": "Maximize your green space with stunning vertical gardens. Our vertical green wall systems are perfect for urban environments where ground space is limited. These living walls not only look spectacular but also improve air quality, provide insulation, and create a calming atmosphere.",
     "icon": "building",
-    "image": "/uploads/projects/images/img-1771425133524.png",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
         "title": "Custom-designed vertical planters"
@@ -77,7 +77,7 @@
       }
     ],
     "gallery": [
-      "/uploads/projects/images/img-1771425133524.png"
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 3,
     "enabled": true
@@ -88,7 +88,7 @@
     "shortDescription": "Expert tree planting for healthy growth, shade, and long-term landscape value.",
     "description": "Add shade, beauty, and value to your property with our tree planting services. We help you select the right tree species for your location, ensuring proper placement and planting techniques for healthy, long-lasting growth. Our trees are sourced from trusted nurseries and come with care guidance.",
     "icon": "tree-deciduous",
-    "image": "/uploads/site/site/img-1771472600648.jpeg",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
         "title": "Expert species selection"
@@ -104,7 +104,7 @@
       }
     ],
     "gallery": [
-      "/uploads/site/site/img-1771472600648.jpeg"
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 4,
     "enabled": true

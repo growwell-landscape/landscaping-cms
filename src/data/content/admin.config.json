@@ -8,7 +8,7 @@
       "type": "image",
       "imageUrl": "/uploads/site/site/img-1771472600648.jpeg",
       "text": "GW",
-      "showText": true
+      "showText": false
     },
     "defaultLanguage": "en",
     "languages": [
@@ -47,15 +47,15 @@
     "customCss": ""
   },
   "contact": {
-    "phone": "+91 8015355447",
-    "email": "greenformulalandscapers@gmail.com",
+    "phone": "+91 9500836544",
+    "email": "support@growWell-landscape.com",
     "address": "Chennai, Tamil Nadu",
     "location": {
-      "name": "Madhura Landscapes - Top Landscape Contractor",
+      "name": "GrowWell Landscapes - Landscape Contractor",
       "url": "https://share.google/eWR7LYJJSDVM9XJob"
     },
     "whatsapp": {
-      "number": "918015355447",
+      "number": "919500836544",
       "defaultMessage": "Hi, I'm interested in your landscaping services. Can you help me?"
     },
     "floatingContact": {
@@ -80,8 +80,8 @@
     "ctaText": "View Services",
     "ctaLink": "/services",
     "images": {
-      "desktop": "/uploads/site/site/img-1771472600648.jpeg",
-      "mobile": "/uploads/site/site/img-1771472600648.jpeg"
+      "desktop": "/uploads/site/about/img-1771504255188.jpg",
+      "mobile": "/uploads/site/about/img-1771504255188.jpg"
     }
   },
   "about": {
@@ -105,7 +105,7 @@
         "description": "Regular care to keep your garden thriving"
       }
     ],
-    "image": "/uploads/projects/images/img-1771425133524.png",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "title": "Transforming Chennai's Terraces and Landscapes Since 2010",
     "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life."
   }

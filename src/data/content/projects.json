@@ -24,10 +24,10 @@
     "description": "A stunning transformation of a residential terrace into a lush, green oasis with lawn area and curated planting.",
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
-    "image": "/uploads/site/site/img-1771472600648.jpeg",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "images": [
-      "/uploads/site/site/img-1771472600648.jpeg",
-      "/uploads/projects/images/img-1771425133524.png"
+      "/uploads/site/about/img-1771504255188.jpg",
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "completedDate": "2025",
     "services": [
@@ -38,14 +38,14 @@
     "enabled": true
   },
   {
-    "id": "corporate-vertical-wall",
+    "id": "commercial-corporate-vertical-wall",
     "title": "Corporate Vertical Wall",
     "description": "Vertical wall installation for a corporate office, blending greenery with a modern workspace aesthetic.",
     "location": "Chennai, Tamil Nadu",
     "category": "Commercial",
-    "image": "/uploads/projects/images/img-1771425133524.png",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "images": [
-      "/uploads/projects/images/img-1771425133524.png"
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "completedDate": "2025",
     "services": [
@@ -55,14 +55,14 @@
     "enabled": true
   },
   {
-    "id": "villa-landscape-design",
+    "id": "residential-villa-landscape-design",
     "title": "Villa Landscape Design",
     "description": "Landscape development for a premium villa featuring structured planting and open lawn transitions.",
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
-    "image": "/uploads/site/site/img-1771472600648.jpeg",
+    "image": "/uploads/site/about/img-1771504255188.jpg",
     "images": [
-      "/uploads/site/site/img-1771472600648.jpeg"
+      "/uploads/site/about/img-1771504255188.jpg"
     ],
     "completedDate": "2025",
     "services": [
