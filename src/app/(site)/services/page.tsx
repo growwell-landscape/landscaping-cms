@@ -1,35 +1,32 @@
-import { SectionContainer } from "@/components/site/SectionContainer";
-import { PageIntro } from "@/components/site/PageIntro";
+import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
+import { ServicesCatalogPage } from "@/components/site/ServicesCatalogPage";
 import { getActiveServices } from "@/lib/config-loader";
 import { getSiteCommonData } from "@/lib/site-data";
 
 export default async function ServicesPage() {
   const [services, siteData] = await Promise.all([getActiveServices(), getSiteCommonData()]);
-  const commonCopy = siteData.translations.common || {};
   const servicesCopy = siteData.translations.services || {};
+  const floatingContact = siteData.adminConfig.contact.floatingContact;
+  const subtitle =
+    servicesCopy.subtitle ||
+    "Explore our wide range of professional landscaping and gardening services designed to transform your space.";
 
   return (
     <main>
-      <PageIntro
-        description={commonCopy.comingSoon || servicesCopy.subtitle || ""}
+      <ServicesCatalogPage
+        noResultsLabel={servicesCopy.noResults || "No services found for your search."}
+        searchPlaceholder={servicesCopy.searchPlaceholder || "Search for a service..."}
+        services={services}
+        subtitle={subtitle}
         title={servicesCopy.title || "Our Services"}
+        viewDetailsLabel={servicesCopy.viewDetails || "View Details"}
       />
-      <section className="bg-white py-16">
-        <SectionContainer>
-          <div className="grid gap-4 md:grid-cols-2">
-            {services.map((service) => (
-              <article
-                className="rounded-2xl border border-[var(--site-color-border)] bg-white p-6 shadow-sm transition-transform duration-300 hover:translate-y-[-2px]"
-                key={service.id}
-              >
-                <h2 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)]">{service.title}</h2>
-                <p className="mt-2 text-sm text-[var(--site-color-muted-foreground)]">{service.shortDescription}</p>
-              </article>
-            ))}
-          </div>
-        </SectionContainer>
-      </section>
+      {floatingContact.enabled && floatingContact.showWhatsApp ? (
+        <FloatingWhatsApp
+          defaultMessage={siteData.adminConfig.contact.whatsapp.defaultMessage}
+          number={siteData.adminConfig.contact.whatsapp.number}
+        />
+      ) : null}
     </main>
   );
 }
-
