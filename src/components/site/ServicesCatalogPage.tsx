@@ -70,13 +70,16 @@ function ServiceCard({ service, viewDetailsLabel }: ServiceCardProps) {
     : undefined;
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-[var(--site-color-border)] bg-white shadow-sm">
+    <Link
+      className="group block cursor-pointer overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+      href={`/services/${service.id}`}
+    >
       <div className="relative h-44 bg-[var(--site-color-muted)] md:h-48">
         <div
           className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
           style={imageStyle}
         />
-        <span className="absolute left-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white text-[var(--site-color-primary)] shadow-sm">
+        <span className="absolute left-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-[5px] bg-white text-[var(--site-color-primary)] shadow-sm">
           <Icon className="h-4 w-4" />
         </span>
       </div>
@@ -88,16 +91,13 @@ function ServiceCard({ service, viewDetailsLabel }: ServiceCardProps) {
           {service.shortDescription}
         </p>
       </div>
-      <div className="border-t border-[var(--site-color-border)]">
-        <Link
-          className="flex items-center justify-between px-4 py-3.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--site-color-primary)]"
-          href={`/services/${service.id}`}
-        >
+      <div className="border-t border-[var(--site-color-border)] px-4 py-3.5">
+        <span className="inline-flex items-center gap-2 rounded-[5px] bg-[var(--site-color-accent)] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--site-color-primary)]">
           <span>{viewDetailsLabel}</span>
           <ArrowRight className="h-4 w-4" />
-        </Link>
+        </span>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -110,6 +110,7 @@ export function ServicesCatalogPage({
   viewDetailsLabel,
 }: ServicesCatalogPageProps) {
   const [query, setQuery] = useState("");
+  const shouldShowSearch = services.length > 8;
 
   const filteredServices = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -126,30 +127,40 @@ export function ServicesCatalogPage({
 
   return (
     <>
-      <section className="bg-[var(--site-color-muted)] pb-12 pt-32 md:pb-14 md:pt-36">
-        <SectionContainer className="text-center">
-          <h1 className="site-heading text-4xl font-semibold text-[var(--site-color-foreground)] md:text-5xl">
+      <section className="relative overflow-hidden pb-12 pt-32 md:pb-14 md:pt-36">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(130deg, #173425 0%, #1e4a34 42%, #2a6848 100%), radial-gradient(circle at 15% 20%, rgba(255,255,255,0.16) 0 12%, transparent 13%), radial-gradient(circle at 82% 72%, rgba(255,255,255,0.12) 0 9%, transparent 10%)",
+          }}
+        />
+        <SectionContainer className="relative text-center">
+          <h1 className="site-heading text-4xl font-semibold text-white md:text-5xl">
             {title}
           </h1>
-          <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-[var(--site-color-muted-foreground)] md:text-base">
+          <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-white/85 md:text-base">
             {subtitle}
           </p>
-          <div className="mx-auto mt-8 max-w-[560px]">
-            <label className="sr-only" htmlFor="services-search">
-              {searchPlaceholder}
-            </label>
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--site-color-muted-foreground)]" />
-              <input
-                className="h-12 w-full rounded-full border border-[var(--site-color-border)] bg-white pl-12 pr-4 text-sm text-[var(--site-color-foreground)] outline-none transition-colors focus:border-[var(--site-color-primary)]"
-                id="services-search"
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder={searchPlaceholder}
-                type="search"
-                value={query}
-              />
+          {shouldShowSearch ? (
+            <div className="mx-auto mt-8 max-w-[560px]">
+              <label className="sr-only" htmlFor="services-search">
+                {searchPlaceholder}
+              </label>
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--site-color-muted-foreground)]" />
+                <input
+                  className="h-12 w-full rounded-[5px] border border-[var(--site-color-border)] bg-white pl-12 pr-4 text-sm text-[var(--site-color-foreground)] outline-none transition-colors focus:border-[var(--site-color-primary)]"
+                  id="services-search"
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={searchPlaceholder}
+                  type="search"
+                  value={query}
+                />
+              </div>
             </div>
-          </div>
+          ) : null}
         </SectionContainer>
       </section>
 
@@ -162,7 +173,7 @@ export function ServicesCatalogPage({
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-[var(--site-color-border)] bg-[var(--site-color-muted)] p-8 text-center text-sm text-[var(--site-color-muted-foreground)]">
+            <div className="rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)] p-8 text-center text-sm text-[var(--site-color-muted-foreground)]">
               {noResultsLabel}
             </div>
           )}

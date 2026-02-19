@@ -46,7 +46,7 @@ export function HeroSection({
           </h1>
           <p className="site-animate-fade-up mt-6 text-lg text-white/90 md:text-2xl">{description}</p>
           <Link
-            className="site-animate-fade-up mt-10 inline-flex h-12 items-center justify-center rounded-full border border-white/20 bg-[var(--site-color-primary)] px-8 text-base font-semibold text-white transition-all duration-300 hover:translate-y-[-2px] hover:bg-[var(--site-color-primary-hover)]"
+            className="site-animate-fade-up mt-10 inline-flex h-12 items-center justify-center rounded-[5px] border border-white/20 bg-[var(--site-color-primary)] px-8 text-base font-semibold text-white transition-all duration-300 hover:translate-y-[-2px] hover:bg-[var(--site-color-primary-hover)]"
             href={ctaHref}
           >
             {ctaLabel}

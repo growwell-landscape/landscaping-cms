@@ -72,27 +72,33 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
   return (
     <main>
-      <section className="border-b border-[var(--site-color-border)] bg-[var(--site-color-muted)] pb-10 pt-28 md:pb-12 md:pt-32">
-        <SectionContainer>
-          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-[var(--site-color-muted-foreground)]">
-            <Link className="transition-colors hover:text-[var(--site-color-primary)]" href="/">
+      <section className="relative overflow-hidden border-b border-[var(--site-color-border)] pb-10 pt-28 md:pb-12 md:pt-32">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url("${service.image}")` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/40" />
+        <SectionContainer className="relative">
+          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-white/75">
+            <Link className="transition-colors hover:text-white" href="/">
               Home
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <Link className="transition-colors hover:text-[var(--site-color-primary)]" href="/services">
+            <Link className="transition-colors hover:text-white" href="/services">
               Services
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <span className="font-medium text-[var(--site-color-foreground)]">{service.title}</span>
+            <span className="font-medium text-white">{service.title}</span>
           </nav>
 
           <div className="flex items-start gap-4">
-            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[var(--site-color-accent)] text-[var(--site-color-primary)]">
+            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-[5px] bg-white/85 text-[var(--site-color-primary)]">
               <Icon className="h-7 w-7" />
             </span>
             <div>
-              <h1 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-5xl">{service.title}</h1>
-              <p className="mt-3 max-w-3xl text-base text-[var(--site-color-muted-foreground)] md:text-lg">{service.shortDescription}</p>
+              <h1 className="site-heading text-3xl font-semibold text-white md:text-5xl">{service.title}</h1>
+              <p className="mt-3 max-w-3xl text-base text-white/85 md:text-lg">{service.shortDescription}</p>
             </div>
           </div>
         </SectionContainer>
@@ -102,7 +108,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
         <SectionContainer>
           <div className="grid gap-10 lg:grid-cols-[1.6fr_0.74fr]">
             <div className="space-y-10">
-              <div className="overflow-hidden rounded-2xl border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
+              <div className="overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
                 <div className="h-64 bg-cover bg-center sm:h-80 lg:h-[420px]" style={{ backgroundImage: `url("${service.image}")` }} />
               </div>
 
@@ -117,7 +123,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                   <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                     {service.features.map((feature, index) => (
                       <li
-                        className="flex items-start gap-3 rounded-xl border border-[var(--site-color-border)] bg-white px-4 py-4 text-[15px] text-[var(--site-color-foreground)]"
+                        className="flex items-start gap-3 rounded-[5px] border border-[var(--site-color-border)] bg-white px-4 py-4 text-[15px] text-[var(--site-color-foreground)]"
                         key={`${service.id}-feature-${index}`}
                       >
                         <Check className="mt-[2px] h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
@@ -133,7 +139,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                   <h2 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">Gallery</h2>
                   <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
                     {galleryItems.map((image, index) => (
-                      <div className="overflow-hidden rounded-xl border border-[var(--site-color-border)] bg-[var(--site-color-muted)]" key={`${service.id}-gallery-${index}`}>
+                      <div className="overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]" key={`${service.id}-gallery-${index}`}>
                         <div
                           aria-label={`${service.title} gallery image ${index + 1}`}
                           className="h-40 bg-cover bg-center sm:h-44 md:h-48"
@@ -148,13 +154,13 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
             </div>
 
             <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
-              <div className="rounded-2xl border border-[var(--site-color-border)] bg-[var(--site-color-muted)] p-6">
+              <div className="rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)] p-6">
                 <h3 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)]">Need this service?</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--site-color-muted-foreground)]">
                   Get in touch with us today for a free consultation and quote.
                 </p>
                 <ServiceQuoteButton
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--site-color-primary)] px-6 py-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)]"
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-[var(--site-color-primary)] px-6 py-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)]"
                   number={siteData.adminConfig.contact.whatsapp.number}
                   serviceTitle={service.title}
                 />
@@ -168,7 +174,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               </div>
 
               {otherServices.length > 0 ? (
-                <div className="rounded-2xl border border-[var(--site-color-border)] bg-white p-6">
+                <div className="rounded-[5px] border border-[var(--site-color-border)] bg-white p-6">
                   <h3 className="site-heading text-xl font-semibold text-[var(--site-color-foreground)]">Other Services</h3>
                   <ul className="mt-4 space-y-3">
                     {otherServices.map((item) => (

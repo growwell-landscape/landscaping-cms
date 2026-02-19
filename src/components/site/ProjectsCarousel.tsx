@@ -34,7 +34,7 @@ function getProjectImage(project: Project): string {
 
 function ProjectCard({ imagePath, title }: ProjectCardProps) {
   return (
-    <article className="group relative h-[300px] overflow-hidden rounded-2xl bg-[var(--site-color-muted)]">
+    <article className="group relative h-[300px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)]">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
         style={{ backgroundImage: `url("${imagePath}")` }}
@@ -83,15 +83,15 @@ export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-1 hidden h-10 w-10 border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
-        <CarouselNext className="right-1 hidden h-10 w-10 border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
+        <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
+        <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
       </Carousel>
       <div className="mt-6 flex items-center justify-center gap-2 md:hidden">
         {Array.from({ length: slideCount }).map((_, index) => (
           <button
             aria-label={`Go to project slide ${index + 1}`}
             className={cn(
-              "h-2.5 w-2.5 rounded-full border transition-colors duration-200",
+              "h-2.5 w-2.5 rounded-[5px] border transition-colors duration-200",
               index === currentSlideIndex
                 ? "border-[var(--site-color-primary)] bg-[var(--site-color-primary)]"
                 : "border-[var(--site-color-border)] bg-transparent"

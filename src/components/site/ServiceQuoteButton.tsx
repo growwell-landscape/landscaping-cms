@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { MessageCircleMore } from "lucide-react";
+
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 interface ServiceQuoteButtonProps {
   className?: string;
@@ -41,7 +42,7 @@ export function ServiceQuoteButton({ className, number, serviceTitle }: ServiceQ
       rel="noreferrer"
       target="_blank"
     >
-      <MessageCircleMore className="h-5 w-5" />
+      <WhatsAppIcon className="h-5 w-5" />
       <span>Contact &amp; Get Quote</span>
     </a>
   );

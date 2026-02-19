@@ -29,7 +29,7 @@ export function AboutSection({
     <section className="bg-[#edf2ee] py-20 md:py-24">
       <SectionContainer>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="h-[300px] overflow-hidden rounded-3xl bg-[var(--site-color-muted)] md:h-[400px]">
+          <div className="h-[300px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)] md:h-[400px]">
             <div
               className="h-full w-full bg-cover bg-center"
               style={{ backgroundImage: `url("${imagePath}")` }}
@@ -51,7 +51,7 @@ export function AboutSection({
               ))}
             </ul>
             <Link
-              className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-[var(--site-color-primary)] px-7 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[var(--site-color-primary-hover)]"
+              className="mt-8 inline-flex h-12 items-center justify-center rounded-[5px] bg-[var(--site-color-primary)] px-7 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[var(--site-color-primary-hover)]"
               href={ctaHref}
             >
               {ctaLabel}

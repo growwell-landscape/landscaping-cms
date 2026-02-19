@@ -86,6 +86,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
       {adminConfig.theme.customCss ? <style>{adminConfig.theme.customCss}</style> : null}
       <SiteHeader
         companyName={adminConfig.site.companyName}
+        logo={adminConfig.site.logo}
         logoText={logoText}
         navItems={resolvedNavItems}
         siteName={adminConfig.site.name}
@@ -99,6 +100,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
           copyright={footerLabels.copyright}
           email={adminConfig.contact.email}
           followUsTitle={footerLabels.followUsTitle}
+          logo={adminConfig.site.logo}
           logoText={logoText}
           phone={adminConfig.contact.phone}
           siteDescription={adminConfig.site.description}

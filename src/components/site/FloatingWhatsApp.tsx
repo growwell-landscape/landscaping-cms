@@ -1,4 +1,4 @@
-import { MessageCircleMore } from "lucide-react";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 interface FloatingWhatsAppProps {
   defaultMessage: string;
@@ -19,8 +19,7 @@ export function FloatingWhatsApp({ defaultMessage, number }: FloatingWhatsAppPro
       rel="noreferrer"
       target="_blank"
     >
-      <MessageCircleMore className="h-6 w-6" />
+      <WhatsAppIcon className="h-6 w-6" />
     </a>
   );
 }
-

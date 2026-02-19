@@ -1,6 +1,6 @@
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 
-import type { SocialMediaLink } from "@/types/config";
+import type { LogoConfig, SocialMediaLink } from "@/types/config";
 
 import { SectionContainer } from "./SectionContainer";
 import { SiteLogo } from "./SiteLogo";
@@ -12,6 +12,7 @@ interface SiteFooterProps {
   copyright: string;
   email: string;
   followUsTitle: string;
+  logo: LogoConfig;
   logoText: string;
   phone: string;
   siteDescription: string;
@@ -36,6 +37,7 @@ export function SiteFooter({
   copyright,
   email,
   followUsTitle,
+  logo,
   logoText,
   phone,
   siteDescription,
@@ -47,7 +49,7 @@ export function SiteFooter({
       <SectionContainer className="py-12">
         <div className="grid gap-10 md:grid-cols-[1.35fr_1fr_0.7fr]">
           <div className="space-y-4">
-            <SiteLogo companyName={companyName} logoText={logoText} siteName={siteName} />
+            <SiteLogo companyName={companyName} logo={logo} logoText={logoText} siteName={siteName} />
             <p className="max-w-md text-sm leading-relaxed text-[var(--site-color-muted-foreground)]">{siteDescription}</p>
           </div>
 
@@ -81,7 +83,7 @@ export function SiteFooter({
                   <li key={social.id}>
                     <a
                       aria-label={social.name}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--site-color-border)] text-[var(--site-color-muted-foreground)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] text-[var(--site-color-muted-foreground)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
                       href={social.url}
                       rel="noreferrer"
                       target="_blank"

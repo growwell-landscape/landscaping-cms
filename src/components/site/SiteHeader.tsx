@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
+import type { LogoConfig } from "@/types/config";
 import type { SiteNavItem } from "@/types/site";
 
 import { SiteLogo } from "./SiteLogo";
 
 interface SiteHeaderProps {
   companyName: string;
+  logo: LogoConfig;
   logoText: string;
   navItems: SiteNavItem[];
   siteName: string;
@@ -28,12 +30,16 @@ function isNavItemActive(href: string, pathname: string): boolean {
 /**
  * Fixed header with desktop and mobile navigation.
  */
-export function SiteHeader({ companyName, logoText, navItems, siteName }: SiteHeaderProps) {
+export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === ROUTES.HOME;
+  const isLandingStylePage =
+    pathname === ROUTES.HOME ||
+    pathname === ROUTES.CONTACT ||
+    pathname === ROUTES.SERVICES ||
+    pathname.startsWith(`${ROUTES.SERVICES}/`);
 
   useEffect(() => {
     const onScroll = () => {
@@ -52,7 +58,7 @@ export function SiteHeader({ companyName, logoText, navItems, siteName }: SiteHe
     setIsNavigating(false);
   }, [pathname]);
 
-  const isTransparent = isHome && !isScrolled;
+  const isTransparent = isLandingStylePage && !isScrolled;
   const startNavigation = (href: string) => {
     if (href === pathname) {
       setIsMenuOpen(false);
@@ -78,16 +84,16 @@ export function SiteHeader({ companyName, logoText, navItems, siteName }: SiteHe
       >
         <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-4 md:px-8">
           <div className="md:hidden">
-            <SiteLogo companyName={companyName} logoText={logoText} siteName={siteName} />
+            <SiteLogo companyName={companyName} logo={logo} logoText={logoText} siteName={siteName} />
           </div>
           <div className="hidden md:block">
-            <SiteLogo companyName={companyName} logoText={logoText} siteName={siteName} />
+            <SiteLogo companyName={companyName} logo={logo} logoText={logoText} siteName={siteName} />
           </div>
           <button
             aria-controls="mobile-nav"
             aria-expanded={isMenuOpen}
             aria-label="Toggle navigation menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--site-color-border)] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] md:hidden"
             onClick={() => setIsMenuOpen((prev) => !prev)}
             type="button"
           >
@@ -102,7 +108,7 @@ export function SiteHeader({ companyName, logoText, navItems, siteName }: SiteHe
                   <li key={item.href}>
                     <Link
                       className={cn(
-                        "relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
+                        "relative rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-200",
                         active
                           ? "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
                           : "text-inherit opacity-90 hover:bg-white/20 hover:opacity-100"
@@ -137,7 +143,7 @@ export function SiteHeader({ companyName, logoText, navItems, siteName }: SiteHe
                   <li key={item.href}>
                     <Link
                       className={cn(
-                        "block rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200",
+                        "block rounded-[5px] px-3 py-2 text-sm font-medium transition-colors duration-200",
                         active
                           ? "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
                           : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"

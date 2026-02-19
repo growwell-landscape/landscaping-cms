@@ -7,6 +7,8 @@
  * Logo configuration object
  */
 export interface LogoConfig {
+  /** Display mode for brand block */
+  displayMode?: "generated-with-name" | "image-with-name" | "image-only";
   /** Type of logo: 'image' or 'text' */
   type: "image" | "text";
   /** URL to the logo image */
@@ -15,6 +17,18 @@ export interface LogoConfig {
   text?: string;
   /** Whether to show the text logo */
   showText?: boolean;
+  /** How image should fit inside logo badge */
+  imageObjectFit?: "cover" | "contain";
+  /** Blend mode applied to image for theme tinting */
+  imageBlendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color"
+    | "luminosity";
 }
 
 /**
