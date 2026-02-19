@@ -1,51 +1,156 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink, Mail, MapPin, MessageCircleMore, Phone } from "lucide-react";
 
-import { PageIntro } from "@/components/site/PageIntro";
+import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 import { SectionContainer } from "@/components/site/SectionContainer";
 import { getSiteCommonData } from "@/lib/site-data";
 
+function sanitizePhoneNumber(value: string): string {
+  return value.replace(/[^\d+]/g, "");
+}
+
+function sanitizeWhatsAppNumber(value: string): string {
+  return value.replace(/[^\d]/g, "");
+}
+
 export default async function ContactPage() {
   const siteData = await getSiteCommonData();
+  const { adminConfig } = siteData;
   const contactCopy = siteData.translations.contact || {};
+  const social = adminConfig.socialMedia.find(
+    (item) => item.enabled && item.name.toLowerCase().includes("instagram")
+  );
+
+  const phoneHref = `tel:${sanitizePhoneNumber(adminConfig.contact.phone)}`;
+  const emailHref = `mailto:${adminConfig.contact.email}`;
+  const whatsappHref = `https://wa.me/${sanitizeWhatsAppNumber(adminConfig.contact.whatsapp.number)}?text=${encodeURIComponent(adminConfig.contact.whatsapp.defaultMessage)}`;
+  const directionsHref =
+    adminConfig.contact.location.url ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adminConfig.contact.address)}`;
+  const floatingContact = adminConfig.contact.floatingContact;
+  const locationCardTitle = adminConfig.site.name.includes("GrowWell")
+    ? "GrowWell Chennai"
+    : adminConfig.contact.location.name || adminConfig.site.name;
 
   return (
     <main>
-      <PageIntro
-        description={contactCopy.subtitle || ""}
-        title={contactCopy.title || "Get in Touch"}
-      />
-      <section className="bg-white py-16">
+      <section className="border-b border-[var(--site-color-border)] bg-[var(--site-color-muted)] pb-16 pt-32 text-center md:pb-20 md:pt-36">
         <SectionContainer>
-          <div className="grid gap-4 md:grid-cols-3">
-            <article className="rounded-2xl border border-[var(--site-color-border)] bg-white p-6 shadow-sm">
-              <Phone className="h-5 w-5 text-[var(--site-color-primary)]" />
-              <h2 className="site-heading mt-3 text-xl font-semibold text-[var(--site-color-foreground)]">
-                {contactCopy.callUs || "Call Us"}
-              </h2>
-              <a className="mt-2 block text-sm text-[var(--site-color-muted-foreground)]" href={`tel:${siteData.adminConfig.contact.phone.replace(/\s+/g, "")}`}>
-                {siteData.adminConfig.contact.phone}
-              </a>
-            </article>
-            <article className="rounded-2xl border border-[var(--site-color-border)] bg-white p-6 shadow-sm">
-              <Mail className="h-5 w-5 text-[var(--site-color-primary)]" />
-              <h2 className="site-heading mt-3 text-xl font-semibold text-[var(--site-color-foreground)]">
-                {contactCopy.emailUs || "Email Us"}
-              </h2>
-              <a className="mt-2 block text-sm text-[var(--site-color-muted-foreground)]" href={`mailto:${siteData.adminConfig.contact.email}`}>
-                {siteData.adminConfig.contact.email}
-              </a>
-            </article>
-            <article className="rounded-2xl border border-[var(--site-color-border)] bg-white p-6 shadow-sm">
-              <MapPin className="h-5 w-5 text-[var(--site-color-primary)]" />
-              <h2 className="site-heading mt-3 text-xl font-semibold text-[var(--site-color-foreground)]">
-                {contactCopy.visitUs || "Visit Us"}
-              </h2>
-              <p className="mt-2 text-sm text-[var(--site-color-muted-foreground)]">{siteData.adminConfig.contact.address}</p>
-            </article>
+          <h1 className="site-heading text-5xl font-semibold text-[var(--site-color-foreground)] md:text-7xl">
+            {contactCopy.title || "Contact Us"}
+          </h1>
+          <p className="mx-auto mt-4 max-w-4xl text-lg leading-relaxed text-[var(--site-color-muted-foreground)] md:text-[2rem]">
+            {contactCopy.subtitle ||
+              "Let's build your dream garden! Reach out to us for quotes, consultations, or any questions."}
+          </p>
+        </SectionContainer>
+      </section>
+
+      <section className="bg-white py-10 md:py-14">
+        <SectionContainer>
+          <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
+            <div>
+              <h2 className="site-heading text-5xl font-semibold text-[var(--site-color-foreground)] md:text-6xl">Get in Touch</h2>
+              <div className="mt-6 space-y-4">
+                <a
+                  className="flex items-center gap-5 rounded-2xl border border-[var(--site-color-border)] bg-white px-5 py-6 transition-colors hover:border-[var(--site-color-primary)]"
+                  href={phoneHref}
+                >
+                  <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--site-color-muted)] text-[var(--site-color-primary)]">
+                    <Phone className="h-7 w-7" />
+                  </span>
+                  <span>
+                    <span className="block text-sm text-[var(--site-color-muted-foreground)]">{contactCopy.callUs || "Call Us"}</span>
+                    <span className="site-heading block text-4xl font-semibold text-[var(--site-color-foreground)] md:text-[2.5rem]">
+                      {adminConfig.contact.phone}
+                    </span>
+                  </span>
+                </a>
+
+                <a
+                  className="flex items-center gap-5 rounded-2xl border border-[var(--site-color-border)] bg-white px-5 py-6 transition-colors hover:border-[var(--site-color-primary)]"
+                  href={whatsappHref}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--site-color-accent)] text-[#25d366]">
+                    <MessageCircleMore className="h-7 w-7" />
+                  </span>
+                  <span>
+                    <span className="block text-sm text-[var(--site-color-muted-foreground)]">{contactCopy.chatOnWhatsApp || "Chat on WhatsApp"}</span>
+                    <span className="site-heading block text-4xl font-semibold text-[var(--site-color-foreground)] md:text-[2.5rem]">
+                      Start Conversation
+                    </span>
+                  </span>
+                </a>
+
+                <a
+                  className="flex items-center gap-5 rounded-2xl border border-[var(--site-color-border)] bg-white px-5 py-6 transition-colors hover:border-[var(--site-color-primary)]"
+                  href={emailHref}
+                >
+                  <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--site-color-muted)] text-[var(--site-color-primary)]">
+                    <Mail className="h-7 w-7" />
+                  </span>
+                  <span>
+                    <span className="block text-sm text-[var(--site-color-muted-foreground)]">{contactCopy.emailUs || "Email Us"}</span>
+                    <span className="site-heading block break-all text-4xl font-semibold text-[var(--site-color-foreground)] md:text-[2.5rem]">
+                      {adminConfig.contact.email}
+                    </span>
+                  </span>
+                </a>
+              </div>
+
+              {social ? (
+                <a
+                  className="mt-6 inline-flex h-20 w-full items-center justify-center gap-3 rounded-full bg-[var(--site-color-primary)] px-7 text-2xl font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)] md:text-4xl"
+                  href={social.url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span>{contactCopy.followUs || "Follow us on Instagram"}</span>
+                  <ExternalLink className="h-5 w-5" />
+                </a>
+              ) : null}
+            </div>
+
+            <div>
+              <h2 className="site-heading text-5xl font-semibold text-[var(--site-color-foreground)] md:text-6xl">Visit Us</h2>
+              <div className="relative mt-6 overflow-hidden rounded-3xl border border-[var(--site-color-border)] bg-[#e5e7e5] p-4 md:p-8">
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 opacity-85"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(circle at 12% 25%, #bfc4bf 0 8%, transparent 9%), radial-gradient(circle at 32% 60%, #c7cbc7 0 9%, transparent 10%), radial-gradient(circle at 72% 24%, #c0c4c0 0 9%, transparent 10%), radial-gradient(circle at 86% 68%, #c8ccc8 0 8%, transparent 9%), linear-gradient(135deg, #d9ddd9 0%, #e8ebe8 40%, #dfe3df 100%)",
+                  }}
+                />
+                <div className="relative grid min-h-[420px] place-items-center">
+                  <div className="w-full max-w-[295px] rounded-2xl bg-white p-6 text-center shadow-md">
+                    <MapPin className="mx-auto h-8 w-8 text-[var(--site-color-primary)]" />
+                    <h3 className="site-heading mt-3 text-4xl font-semibold text-[var(--site-color-foreground)] md:text-5xl">{locationCardTitle}</h3>
+                    <p className="mt-2 text-lg text-[var(--site-color-muted-foreground)] md:text-xl">{adminConfig.contact.address}</p>
+                    <Link
+                      className="mt-5 inline-flex h-12 items-center justify-center rounded-lg border border-[var(--site-color-foreground)] px-6 text-base font-medium text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+                      href={directionsHref}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Get Directions
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </SectionContainer>
       </section>
+
+      {floatingContact.enabled && floatingContact.showWhatsApp ? (
+        <FloatingWhatsApp
+          defaultMessage={adminConfig.contact.whatsapp.defaultMessage}
+          number={adminConfig.contact.whatsapp.number}
+        />
+      ) : null}
     </main>
   );
 }
-

@@ -101,11 +101,9 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
           followUsTitle={footerLabels.followUsTitle}
           logoText={logoText}
           phone={adminConfig.contact.phone}
-          privacyPolicy={footerLabels.privacyPolicy}
           siteDescription={adminConfig.site.description}
           siteName={adminConfig.site.name}
           socialMedia={socialMedia}
-          termsOfService={footerLabels.termsOfService}
         />
       </div>
     </div>

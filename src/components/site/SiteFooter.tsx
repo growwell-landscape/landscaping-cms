@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 
 import type { SocialMediaLink } from "@/types/config";
@@ -15,11 +14,9 @@ interface SiteFooterProps {
   followUsTitle: string;
   logoText: string;
   phone: string;
-  privacyPolicy: string;
   siteDescription: string;
   siteName: string;
   socialMedia: SocialMediaLink[];
-  termsOfService: string;
 }
 
 function getSocialIcon(icon: string) {
@@ -41,11 +38,9 @@ export function SiteFooter({
   followUsTitle,
   logoText,
   phone,
-  privacyPolicy,
   siteDescription,
   siteName,
   socialMedia,
-  termsOfService,
 }: SiteFooterProps) {
   return (
     <footer className="border-t border-[var(--site-color-border)] bg-[#f4f6f4]">
@@ -102,13 +97,8 @@ export function SiteFooter({
 
         <div className="mt-10 flex flex-col gap-3 border-t border-[var(--site-color-border)] pt-6 text-xs text-[var(--site-color-muted-foreground)] md:flex-row md:items-center md:justify-between">
           <p>{copyright}</p>
-          <div className="flex items-center gap-4">
-            <Link href="#">{privacyPolicy}</Link>
-            <Link href="#">{termsOfService}</Link>
-          </div>
         </div>
       </SectionContainer>
     </footer>
   );
 }
-
