@@ -214,12 +214,18 @@ export interface AboutFeature {
  * About section configuration
  */
 export interface AboutConfig {
-  /** Section title */
-  title: string;
+  /** Primary call-to-action URL */
+  ctaLink: string;
+  /** Primary call-to-action label */
+  ctaText: string;
   /** Section description */
   description: string;
   /** Array of features */
   features: AboutFeature[];
+  /** About section image path */
+  image: string;
+  /** Section title */
+  title: string;
 }
 
 /**

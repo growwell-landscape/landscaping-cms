@@ -4,11 +4,11 @@
     "category": "turfing",
     "completedDate": "2025",
     "description": "turfing",
-    "enabled": true,
+    "enabled": false,
     "image": "",
     "images": [
       "/uploads/projects/images/img-1771425133524.png",
-      "/images/projects/terrace-2.jpg"
+      "/uploads/site/site/img-1771472600648.jpeg"
     ],
     "location": "Chennai, Tamil Nadu",
     "services": [
@@ -21,52 +21,52 @@
   {
     "id": "residential-terrace-garden",
     "title": "Residential Terrace Garden",
-    "description": "A stunning transformation of a residential terrace into a lush, green oasis. Complete with lawn area, ornamental plants, and seating space.",
+    "description": "A stunning transformation of a residential terrace into a lush, green oasis with lawn area and curated planting.",
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
-    "image": "/images/projects/terrace-garden.jpg",
+    "image": "/uploads/site/site/img-1771472600648.jpeg",
     "images": [
-      "/images/projects/terrace-garden.jpg",
-      "/images/projects/terrace-2.jpg"
+      "/uploads/site/site/img-1771472600648.jpeg",
+      "/uploads/projects/images/img-1771425133524.png"
     ],
     "completedDate": "2025",
     "services": [
       "turfing-lawn-making",
-      "planting-landscaping"
+      "planting-and-landscaping"
     ],
     "sortOrder": 1,
     "enabled": true
   },
   {
-    "id": "commercial-office-landscape",
-    "title": "Commercial Office Landscape",
-    "description": "Modern landscaping for a commercial office building featuring drought-resistant plants and minimalist design.",
+    "id": "corporate-vertical-wall",
+    "title": "Corporate Vertical Wall",
+    "description": "Vertical wall installation for a corporate office, blending greenery with a modern workspace aesthetic.",
     "location": "Chennai, Tamil Nadu",
     "category": "Commercial",
-    "image": "/images/projects/commercial.jpg",
+    "image": "/uploads/projects/images/img-1771425133524.png",
     "images": [
-      "/images/projects/commercial.jpg"
+      "/uploads/projects/images/img-1771425133524.png"
     ],
     "completedDate": "2025",
     "services": [
-      "planting-landscaping"
+      "vertical-green-walls"
     ],
     "sortOrder": 2,
     "enabled": true
   },
   {
-    "id": "residential-apartment-vertical-garden",
-    "title": "Apartment Vertical Garden",
-    "description": "Space-saving vertical garden installation in an apartment balcony, bringing greenery to urban living.",
+    "id": "villa-landscape-design",
+    "title": "Villa Landscape Design",
+    "description": "Landscape development for a premium villa featuring structured planting and open lawn transitions.",
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
-    "image": "/images/projects/vertical-apt.jpg",
+    "image": "/uploads/site/site/img-1771472600648.jpeg",
     "images": [
-      "/images/projects/vertical-apt.jpg"
+      "/uploads/site/site/img-1771472600648.jpeg"
     ],
     "completedDate": "2025",
     "services": [
-      "vertical-green-walls"
+      "planting-and-landscaping"
     ],
     "sortOrder": 3,
     "enabled": true

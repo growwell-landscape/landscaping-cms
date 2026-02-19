@@ -2,10 +2,10 @@
   {
     "id": "turfing-lawn-making",
     "title": "Turfing (Lawn Making)",
-    "shortDescription": "Create lush, green lawns with our professional turfing services. Perfect for residential and commercial spaces.",
+    "shortDescription": "Professional lawn installation and maintenance for lush, long-lasting green spaces.",
     "description": "Transform your outdoor space with our expert turfing services. We specialize in creating beautiful, sustainable lawns using high-quality grass varieties suited to Chennai's climate. Our process includes soil preparation, proper grading, and installation of premium turf that establishes quickly and remains green year-round.",
     "icon": "leaf",
-    "image": "/images/services/turfing.jpg",
+    "image": "/uploads/site/site/img-1771472600648.jpeg",
     "features": [
       {
         "title": "Site preparation and soil treatment"
@@ -21,9 +21,8 @@
       }
     ],
     "gallery": [
-      "/images/gallery/turf-1.jpg",
-      "/images/gallery/turf-2.jpg",
-      "/images/gallery/turf-3.jpg"
+      "/uploads/site/site/img-1771472600648.jpeg",
+      "/uploads/projects/images/img-1771425133524.png"
     ],
     "sortOrder": 1,
     "enabled": true
@@ -31,10 +30,10 @@
   {
     "id": "planting-and-landscaping",
     "title": "Planting & Landscaping",
-    "shortDescription": "Comprehensive landscaping solutions tailored to your needs, from design to maintenance.",
+    "shortDescription": "Comprehensive landscape design and planting services tailored to your space.",
     "description": "Our planting and landscaping services bring your vision to life. We design and execute complete landscape transformations including flower beds, shrub borders, ornamental gardens, and themed plantings. Each project is customized to match your aesthetic preferences and site conditions.",
     "icon": "flower",
-    "image": "/images/services/landscaping.jpg",
+    "image": "/uploads/projects/images/img-1771425133524.png",
     "features": [
       {
         "title": "Custom landscape design"
@@ -50,8 +49,8 @@
       }
     ],
     "gallery": [
-      "/images/gallery/landscape-1.jpg",
-      "/images/gallery/landscape-2.jpg"
+      "/uploads/projects/images/img-1771425133524.png",
+      "/uploads/site/site/img-1771472600648.jpeg"
     ],
     "sortOrder": 2,
     "enabled": true
@@ -59,10 +58,10 @@
   {
     "id": "vertical-green-walls",
     "title": "Vertical Green Walls",
-    "shortDescription": "Innovative vertical garden solutions for modern spaces. Bring nature indoors or enhance exterior walls.",
+    "shortDescription": "Innovative vertical gardens for modern indoor and outdoor spaces.",
     "description": "Maximize your green space with stunning vertical gardens. Our vertical green wall systems are perfect for urban environments where ground space is limited. These living walls not only look spectacular but also improve air quality, provide insulation, and create a calming atmosphere.",
     "icon": "building",
-    "image": "/images/services/vertical-garden.jpg",
+    "image": "/uploads/projects/images/img-1771425133524.png",
     "features": [
       {
         "title": "Custom-designed vertical planters"
@@ -78,7 +77,7 @@
       }
     ],
     "gallery": [
-      "/images/gallery/vertical-1.jpg"
+      "/uploads/projects/images/img-1771425133524.png"
     ],
     "sortOrder": 3,
     "enabled": true
@@ -86,10 +85,10 @@
   {
     "id": "planting-trees",
     "title": "Planting Trees",
-    "shortDescription": "Professional tree planting services with expert selection and care for long-term growth.",
+    "shortDescription": "Expert tree planting for healthy growth, shade, and long-term landscape value.",
     "description": "Add shade, beauty, and value to your property with our tree planting services. We help you select the right tree species for your location, ensuring proper placement and planting techniques for healthy, long-lasting growth. Our trees are sourced from trusted nurseries and come with care guidance.",
     "icon": "tree-deciduous",
-    "image": "/images/services/tree-planting.jpg",
+    "image": "/uploads/site/site/img-1771472600648.jpeg",
     "features": [
       {
         "title": "Expert species selection"
@@ -104,7 +103,9 @@
         "title": "Post-planting care instructions"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/site/site/img-1771472600648.jpeg"
+    ],
     "sortOrder": 4,
     "enabled": true
   }

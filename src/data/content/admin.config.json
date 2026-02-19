@@ -49,7 +49,7 @@
   "contact": {
     "phone": "+91 8015355447",
     "email": "greenformulalandscapers@gmail.com",
-    "address": "New Bowenpally, Hyderabad, Telangana, India",
+    "address": "Chennai, Tamil Nadu",
     "location": {
       "name": "Madhura Landscapes - Top Landscape Contractor",
       "url": "https://share.google/eWR7LYJJSDVM9XJob"
@@ -78,15 +78,15 @@
     "subtitle": "Professional landscaping services",
     "description": "Transforming Chennai's outdoors into living sanctuaries.",
     "ctaText": "View Services",
-    "ctaLink": "#services",
+    "ctaLink": "/services",
     "images": {
       "desktop": "/uploads/site/site/img-1771472600648.jpeg",
-      "mobile": "/images/hero-mobile.jpg"
+      "mobile": "/uploads/site/site/img-1771472600648.jpeg"
     }
   },
   "about": {
-    "title": "Transforming Chennai's Terraces and Landscapes Since 2010",
-    "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life.",
+    "ctaLink": "/contact",
+    "ctaText": "Get in Touch",
     "features": [
       {
         "title": "Expert Landscape Design",
@@ -104,6 +104,9 @@
         "title": "Dedicated Maintenance Team",
         "description": "Regular care to keep your garden thriving"
       }
-    ]
+    ],
+    "image": "/uploads/projects/images/img-1771425133524.png",
+    "title": "Transforming Chennai's Terraces and Landscapes Since 2010",
+    "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life."
   }
 }

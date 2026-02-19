@@ -5,7 +5,7 @@
       "services": "Services",
       "projects": "Projects",
       "about": "About",
-      "contact": "Contact"
+      "contact": "Contact Us"
     },
     "hero": {
       "viewServices": "View Services"
@@ -31,12 +31,17 @@
       "followUs": "Follow Us on Instagram"
     },
     "footer": {
-      "copyright": "© 2025 GrowWell Landscapes Pvt Ltd. All rights reserved."
+      "contactTitle": "Contact",
+      "copyright": "(c) 2026 GrowWell Landscape Pvt Ltd. All rights reserved.",
+      "followUsTitle": "Follow Us",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
     },
     "common": {
-      "learnMore": "Learn More",
+      "comingSoon": "Page design coming soon.",
+      "contactUs": "Contact Us",
       "getStarted": "Get Started",
-      "contactUs": "Contact Us"
+      "learnMore": "Learn More"
     }
   }
 }
