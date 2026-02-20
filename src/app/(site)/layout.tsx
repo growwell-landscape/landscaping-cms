@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
 
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { RouteLoadingOverlay } from "@/components/site/RouteLoadingOverlay";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { configLoader, getActiveProjects, getActiveServices } from "@/lib/config-loader";
 import { getSiteCommonData } from "@/lib/site-data";
@@ -84,6 +85,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
   return (
     <div className="site-theme min-h-screen" style={themeStyle}>
       {adminConfig.theme.customCss ? <style>{adminConfig.theme.customCss}</style> : null}
+      <RouteLoadingOverlay />
       <SiteHeader
         companyName={adminConfig.site.companyName}
         logo={adminConfig.site.logo}

@@ -32,7 +32,6 @@ function isNavItemActive(href: string, pathname: string): boolean {
  */
 export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isNavigating, setIsNavigating] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isLandingStylePage =
@@ -55,30 +54,20 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
 
   useEffect(() => {
     setIsMenuOpen(false);
-    setIsNavigating(false);
   }, [pathname]);
 
   const isTransparent = isLandingStylePage && !isScrolled;
-  const startNavigation = (href: string) => {
-    if (href === pathname) {
-      setIsMenuOpen(false);
-      return;
-    }
-    setIsNavigating(true);
+  const startNavigation = () => {
+    setIsMenuOpen(false);
   };
 
   return (
     <>
-      {isNavigating ? (
-        <div className="fixed inset-0 z-[70] grid place-items-center bg-black/35">
-          <div className="h-11 w-11 animate-spin rounded-full border-4 border-white/35 border-t-[var(--site-color-primary)]" />
-        </div>
-      ) : null}
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 w-full border-b transition-colors duration-300",
           isTransparent
-            ? "border-transparent bg-black/20 text-white backdrop-blur-[1px]"
+            ? "border-transparent"
             : "border-[var(--site-color-border)] bg-white/95 text-[var(--site-color-foreground)] shadow-sm backdrop-blur"
         )}
       >
@@ -109,12 +98,12 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
                     <Link
                       className={cn(
                         "relative rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-200",
+                        isTransparent ? "text-white hover:bg-white/20" : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]",
                         active
-                          ? "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
-                          : "text-inherit opacity-90 hover:bg-white/20 hover:opacity-100"
+                          && "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
                       )}
                       href={item.href}
-                      onClick={() => startNavigation(item.href)}
+                      onClick={startNavigation}
                     >
                       {item.label}
                       <span
@@ -149,7 +138,7 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
                           : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"
                       )}
                       href={item.href}
-                      onClick={() => startNavigation(item.href)}
+                      onClick={startNavigation}
                     >
                       {item.label}
                     </Link>

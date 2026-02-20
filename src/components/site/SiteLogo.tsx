@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 
 import type { LogoConfig } from "@/types/config";
 import { cn } from "@/lib/utils";
@@ -105,7 +106,7 @@ export function SiteLogo({ className, companyName, logo, logoText, siteName }: S
   const logoWithMode = showImage ? logo : { ...logo, imageUrl: "" };
 
   return (
-    <div className={cn("flex items-center gap-3", className)}>
+    <Link aria-label={`${siteName} home`} className={cn("inline-flex items-center gap-3", className)} href="/">
       {renderLogoBadge(logoWithMode, logoText, siteName)}
       {!onlyImage ? (
         <span className="leading-tight">
@@ -113,6 +114,6 @@ export function SiteLogo({ className, companyName, logo, logoText, siteName }: S
           <span className="block text-[10px] uppercase tracking-wide opacity-70">{companySuffix}</span>
         </span>
       ) : null}
-    </div>
+    </Link>
   );
 }
