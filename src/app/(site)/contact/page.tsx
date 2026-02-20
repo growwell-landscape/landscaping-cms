@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ExternalLink, Mail, Phone } from "lucide-react";
 
+import { ContactLocationMap } from "@/components/site/ContactLocationMap";
 import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 import { SectionContainer } from "@/components/site/SectionContainer";
 import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
@@ -14,8 +14,58 @@ function sanitizeWhatsAppNumber(value: string): string {
   return value.replace(/[^\d]/g, "");
 }
 
-function createMapEmbedUrl(address: string): string {
-  return `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+function extractCoordinatesFromMapUrl(value: string): string | null {
+  const decodedValue = decodeURIComponent(value);
+  const patterns = [
+    /@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/,
+    /\/place\/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/,
+    /[?&](?:q|query|ll)=(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/,
+    /!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = decodedValue.match(pattern);
+    if (match) {
+      return `${match[1]},${match[2]}`;
+    }
+  }
+
+  return null;
+}
+
+async function resolveGoogleMapsUrl(url: string): Promise<string> {
+  try {
+    const response = await fetch(url, { redirect: "follow" });
+    return response.url || url;
+  } catch {
+    return url;
+  }
+}
+
+async function createMapEmbedUrl(
+  locationUrl: string | undefined,
+  fallbackQuery: string
+): Promise<string> {
+  const normalizedLocationUrl = locationUrl?.trim();
+
+  if (normalizedLocationUrl) {
+    if (normalizedLocationUrl.includes("/maps/embed")) {
+      return normalizedLocationUrl;
+    }
+
+    const resolvedUrl = await resolveGoogleMapsUrl(normalizedLocationUrl);
+    const pinnedCoordinates =
+      extractCoordinatesFromMapUrl(resolvedUrl) ||
+      extractCoordinatesFromMapUrl(normalizedLocationUrl);
+
+    if (pinnedCoordinates) {
+      return `https://www.google.com/maps?q=${encodeURIComponent(pinnedCoordinates)}&z=18&output=embed`;
+    }
+
+    return `https://www.google.com/maps?q=${encodeURIComponent(resolvedUrl)}&output=embed`;
+  }
+
+  return `https://www.google.com/maps?q=${encodeURIComponent(fallbackQuery)}&output=embed`;
 }
 
 export default async function ContactPage() {
@@ -29,14 +79,13 @@ export default async function ContactPage() {
   const phoneHref = `tel:${sanitizePhoneNumber(adminConfig.contact.phone)}`;
   const emailHref = `mailto:${adminConfig.contact.email}`;
   const whatsappHref = `https://wa.me/${sanitizeWhatsAppNumber(adminConfig.contact.whatsapp.number)}?text=${encodeURIComponent(adminConfig.contact.whatsapp.defaultMessage)}`;
-  const directionsHref =
-    adminConfig.contact.location.url ||
-    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adminConfig.contact.address)}`;
-  const mapEmbedUrl = createMapEmbedUrl(adminConfig.contact.address);
+  const mapQuery = adminConfig.contact.location.name
+    ? `${adminConfig.contact.location.name}, ${adminConfig.contact.address}`
+    : adminConfig.contact.address;
+  const mapEmbedUrl = await createMapEmbedUrl(adminConfig.contact.location.url, mapQuery);
   const floatingContact = adminConfig.contact.floatingContact;
-  const locationCardTitle = adminConfig.site.name.includes("GrowWell")
-    ? "GrowWell Chennai"
-    : adminConfig.contact.location.name || adminConfig.site.name;
+  const locationCardTitle =
+    adminConfig.contact.location.name || adminConfig.site.companyName || adminConfig.site.name;
 
   return (
     <main>
@@ -129,34 +178,7 @@ export default async function ContactPage() {
 
             <div>
               <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">Visit Us</h2>
-              <div className="group relative mt-6 overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
-                <div className="flex items-start justify-between gap-4 border-b border-[var(--site-color-border)] bg-white/95 px-4 py-3">
-                  <div>
-                    <p className="site-heading text-sm font-semibold text-[var(--site-color-foreground)]">
-                      {adminConfig.site.companyName}
-                    </p>
-                    <p className="mt-0.5 text-xs leading-relaxed text-[var(--site-color-muted-foreground)]">
-                      {adminConfig.contact.address}
-                    </p>
-                  </div>
-                  <Link
-                    className="shrink-0 rounded-[5px] border border-[var(--site-color-border)] px-3 py-1.5 text-xs font-medium text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
-                    href={directionsHref}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    View Large Map
-                  </Link>
-                </div>
-                <iframe
-                  aria-label={`${locationCardTitle} map preview`}
-                  className="h-[420px] w-full transition-[filter,transform] duration-500 [filter:grayscale(1)_saturate(0.35)_contrast(1.03)] group-hover:[filter:grayscale(0)_saturate(1)] group-hover:scale-[1.01]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  src={mapEmbedUrl}
-                  title={`${locationCardTitle} map`}
-                />
-              </div>
+              <ContactLocationMap mapEmbedUrl={mapEmbedUrl} title={locationCardTitle} />
             </div>
           </div>
         </SectionContainer>
