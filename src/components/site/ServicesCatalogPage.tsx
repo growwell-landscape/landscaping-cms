@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 
+import { ROUTES } from "@/lib/constants";
+import { createLocalizedPath } from "@/lib/site-i18n";
 import type { Service } from "@/types/content";
 
 import { ScrollReveal } from "./ScrollReveal";
@@ -10,6 +12,8 @@ import { ServiceCard } from "./ServiceCard";
 import { SectionContainer } from "./SectionContainer";
 
 interface ServicesCatalogPageProps {
+  currentLanguageCode: string;
+  languageCodes: string[];
   noResultsLabel: string;
   searchPlaceholder: string;
   services: Service[];
@@ -20,6 +24,8 @@ interface ServicesCatalogPageProps {
 
 
 export function ServicesCatalogPage({
+  currentLanguageCode,
+  languageCodes,
   noResultsLabel,
   searchPlaceholder,
   services,
@@ -89,10 +95,18 @@ export function ServicesCatalogPage({
       <section className="bg-white py-12 md:py-16">
         <SectionContainer>
           {filteredServices.length > 0 ? (
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid items-stretch gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredServices.map((service, index) => (
                 <ScrollReveal className="h-full" delayMs={(index % 6) * 65} key={service.id} variant="zoom">
-                  <ServiceCard service={service} viewDetailsLabel={viewDetailsLabel} />
+                  <ServiceCard
+                    href={createLocalizedPath(
+                      `${ROUTES.SERVICE_DETAIL}/${service.id}`,
+                      currentLanguageCode,
+                      languageCodes
+                    )}
+                    service={service}
+                    viewDetailsLabel={viewDetailsLabel}
+                  />
                 </ScrollReveal>
               ))}
             </div>

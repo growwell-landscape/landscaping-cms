@@ -12,6 +12,7 @@ interface SiteFooterProps {
   copyright: string;
   email: string;
   followUsTitle: string;
+  homeHref: string;
   logo: LogoConfig;
   logoText: string;
   phone: string;
@@ -37,6 +38,7 @@ export function SiteFooter({
   copyright,
   email,
   followUsTitle,
+  homeHref,
   logo,
   logoText,
   phone,
@@ -49,7 +51,13 @@ export function SiteFooter({
       <SectionContainer className="py-12">
         <div className="grid gap-10 md:grid-cols-[1.35fr_1fr_0.7fr]">
           <div className="space-y-4">
-            <SiteLogo companyName={companyName} logo={logo} logoText={logoText} siteName={siteName} />
+            <SiteLogo
+              companyName={companyName}
+              homeHref={homeHref}
+              logo={logo}
+              logoText={logoText}
+              siteName={siteName}
+            />
             <p className="max-w-md text-sm leading-relaxed text-[var(--site-color-muted-foreground)]">{siteDescription}</p>
           </div>
 

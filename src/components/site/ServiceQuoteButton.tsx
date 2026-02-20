@@ -6,6 +6,7 @@ import { WhatsAppIcon } from "./WhatsAppIcon";
 
 interface ServiceQuoteButtonProps {
   className?: string;
+  label?: string;
   number: string;
   serviceTitle: string;
 }
@@ -14,7 +15,12 @@ function sanitizePhoneNumber(phone: string): string {
   return phone.replace(/[^\d]/g, "");
 }
 
-export function ServiceQuoteButton({ className, number, serviceTitle }: ServiceQuoteButtonProps) {
+export function ServiceQuoteButton({
+  className,
+  label = "Contact & Get Quote",
+  number,
+  serviceTitle,
+}: ServiceQuoteButtonProps) {
   const [serviceUrl, setServiceUrl] = useState<string>("");
 
   useEffect(() => {
@@ -43,7 +49,7 @@ export function ServiceQuoteButton({ className, number, serviceTitle }: ServiceQ
       target="_blank"
     >
       <WhatsAppIcon className="h-5 w-5" />
-      <span>Contact &amp; Get Quote</span>
+      <span>{label}</span>
     </a>
   );
 }

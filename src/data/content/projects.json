@@ -16,7 +16,11 @@
       "turfing 2"
     ],
     "sortOrder": 1,
-    "title": "Turfing"
+    "title": "Turfing",
+    "category_tel": "టర్ఫింగ్",
+    "description_tel": "టర్ఫింగ్",
+    "location_tel": "చెన్నై, తమిళనాడు",
+    "title_tel": "టర్ఫింగ్"
   },
   {
     "id": "residential-terrace-garden",
@@ -35,7 +39,11 @@
       "planting-and-landscaping"
     ],
     "sortOrder": 1,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "రెసిడెన్షియల్ టెర్రస్ గార్డెన్",
+    "description_tel": "లాన్ ప్రాంతం మరియు ఎంపిక చేసిన మొక్కలతో ఒక నివాస టెర్రస్‌ను పచ్చని అందమైన ఓయాసిస్గా మార్చిన అద్భుతమైన ప్రాజెక్ట్.",
+    "location_tel": "చెన్నై, తమిళనాడు",
+    "category_tel": "రెసిడెన్షియల్"
   },
   {
     "id": "commercial-corporate-vertical-wall",
@@ -52,7 +60,11 @@
       "vertical-green-walls"
     ],
     "sortOrder": 2,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "కార్పొరేట్ వర్టికల్ వాల్",
+    "description_tel": "కార్పొరేట్ కార్యాలయానికి వర్టికల్ వాల్ అమరిక, ఆధునిక వర్క్‌స్పేస్ శైలితో పచ్చదనాన్ని సమన్వయం చేస్తూ రూపొందించబడింది.",
+    "location_tel": "చెన్నై, తమిళనాడు",
+    "category_tel": "కమర్షియల్"
   },
   {
     "id": "residential-villa-landscape-design",
@@ -69,6 +81,10 @@
       "planting-and-landscaping"
     ],
     "sortOrder": 3,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "విల్లా ల్యాండ్‌స్కేప్ డిజైన్",
+    "description_tel": "వ్యవస్థీకృత మొక్కల నాటకం మరియు ఓపెన్ లాన్ ట్రాన్సిషన్లతో ప్రీమియం విల్లా కోసం ల్యాండ్‌స్కేప్ అభివృద్ధి.",
+    "location_tel": "చెన్నై, తమిళనాడు",
+    "category_tel": "రెసిడెన్షియల్"
   }
 ]

@@ -1,44 +1,125 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
-import type { LogoConfig } from "@/types/config";
+import { createLocalizedPath, normalizeLanguageCode, stripLanguagePrefixFromPath } from "@/lib/site-i18n";
+import type { LanguageConfig, LogoConfig } from "@/types/config";
 import type { SiteNavItem } from "@/types/site";
 
 import { SiteLogo } from "./SiteLogo";
 
 interface SiteHeaderProps {
   companyName: string;
+  currentLanguageCode: string;
+  languageCodes: string[];
+  languageSwitcherAriaLabel?: string;
+  languages: LanguageConfig[];
   logo: LogoConfig;
   logoText: string;
   navItems: SiteNavItem[];
   siteName: string;
 }
 
-function isNavItemActive(href: string, pathname: string): boolean {
-  if (href === ROUTES.HOME) {
-    return pathname === ROUTES.HOME;
+function normalizePath(value: string): string {
+  if (!value) return ROUTES.HOME;
+  if (value === ROUTES.HOME) return ROUTES.HOME;
+  const normalized = value.replace(/\/+$/, "");
+  return normalized || ROUTES.HOME;
+}
+
+function isNavItemActive(
+  href: string,
+  pathname: string,
+  languageCodes: string[]
+): boolean {
+  const hrefWithoutLanguage = stripLanguagePrefixFromPath(href, languageCodes);
+  const pathnameWithoutLanguage = stripLanguagePrefixFromPath(pathname, languageCodes);
+  const hrefPath = normalizePath(
+    hrefWithoutLanguage.split("?")[0].split("#")[0] || ROUTES.HOME
+  );
+  const pathnameOnly = normalizePath(
+    pathnameWithoutLanguage.split("?")[0].split("#")[0] || ROUTES.HOME
+  );
+
+  if (hrefPath === ROUTES.HOME) {
+    return pathnameOnly === ROUTES.HOME;
   }
-  return pathname.startsWith(href);
+  return pathnameOnly === hrefPath || pathnameOnly.startsWith(`${hrefPath}/`);
+}
+
+function setLanguagePreference(languageCode: string): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `language=${languageCode}; path=/; max-age=31536000; samesite=lax`;
+}
+
+function createLanguageHref(
+  pathname: string,
+  searchParamsString: string,
+  nextLanguageCode: string,
+  languageCodes: string[]
+): string {
+  const basePath = stripLanguagePrefixFromPath(pathname, languageCodes)
+    .split("?")[0]
+    .split("#")[0] || ROUTES.HOME;
+  const localizedPath = createLocalizedPath(basePath, nextLanguageCode, languageCodes);
+  return searchParamsString ? `${localizedPath}?${searchParamsString}` : localizedPath;
 }
 
 /**
  * Fixed header with desktop and mobile navigation.
  */
-export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: SiteHeaderProps) {
+export function SiteHeader({
+  companyName,
+  currentLanguageCode,
+  languageCodes,
+  languageSwitcherAriaLabel = "Choose language",
+  languages,
+  logo,
+  logoText,
+  navItems,
+  siteName,
+}: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const normalizedLanguageCodes = Array.from(
+    new Set(languageCodes.map((code) => normalizeLanguageCode(code)).filter(Boolean))
+  );
+  const languageNameMap = new Map(
+    languages.map((language) => [
+      normalizeLanguageCode(language.code),
+      (language.name || "").trim() || normalizeLanguageCode(language.code).toUpperCase(),
+    ])
+  );
+  const languageOptions = normalizedLanguageCodes.map((code) => {
+    return {
+      code,
+      name: languageNameMap.get(code) || code.toUpperCase(),
+    };
+  });
+  const normalizedCurrentLanguageCode = normalizeLanguageCode(currentLanguageCode);
+  const resolvedLanguageCode = languageOptions.some(
+    (language) => language.code === normalizedCurrentLanguageCode
+  )
+    ? normalizedCurrentLanguageCode
+    : languageOptions[0]?.code || normalizedCurrentLanguageCode || "en";
+  const [activeLanguageCode, setActiveLanguageCode] = useState(resolvedLanguageCode);
+  const searchParamsString = searchParams.toString();
+  const sitePathname = stripLanguagePrefixFromPath(pathname, normalizedLanguageCodes)
+    .split("?")[0]
+    .split("#")[0] || ROUTES.HOME;
   const isLandingStylePage =
-    pathname === ROUTES.HOME ||
-    pathname === ROUTES.CONTACT ||
-    pathname === ROUTES.SERVICES ||
-    pathname.startsWith(`${ROUTES.SERVICES}/`);
+    sitePathname === ROUTES.HOME ||
+    sitePathname === ROUTES.CONTACT ||
+    sitePathname === ROUTES.SERVICES ||
+    sitePathname.startsWith(`${ROUTES.SERVICES}/`);
 
   useEffect(() => {
     const onScroll = () => {
@@ -56,9 +137,42 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
     setIsMenuOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    setActiveLanguageCode(resolvedLanguageCode);
+  }, [resolvedLanguageCode]);
+
   const isTransparent = isLandingStylePage && !isScrolled;
   const startNavigation = () => {
     setIsMenuOpen(false);
+  };
+  const showLanguageSwitcher = languageOptions.length > 1;
+  const alternateLanguage =
+    languageOptions.length === 2
+      ? languageOptions.find((language) => language.code !== activeLanguageCode) || null
+      : null;
+  const homeHref = createLocalizedPath(
+    ROUTES.HOME,
+    activeLanguageCode,
+    normalizedLanguageCodes
+  );
+  const handleLanguageChange = (nextLanguageCode: string) => {
+    const normalizedNextLanguageCode = normalizeLanguageCode(nextLanguageCode);
+    if (!normalizedNextLanguageCode || normalizedNextLanguageCode === activeLanguageCode) {
+      return;
+    }
+    const nextHref = createLanguageHref(
+      pathname,
+      searchParamsString,
+      normalizedNextLanguageCode,
+      normalizedLanguageCodes
+    );
+
+    setActiveLanguageCode(normalizedNextLanguageCode);
+    setLanguagePreference(normalizedNextLanguageCode);
+    startNavigation();
+    router.push(nextHref);
+    // Locale is resolved via middleware rewrite headers, so force a fresh server payload.
+    router.refresh();
   };
 
   return (
@@ -73,10 +187,22 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
       >
         <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-4 md:px-8">
           <div className="md:hidden">
-            <SiteLogo companyName={companyName} logo={logo} logoText={logoText} siteName={siteName} />
+            <SiteLogo
+              companyName={companyName}
+              homeHref={homeHref}
+              logo={logo}
+              logoText={logoText}
+              siteName={siteName}
+            />
           </div>
           <div className="hidden md:block">
-            <SiteLogo companyName={companyName} logo={logo} logoText={logoText} siteName={siteName} />
+            <SiteLogo
+              companyName={companyName}
+              homeHref={homeHref}
+              logo={logo}
+              logoText={logoText}
+              siteName={siteName}
+            />
           </div>
           <button
             aria-controls="mobile-nav"
@@ -92,7 +218,11 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
           <nav className="hidden md:block">
             <ul className="flex items-center gap-4">
               {navItems.map((item) => {
-                const active = isNavItemActive(item.href, pathname);
+                const active = isNavItemActive(
+                  item.href,
+                  pathname,
+                  normalizedLanguageCodes
+                );
                 return (
                   <li key={item.href}>
                     <Link
@@ -116,6 +246,49 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
                   </li>
                 );
               })}
+              {showLanguageSwitcher ? (
+                <li>
+                  {alternateLanguage ? (
+                    <button
+                      className={cn(
+                        "inline-flex h-9 items-center rounded-[5px] border px-4 text-xs font-semibold uppercase tracking-[0.08em] transition-colors duration-200",
+                        isTransparent
+                          ? "border-white/40 bg-white/15 text-white hover:bg-white/25"
+                          : "border-[var(--site-color-border)] bg-white text-[var(--site-color-foreground)] hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+                      )}
+                      onClick={() => handleLanguageChange(alternateLanguage.code)}
+                      type="button"
+                    >
+                      {alternateLanguage.name}
+                    </button>
+                  ) : (
+                    <label
+                      className={cn(
+                        "inline-flex h-9 items-center rounded-[5px] border bg-white px-2",
+                        isTransparent
+                          ? "border-white/40 bg-white/15 text-white"
+                          : "border-[var(--site-color-border)]"
+                      )}
+                    >
+                      <span className="sr-only">{languageSwitcherAriaLabel}</span>
+                      <select
+                        className={cn(
+                          "h-full appearance-none bg-transparent px-2 text-xs font-semibold uppercase tracking-[0.08em] outline-none",
+                          isTransparent ? "text-white" : "text-[var(--site-color-foreground)]"
+                        )}
+                        onChange={(event) => handleLanguageChange(event.target.value)}
+                        value={activeLanguageCode}
+                      >
+                        {languageOptions.map((language) => (
+                          <option key={language.code} value={language.code}>
+                            {language.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  )}
+                </li>
+              ) : null}
             </ul>
           </nav>
         </div>
@@ -127,7 +300,11 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
           >
             <ul className="space-y-1">
               {navItems.map((item) => {
-                const active = isNavItemActive(item.href, pathname);
+                const active = isNavItemActive(
+                  item.href,
+                  pathname,
+                  normalizedLanguageCodes
+                );
                 return (
                   <li key={item.href}>
                     <Link
@@ -145,6 +322,34 @@ export function SiteHeader({ companyName, logo, logoText, navItems, siteName }: 
                   </li>
                 );
               })}
+              {showLanguageSwitcher ? (
+                <li className="pt-3">
+                  {alternateLanguage ? (
+                    <button
+                      className="block rounded-[5px] border border-[var(--site-color-border)] px-3 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--site-color-foreground)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+                      onClick={() => handleLanguageChange(alternateLanguage.code)}
+                      type="button"
+                    >
+                      {alternateLanguage.name}
+                    </button>
+                  ) : (
+                    <label className="block">
+                      <span className="sr-only">{languageSwitcherAriaLabel}</span>
+                      <select
+                        className="h-10 w-full rounded-[5px] border border-[var(--site-color-border)] bg-white px-3 text-sm font-medium text-[var(--site-color-foreground)] outline-none transition-colors focus:border-[var(--site-color-primary)]"
+                        onChange={(event) => handleLanguageChange(event.target.value)}
+                        value={activeLanguageCode}
+                      >
+                        {languageOptions.map((language) => (
+                          <option key={language.code} value={language.code}>
+                            {language.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  )}
+                </li>
+              ) : null}
             </ul>
           </nav>
         ) : null}

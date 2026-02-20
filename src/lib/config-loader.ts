@@ -200,7 +200,7 @@ class ConfigLoader {
 
     try {
       const config = await import("@/data/content/admin.config.json");
-      const typedConfig = normalizeAdminConfig(config.default as AdminConfig);
+      const typedConfig = normalizeAdminConfig(config.default as unknown as AdminConfig);
       this.cache.set(cacheKey, typedConfig);
       return typedConfig;
     } catch (error) {

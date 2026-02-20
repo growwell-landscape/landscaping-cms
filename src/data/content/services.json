@@ -8,16 +8,20 @@
     "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
-        "title": "Site preparation and soil treatment"
+        "title": "Site preparation and soil treatment",
+        "title_tel": "స్థల సిద్ధీకరణ మరియు నేల శుద్ధి"
       },
       {
-        "title": "Laying of fresh, healthy grass turf"
+        "title": "Laying of fresh, healthy grass turf",
+        "title_tel": "తాజా, ఆరోగ్యకరమైన గడ్డి టర్ఫ్ అమరిక"
       },
       {
-        "title": "Efficient watering and fertilization"
+        "title": "Efficient watering and fertilization",
+        "title_tel": "సమర్థవంతమైన నీటిపారుదల మరియు ఎరువుల వినియోగం"
       },
       {
-        "title": "Lawn edging for a neat finish"
+        "title": "Lawn edging for a neat finish",
+        "title_tel": "శుభ్రమైన ముగింపుకు లాన్ ఎడ్జింగ్"
       }
     ],
     "gallery": [
@@ -25,7 +29,10 @@
       "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 1,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "టర్ఫింగ్ (లాన్ తయారీ)",
+    "shortDescription_tel": "పచ్చగా, దీర్ఘకాలం నిలిచే లాన్ కోసం ప్రొఫెషనల్ ఇన్‌స్టలేషన్ మరియు నిర్వహణ సేవలు.",
+    "description_tel": "మా నిపుణుల టర్ఫింగ్ సేవలతో మీ బహిరంగ ప్రదేశాన్ని మార్చుకోండి. చెన్నై వాతావరణానికి అనుకూలమైన అధిక నాణ్యత గల గడ్డి రకాలతో అందమైన, స్థిరమైన లాన్‌లను రూపొందించడంలో మేము ప్రత్యేకత కలిగి ఉన్నాము. మా ప్రక్రియలో నేల సిద్ధీకరణ, సరైన లెవెలింగ్, మరియు త్వరగా స్థిరపడే ప్రీమియం టర్ఫ్ అమరిక ఉంటాయి."
   },
   {
     "id": "planting-and-landscaping",
@@ -36,16 +43,20 @@
     "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
-        "title": "Custom landscape design"
+        "title": "Custom landscape design",
+        "title_tel": "అనుకూల ల్యాండ్‌స్కేప్ డిజైన్"
       },
       {
-        "title": "Selection of climate-appropriate plants"
+        "title": "Selection of climate-appropriate plants",
+        "title_tel": "వాతావరణానికి అనుకూలమైన మొక్కల ఎంపిక"
       },
       {
-        "title": "Installation of ornamental features"
+        "title": "Installation of ornamental features",
+        "title_tel": "అలంకార అంశాల అమరిక"
       },
       {
-        "title": "Ongoing maintenance support"
+        "title": "Ongoing maintenance support",
+        "title_tel": "నిరంతర నిర్వహణ మద్దతు"
       }
     ],
     "gallery": [
@@ -53,7 +64,10 @@
       "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 2,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "మొక్కల నాటకం & ల్యాండ్‌స్కేపింగ్",
+    "shortDescription_tel": "మీ ప్రదేశానికి సరిపోయే సమగ్ర ల్యాండ్‌స్కేప్ డిజైన్ మరియు మొక్కల నాటకం సేవలు.",
+    "description_tel": "మా ప్లాంటింగ్ మరియు ల్యాండ్‌స్కేపింగ్ సేవలు మీ ఆలోచనలను నిజం చేస్తాయి. పూల బెడ్లు, పొదల సరిహద్దులు, అలంకార తోటలు, థీమ్ ఆధారిత మొక్కల అమరికలతో పూర్తిస్థాయి మార్పులు చేస్తాము. ప్రతి ప్రాజెక్ట్ మీ అభిరుచులు మరియు స్థల పరిస్థితులకు అనుగుణంగా రూపొందించబడుతుంది."
   },
   {
     "id": "vertical-green-walls",
@@ -64,23 +78,30 @@
     "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
-        "title": "Custom-designed vertical planters"
+        "title": "Custom-designed vertical planters",
+        "title_tel": "అనుకూలంగా రూపొందించిన వర్టికల్ ప్లాంటర్లు"
       },
       {
-        "title": "Automated irrigation systems"
+        "title": "Automated irrigation systems",
+        "title_tel": "ఆటోమేటెడ్ ఇరిగేషన్ వ్యవస్థలు"
       },
       {
-        "title": "Low-maintenance plant selection"
+        "title": "Low-maintenance plant selection",
+        "title_tel": "తక్కువ నిర్వహణతో పెరిగే మొక్కల ఎంపిక"
       },
       {
-        "title": "Indoor and outdoor installations"
+        "title": "Indoor and outdoor installations",
+        "title_tel": "ఇండోర్ మరియు ఔట్‌డోర్ అమరికలు"
       }
     ],
     "gallery": [
       "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 3,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "వర్టికల్ గ్రీన్ వాల్స్",
+    "shortDescription_tel": "ఆధునిక ఇండోర్ మరియు ఔట్‌డోర్ ప్రదేశాల కోసం వినూత్న వర్టికల్ తోటలు.",
+    "description_tel": "అద్భుతమైన వర్టికల్ గార్డెన్‌లతో మీ గ్రీన్ స్పేస్‌ను గరిష్టం చేయండి. నేల విస్తీర్ణం తక్కువగా ఉండే పట్టణ ప్రాంతాలకు మా వర్టికల్ గ్రీన్ వాల్ సిస్టమ్‌లు అనువైనవి. ఇవి చూడటానికి అద్భుతంగా ఉండటమే కాకుండా గాలి నాణ్యతను మెరుగుపరుస్తాయి, ఇన్సులేషన్ ఇస్తాయి, ప్రశాంత వాతావరణాన్ని సృష్టిస్తాయి."
   },
   {
     "id": "planting-trees",
@@ -91,22 +112,29 @@
     "image": "/uploads/site/about/img-1771504255188.jpg",
     "features": [
       {
-        "title": "Expert species selection"
+        "title": "Expert species selection",
+        "title_tel": "నిపుణుల వృక్ష జాతుల ఎంపిక"
       },
       {
-        "title": "Proper planting and staking"
+        "title": "Proper planting and staking",
+        "title_tel": "సరైన నాటకం మరియు మద్దతు కట్టడం"
       },
       {
-        "title": "Soil amendment and fertilization"
+        "title": "Soil amendment and fertilization",
+        "title_tel": "నేల మెరుగుదల మరియు ఎరువుల వినియోగం"
       },
       {
-        "title": "Post-planting care instructions"
+        "title": "Post-planting care instructions",
+        "title_tel": "నాటిన తర్వాత సంరక్షణ సూచనలు"
       }
     ],
     "gallery": [
       "/uploads/site/about/img-1771504255188.jpg"
     ],
     "sortOrder": 4,
-    "enabled": true
+    "enabled": true,
+    "title_tel": "చెట్లు నాటడం",
+    "shortDescription_tel": "ఆరోగ్యకరమైన పెరుగుదల, నీడ, దీర్ఘకాలిక ల్యాండ్‌స్కేప్ విలువ కోసం నిపుణుల చెట్ల నాటకం సేవలు.",
+    "description_tel": "మా చెట్ల నాటకం సేవలతో మీ ఆస్తికి నీడ, అందం మరియు విలువను జోడించండి. మీ స్థలానికి సరైన చెట్టు జాతులను ఎంపిక చేయడంలో మేము సహాయపడతాము; ఆరోగ్యకరమైన, దీర్ఘకాలిక పెరుగుదల కోసం సరైన స్థానం మరియు నాటకం పద్ధతులను నిర్ధారిస్తాము. మా చెట్లు విశ్వసనీయ నర్సరీల నుండి తెచ్చి సంరక్షణ మార్గదర్శకాలతో అందిస్తాము."
   }
 ]

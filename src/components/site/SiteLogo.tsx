@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 interface SiteLogoProps {
   className?: string;
   companyName: string;
+  homeHref?: string;
   logo: LogoConfig;
   logoText: string;
   siteName: string;
@@ -98,7 +99,7 @@ function renderLogoBadge(logo: LogoConfig, logoText: string, siteName: string) {
 /**
  * Shared brand logo block for header and footer.
  */
-export function SiteLogo({ className, companyName, logo, logoText, siteName }: SiteLogoProps) {
+export function SiteLogo({ className, companyName, homeHref = "/", logo, logoText, siteName }: SiteLogoProps) {
   const companySuffix = getCompanySuffix(companyName, siteName);
   const mode = resolveDisplayMode(logo);
   const onlyImage = mode === "image-only";
@@ -106,7 +107,7 @@ export function SiteLogo({ className, companyName, logo, logoText, siteName }: S
   const logoWithMode = showImage ? logo : { ...logo, imageUrl: "" };
 
   return (
-    <Link aria-label={`${siteName} home`} className={cn("inline-flex items-center gap-3", className)} href="/">
+    <Link aria-label={`${siteName} home`} className={cn("inline-flex items-center gap-3", className)} href={homeHref}>
       {renderLogoBadge(logoWithMode, logoText, siteName)}
       {!onlyImage ? (
         <span className="leading-tight">

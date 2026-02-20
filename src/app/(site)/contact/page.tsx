@@ -73,6 +73,10 @@ export default async function ContactPage() {
   const siteData = await getSiteCommonData();
   const { adminConfig } = siteData;
   const contactCopy = siteData.translations.contact || {};
+  const getInTouchSectionTitle = contactCopy.getInTouchSectionTitle || contactCopy.title || "Get in Touch";
+  const mapActionLabel = contactCopy.mapAction || "Go to configured location";
+  const startConversationLabel = contactCopy.startConversation || "Start Conversation";
+  const visitUsTitle = contactCopy.visitUs || "Visit Us";
   const social = adminConfig.socialMedia.find(
     (item) => item.enabled && item.name.toLowerCase().includes("instagram")
   );
@@ -119,7 +123,7 @@ export default async function ContactPage() {
           <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
             <div>
               <ScrollReveal>
-                <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">Get in Touch</h2>
+                <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">{getInTouchSectionTitle}</h2>
               </ScrollReveal>
               <div className="mt-6 space-y-4">
                 <ScrollReveal delayMs={50}>
@@ -152,7 +156,7 @@ export default async function ContactPage() {
                     <span>
                       <span className="block text-sm text-[var(--site-color-muted-foreground)]">{contactCopy.chatOnWhatsApp || "Chat on WhatsApp"}</span>
                       <span className="site-heading block text-2xl font-semibold text-[var(--site-color-foreground)] md:text-[1.65rem]">
-                        Start Conversation
+                        {startConversationLabel}
                       </span>
                     </span>
                   </a>
@@ -193,10 +197,15 @@ export default async function ContactPage() {
 
             <div>
               <ScrollReveal>
-                <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">Visit Us</h2>
+                <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">{visitUsTitle}</h2>
               </ScrollReveal>
               <ScrollReveal delayMs={90} variant="zoom">
-                <ContactLocationMap mapEmbedUrl={mapEmbedUrl} title={locationCardTitle} />
+                <ContactLocationMap
+                  mapEmbedUrl={mapEmbedUrl}
+                  reloadButtonAriaLabel={mapActionLabel}
+                  reloadButtonTitle={mapActionLabel}
+                  title={locationCardTitle}
+                />
               </ScrollReveal>
             </div>
           </div>
@@ -205,6 +214,7 @@ export default async function ContactPage() {
 
       {floatingContact.enabled && floatingContact.showWhatsApp ? (
         <FloatingWhatsApp
+          ariaLabel={contactCopy.chatOnWhatsApp || "Chat on WhatsApp"}
           defaultMessage={adminConfig.contact.whatsapp.defaultMessage}
           number={adminConfig.contact.whatsapp.number}
         />

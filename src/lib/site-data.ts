@@ -1,8 +1,16 @@
 import { configLoader, getActiveProjects, getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
+import {
+  createLocalizedPath,
+  localizeContentByLanguage,
+  normalizeLanguageCode,
+  resolveSiteLanguage,
+  type SiteLanguageState,
+} from "@/lib/site-i18n";
 import type { AdminConfig } from "@/types/config";
 import type { LanguageTranslations, Project, Service } from "@/types/content";
 import type { SiteFooterLabels, SiteNavItem } from "@/types/site";
+import { headers } from "next/headers";
 
 /**
  * Shared site data used by layout and pages.
@@ -10,6 +18,8 @@ import type { SiteFooterLabels, SiteNavItem } from "@/types/site";
 export interface SiteCommonData {
   adminConfig: AdminConfig;
   footerLabels: SiteFooterLabels;
+  homeHref: string;
+  language: SiteLanguageState;
   navItems: SiteNavItem[];
   translations: LanguageTranslations;
 }
@@ -36,37 +46,86 @@ function mapFooterLabels(copy: Record<string, string>): SiteFooterLabels {
   };
 }
 
-function mapNavigationItems(copy: Record<string, string>): SiteNavItem[] {
+function mapNavigationItems(
+  copy: Record<string, string>,
+  language: SiteLanguageState
+): SiteNavItem[] {
   return [
     {
-      href: ROUTES.HOME,
+      href: createLocalizedPath(
+        ROUTES.HOME,
+        language.currentLanguageCode,
+        language.languageCodes
+      ),
       label: getLabel(copy, "Home", "home"),
     },
     {
-      href: ROUTES.SERVICES,
+      href: createLocalizedPath(
+        ROUTES.SERVICES,
+        language.currentLanguageCode,
+        language.languageCodes
+      ),
       label: getLabel(copy, "Services", "services"),
     },
     {
-      href: ROUTES.CONTACT,
+      href: createLocalizedPath(
+        ROUTES.CONTACT,
+        language.currentLanguageCode,
+        language.languageCodes
+      ),
       label: getLabel(copy, "Contact Us", "contact"),
     },
   ];
 }
 
+function getRequestedLanguageFromHeaders(): string {
+  try {
+    const languageFromHeader = headers().get("x-site-lang");
+    return normalizeLanguageCode(languageFromHeader || "");
+  } catch {
+    return "";
+  }
+}
+
+export function localizeSiteContent<T>(
+  value: T,
+  language: SiteLanguageState
+): T {
+  return localizeContentByLanguage(
+    value,
+    language.currentLanguageCode,
+    language.languageCodes
+  );
+}
+
 /**
  * Loads data shared by all website pages.
  */
-export async function getSiteCommonData(): Promise<SiteCommonData> {
-  const adminConfig = await configLoader.loadAdminConfig();
-  const languageCode = adminConfig.site.defaultLanguage || "en";
-  const translations = await configLoader.loadLanguageTranslations(languageCode);
+export async function getSiteCommonData(
+  requestedLanguageCode?: string
+): Promise<SiteCommonData> {
+  const adminConfigRaw = await configLoader.loadAdminConfig();
+  const language = resolveSiteLanguage(
+    adminConfigRaw.site,
+    requestedLanguageCode || getRequestedLanguageFromHeaders()
+  );
+  const adminConfig = localizeSiteContent(adminConfigRaw, language) as AdminConfig;
+  const translations = await configLoader.loadLanguageTranslations(
+    language.currentLanguageCode
+  );
   const footerCopy = translations.footer || {};
   const navCopy = translations.nav || {};
 
   return {
     adminConfig,
     footerLabels: mapFooterLabels(footerCopy),
-    navItems: mapNavigationItems(navCopy),
+    homeHref: createLocalizedPath(
+      ROUTES.HOME,
+      language.currentLanguageCode,
+      language.languageCodes
+    ),
+    language,
+    navItems: mapNavigationItems(navCopy, language),
     translations,
   };
 }
@@ -75,11 +134,13 @@ export async function getSiteCommonData(): Promise<SiteCommonData> {
  * Loads data for the homepage.
  */
 export async function getSiteHomeData(): Promise<SiteHomeData> {
-  const [commonData, projects, services] = await Promise.all([
+  const [commonData, projectsRaw, servicesRaw] = await Promise.all([
     getSiteCommonData(),
     getActiveProjects(),
     getActiveServices(),
   ]);
+  const projects = localizeSiteContent(projectsRaw, commonData.language) as Project[];
+  const services = localizeSiteContent(servicesRaw, commonData.language) as Service[];
 
   return {
     ...commonData,
@@ -87,4 +148,3 @@ export async function getSiteHomeData(): Promise<SiteHomeData> {
     services,
   };
 }
-

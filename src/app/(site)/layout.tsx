@@ -5,6 +5,8 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { RouteLoadingOverlay } from "@/components/site/RouteLoadingOverlay";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { configLoader, getActiveProjects, getActiveServices } from "@/lib/config-loader";
+import { ROUTES } from "@/lib/constants";
+import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
 import type { ThemeConfig } from "@/types/config";
 
@@ -66,15 +68,24 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
     getActiveProjects(),
     getActiveServices(),
   ]);
-  const { adminConfig, footerLabels, navItems } = commonData;
+  const { adminConfig, footerLabels, homeHref, language, navItems } = commonData;
+  const commonCopy = commonData.translations.common || {};
   const hasProjects = projects.length > 0;
   const hasServices = services.length > 0;
   const logoText = getLogoText(adminConfig.site.logo.text);
   const resolvedNavItems = navItems.filter((item) => {
-    if (item.href === "/services" && !hasServices) {
+    const hrefWithoutLanguage = stripLanguagePrefixFromPath(
+      item.href,
+      language.languageCodes
+    );
+    const plainPath = hrefWithoutLanguage
+      .split("?")[0]
+      .split("#")[0];
+
+    if (plainPath === ROUTES.SERVICES && !hasServices) {
       return false;
     }
-    if (item.href === "/#projects" && !hasProjects) {
+    if (hrefWithoutLanguage.startsWith(`${ROUTES.HOME}#projects`) && !hasProjects) {
       return false;
     }
     return true;
@@ -88,6 +99,10 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
       <RouteLoadingOverlay />
       <SiteHeader
         companyName={adminConfig.site.companyName}
+        currentLanguageCode={language.currentLanguageCode}
+        languageCodes={language.languageCodes}
+        languageSwitcherAriaLabel={commonCopy.chooseLanguage || "Choose language"}
+        languages={language.languages}
         logo={adminConfig.site.logo}
         logoText={logoText}
         navItems={resolvedNavItems}
@@ -102,6 +117,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
           copyright={footerLabels.copyright}
           email={adminConfig.contact.email}
           followUsTitle={footerLabels.followUsTitle}
+          homeHref={homeHref}
           logo={adminConfig.site.logo}
           logoText={logoText}
           phone={adminConfig.contact.phone}

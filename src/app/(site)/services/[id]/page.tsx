@@ -21,7 +21,10 @@ import { ScrollReveal } from "@/components/site/ScrollReveal";
 import { SectionContainer } from "@/components/site/SectionContainer";
 import { ServiceQuoteButton } from "@/components/site/ServiceQuoteButton";
 import { getActiveServices } from "@/lib/config-loader";
-import { getSiteCommonData } from "@/lib/site-data";
+import { ROUTES } from "@/lib/constants";
+import { createLocalizedPath } from "@/lib/site-i18n";
+import { getSiteCommonData, localizeSiteContent } from "@/lib/site-data";
+import type { Service } from "@/types/content";
 
 interface ServiceDetailPageProps {
   params: {
@@ -59,17 +62,46 @@ function resolveFeatureText(feature: string | { description?: string; title: str
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  const [services, siteData] = await Promise.all([getActiveServices(), getSiteCommonData()]);
+  const [servicesRaw, siteData] = await Promise.all([
+    getActiveServices(),
+    getSiteCommonData(),
+  ]);
+  const services = localizeSiteContent(servicesRaw, siteData.language) as Service[];
   const service = services.find((item) => item.id === params.id);
 
   if (!service) {
     notFound();
   }
 
+  const navCopy = siteData.translations.nav || {};
+  const contactCopy = siteData.translations.contact || {};
+  const detailCopy = siteData.translations.serviceDetail || {};
   const Icon = getServiceIcon(service.icon);
   const floatingContact = siteData.adminConfig.contact.floatingContact;
   const otherServices = services.filter((item) => item.id !== service.id).slice(0, 5);
   const galleryItems = service.gallery.length > 0 ? service.gallery : [service.image];
+  const homeHref = createLocalizedPath(
+    ROUTES.HOME,
+    siteData.language.currentLanguageCode,
+    siteData.language.languageCodes
+  );
+  const servicesHref = createLocalizedPath(
+    ROUTES.SERVICES,
+    siteData.language.currentLanguageCode,
+    siteData.language.languageCodes
+  );
+  const aboutServiceHeading = detailCopy.aboutTitle || "About this Service";
+  const callDirectlyLabel = detailCopy.callDirectly || "Or call us directly at";
+  const featuresHeading = detailCopy.featuresTitle || "Key Features";
+  const galleryHeading = detailCopy.galleryTitle || "Gallery";
+  const getQuoteLabel = detailCopy.getQuoteButton || "Contact & Get Quote";
+  const needServiceDescription =
+    detailCopy.needServiceDescription ||
+    "Get in touch with us today for a free consultation and quote.";
+  const needServiceHeading = detailCopy.needServiceTitle || "Need this service?";
+  const otherServicesHeading = detailCopy.otherServicesTitle || "Other Services";
+  const breadcrumbHomeLabel = navCopy.home || detailCopy.breadcrumbHome || "Home";
+  const breadcrumbServicesLabel = navCopy.services || detailCopy.breadcrumbServices || "Services";
 
   return (
     <main>
@@ -82,12 +114,12 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/40" />
         <SectionContainer className="relative">
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-white/75">
-            <Link className="transition-colors hover:text-white" href="/">
-              Home
+            <Link className="transition-colors hover:text-white" href={homeHref}>
+              {breadcrumbHomeLabel}
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <Link className="transition-colors hover:text-white" href="/services">
-              Services
+            <Link className="transition-colors hover:text-white" href={servicesHref}>
+              {breadcrumbServicesLabel}
             </Link>
             <ChevronRight className="h-4 w-4" />
             <span className="font-medium text-white">{service.title}</span>
@@ -117,7 +149,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
               <ScrollReveal delayMs={70}>
                 <section>
-                  <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-4xl">About this Service</h2>
+                  <h2 className="site-heading text-3xl font-semibold text-[var(--site-color-foreground)] md:text-4xl">{aboutServiceHeading}</h2>
                   <p className="mt-4 text-base leading-relaxed text-[var(--site-color-muted-foreground)] md:text-lg">{service.description}</p>
                 </section>
               </ScrollReveal>
@@ -125,7 +157,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               {service.features.length > 0 ? (
                 <ScrollReveal delayMs={90}>
                   <section>
-                    <h2 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">Key Features</h2>
+                    <h2 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">{featuresHeading}</h2>
                     <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                       {service.features.map((feature, index) => (
                         <li
@@ -144,7 +176,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               {galleryItems.length > 0 ? (
                 <ScrollReveal delayMs={110}>
                   <section>
-                    <h2 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">Gallery</h2>
+                    <h2 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)] md:text-3xl">{galleryHeading}</h2>
                     <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
                       {galleryItems.map((image, index) => (
                         <div className="overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]" key={`${service.id}-gallery-${index}`}>
@@ -165,17 +197,18 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
             <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
               <ScrollReveal delayMs={70} variant="right">
                 <div className="rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)] p-6">
-                  <h3 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)]">Need this service?</h3>
+                  <h3 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)]">{needServiceHeading}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-[var(--site-color-muted-foreground)]">
-                    Get in touch with us today for a free consultation and quote.
+                    {needServiceDescription}
                   </p>
                   <ServiceQuoteButton
                     className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-[var(--site-color-primary)] px-6 py-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)]"
+                    label={getQuoteLabel}
                     number={siteData.adminConfig.contact.whatsapp.number}
                     serviceTitle={service.title}
                   />
                   <p className="mt-4 text-center text-sm text-[var(--site-color-muted-foreground)]">
-                    Or call us directly at
+                    {callDirectlyLabel}
                     <br />
                     <a className="font-medium text-[var(--site-color-foreground)]" href={`tel:${siteData.adminConfig.contact.phone.replace(/[^\d+]/g, "")}`}>
                       {siteData.adminConfig.contact.phone}
@@ -187,11 +220,18 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               {otherServices.length > 0 ? (
                 <ScrollReveal delayMs={120} variant="right">
                   <div className="rounded-[5px] border border-[var(--site-color-border)] bg-white p-6">
-                    <h3 className="site-heading text-xl font-semibold text-[var(--site-color-foreground)]">Other Services</h3>
+                    <h3 className="site-heading text-xl font-semibold text-[var(--site-color-foreground)]">{otherServicesHeading}</h3>
                     <ul className="mt-4 space-y-3">
                       {otherServices.map((item) => (
                         <li key={item.id}>
-                          <Link className="text-base text-[var(--site-color-muted-foreground)] transition-colors hover:text-[var(--site-color-primary)]" href={`/services/${item.id}`}>
+                          <Link
+                            className="text-base text-[var(--site-color-muted-foreground)] transition-colors hover:text-[var(--site-color-primary)]"
+                            href={createLocalizedPath(
+                              `${ROUTES.SERVICE_DETAIL}/${item.id}`,
+                              siteData.language.currentLanguageCode,
+                              siteData.language.languageCodes
+                            )}
+                          >
                             {item.title}
                           </Link>
                         </li>
@@ -207,6 +247,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
       {floatingContact.enabled && floatingContact.showWhatsApp ? (
         <FloatingWhatsApp
+          ariaLabel={contactCopy.chatOnWhatsApp || "Chat on WhatsApp"}
           defaultMessage={siteData.adminConfig.contact.whatsapp.defaultMessage}
           number={siteData.adminConfig.contact.whatsapp.number}
         />
