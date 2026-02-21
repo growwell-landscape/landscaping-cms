@@ -223,12 +223,18 @@ export default function AdminDashboard() {
       const nextActiveCodes = availableLanguageCodes.includes(code)
         ? availableLanguageCodes
         : [...availableLanguageCodes, code];
-      updateLanguageConfig(nextLanguages, nextActiveCodes, defaultLanguageCode);
+      updateLanguageConfig(
+        nextLanguages,
+        nextActiveCodes,
+        defaultLanguageCode,
+        password
+      );
     } else {
       updateLanguageConfig(
         [...languageOptions, { code, name: name || code.toUpperCase() }],
         [...availableLanguageCodes, code],
-        defaultLanguageCode
+        defaultLanguageCode,
+        password
       );
     }
 
@@ -249,18 +255,33 @@ export default function AdminDashboard() {
         : language
     );
 
-    updateLanguageConfig(nextLanguages, availableLanguageCodes, defaultLanguageCode);
+    updateLanguageConfig(
+      nextLanguages,
+      availableLanguageCodes,
+      defaultLanguageCode,
+      password
+    );
   };
 
   const handleToggleActiveLanguage = (languageCode: string) => {
     const nextActiveCodes = availableLanguageCodes.includes(languageCode)
       ? availableLanguageCodes.filter((code) => code !== languageCode)
       : [...availableLanguageCodes, languageCode];
-    updateLanguageConfig(languageOptions, nextActiveCodes, defaultLanguageCode);
+    updateLanguageConfig(
+      languageOptions,
+      nextActiveCodes,
+      defaultLanguageCode,
+      password
+    );
   };
 
   const handleDefaultLanguageChange = (languageCode: string) => {
-    updateLanguageConfig(languageOptions, availableLanguageCodes, languageCode);
+    updateLanguageConfig(
+      languageOptions,
+      availableLanguageCodes,
+      languageCode,
+      password
+    );
   };
 
   const handleRemoveLanguage = (languageCode: string) => {
@@ -272,7 +293,7 @@ export default function AdminDashboard() {
         ? nextActiveCodes[0] || nextLanguages[0]?.code || defaultLanguageCode
         : defaultLanguageCode;
 
-    updateLanguageConfig(nextLanguages, nextActiveCodes, nextDefault);
+    updateLanguageConfig(nextLanguages, nextActiveCodes, nextDefault, password);
   };
 
   /**

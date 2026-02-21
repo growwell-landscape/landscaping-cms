@@ -131,6 +131,9 @@ export function LanguageSettingsCard({
           <p className="text-xs text-slate-500">
             Language code is locked after creation. You can edit only the label.
           </p>
+          <p className="text-xs text-slate-500">
+            New languages are auto-filled using Google Translate. Review and edit after adding.
+          </p>
 
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 space-y-2">
             {languageOptions.map((language) => {

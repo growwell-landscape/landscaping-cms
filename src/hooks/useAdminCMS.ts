@@ -28,12 +28,15 @@ import {
 } from "@/lib/image-compression";
 import {
   applyLanguageConfigToAdminConfig,
+  buildLocalizedFieldKey,
   extractLanguageConfig,
   type LanguageOption,
   normalizeLanguageConfig,
   normalizeLanguageCode,
   ensureLocalizedContentItems,
   DEFAULT_LANGUAGE_CODE,
+  isLanguageVariantKey,
+  isTranslatableTextField,
 } from "@/lib/language-utils";
 
 const LOCAL_ITEM_ID_KEY = "__localId";
@@ -64,6 +67,12 @@ interface SaveAllResult {
   successCount: number;
   failedCount: number;
   publishedFiles: string[];
+}
+
+interface TranslationTarget {
+  sourceText: string;
+  currentText: string;
+  apply: (translated: string) => void;
 }
 
 function createLocalItemId(): string {
@@ -392,6 +401,244 @@ function ensureTranslationsForLanguages(
   }
 
   return { translations: mergedResult, changed };
+}
+
+function cloneJsonValue<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+function collectLocalizedTranslationTargets(
+  node: unknown,
+  targetLanguageCode: string,
+  languageCodes: string[],
+  targets: TranslationTarget[]
+): void {
+  if (Array.isArray(node)) {
+    node.forEach((entry) =>
+      collectLocalizedTranslationTargets(entry, targetLanguageCode, languageCodes, targets)
+    );
+    return;
+  }
+
+  if (!isRecord(node)) {
+    return;
+  }
+
+  const effectiveLanguageCodes = Array.from(
+    new Set([...languageCodes, normalizeLanguageCode(targetLanguageCode)])
+  );
+  const record = node as Record<string, unknown>;
+
+  Object.entries(record).forEach(([key, value]) => {
+    if (isLanguageVariantKey(key, effectiveLanguageCodes)) {
+      return;
+    }
+
+    if (isTranslatableTextField(key, value, effectiveLanguageCodes)) {
+      const localizedKey = buildLocalizedFieldKey(key, targetLanguageCode);
+
+      if (Object.prototype.hasOwnProperty.call(record, localizedKey)) {
+        const sourceText = value as string;
+        const localizedValue = record[localizedKey];
+        const currentText = typeof localizedValue === "string" ? localizedValue : "";
+        const canAutoTranslate =
+          sourceText.trim().length > 0 &&
+          (currentText.trim().length === 0 || currentText === sourceText);
+
+        if (canAutoTranslate) {
+          targets.push({
+            sourceText,
+            currentText,
+            apply: (translated) => {
+              record[localizedKey] = translated;
+            },
+          });
+        }
+      }
+    }
+
+    collectLocalizedTranslationTargets(value, targetLanguageCode, languageCodes, targets);
+  });
+}
+
+function collectStringTranslationTargets(
+  node: unknown,
+  targets: TranslationTarget[]
+): void {
+  if (Array.isArray(node)) {
+    node.forEach((entry, index) => {
+      if (typeof entry === "string") {
+        if (!entry.trim()) return;
+        targets.push({
+          sourceText: entry,
+          currentText: entry,
+          apply: (translated) => {
+            node[index] = translated;
+          },
+        });
+        return;
+      }
+
+      collectStringTranslationTargets(entry, targets);
+    });
+    return;
+  }
+
+  if (!isRecord(node)) {
+    return;
+  }
+
+  const record = node as Record<string, unknown>;
+  Object.entries(record).forEach(([key, value]) => {
+    if (typeof value === "string") {
+      if (!value.trim()) return;
+      targets.push({
+        sourceText: value,
+        currentText: value,
+        apply: (translated) => {
+          record[key] = translated;
+        },
+      });
+      return;
+    }
+
+    collectStringTranslationTargets(value, targets);
+  });
+}
+
+async function translateTextsWithGoogle(
+  texts: string[],
+  sourceLanguageCode: string,
+  targetLanguageCode: string,
+  password: string
+): Promise<{ translations: string[]; failedCount: number }> {
+  if (texts.length === 0) {
+    return { translations: [], failedCount: 0 };
+  }
+
+  if (normalizeLanguageCode(sourceLanguageCode) === normalizeLanguageCode(targetLanguageCode)) {
+    return { translations: texts, failedCount: 0 };
+  }
+
+  const response = await fetch("/api/translate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      password,
+      sourceLanguage: sourceLanguageCode,
+      targetLanguage: targetLanguageCode,
+      texts,
+    }),
+  });
+
+  const data = (await response.json()) as APIResponse;
+  if (!data.success) {
+    throw new Error(data.error || "Failed to translate content");
+  }
+
+  const responseData = (data.data || {}) as Record<string, unknown>;
+  const translations = Array.isArray(responseData.translations)
+    ? responseData.translations
+        .map((value) => (typeof value === "string" ? value : ""))
+        .slice(0, texts.length)
+    : [];
+  const safeTranslations =
+    translations.length === texts.length
+      ? translations
+      : texts.map((text, index) => translations[index] || text);
+
+  return {
+    translations: safeTranslations,
+    failedCount:
+      typeof responseData.failedCount === "number" ? responseData.failedCount : 0,
+  };
+}
+
+async function autoTranslateLocalizedItems(
+  items: DataItem[],
+  languageCodes: string[],
+  sourceLanguageCode: string,
+  targetLanguageCode: string,
+  password: string
+): Promise<{ items: DataItem[]; changed: boolean; failedCount: number }> {
+  const clonedItems = cloneJsonValue(items);
+  const targets: TranslationTarget[] = [];
+  clonedItems.forEach((item) =>
+    collectLocalizedTranslationTargets(item, targetLanguageCode, languageCodes, targets)
+  );
+
+  if (targets.length === 0) {
+    return { items, changed: false, failedCount: 0 };
+  }
+
+  const uniqueTexts = Array.from(new Set(targets.map((target) => target.sourceText)));
+  const translated = await translateTextsWithGoogle(
+    uniqueTexts,
+    sourceLanguageCode,
+    targetLanguageCode,
+    password
+  );
+  const translationMap = new Map<string, string>();
+  uniqueTexts.forEach((text, index) => {
+    translationMap.set(text, translated.translations[index] || text);
+  });
+
+  let changed = false;
+  targets.forEach((target) => {
+    const nextValue = translationMap.get(target.sourceText) || target.sourceText;
+    if (nextValue !== target.currentText) {
+      target.apply(nextValue);
+      changed = true;
+    }
+  });
+
+  return {
+    items: changed ? clonedItems : items,
+    changed,
+    failedCount: translated.failedCount,
+  };
+}
+
+async function autoTranslateRecordStrings(
+  value: Record<string, unknown>,
+  sourceLanguageCode: string,
+  targetLanguageCode: string,
+  password: string
+): Promise<{ value: Record<string, unknown>; changed: boolean; failedCount: number }> {
+  const clonedRecord = cloneJsonValue(value);
+  const targets: TranslationTarget[] = [];
+  collectStringTranslationTargets(clonedRecord, targets);
+
+  if (targets.length === 0) {
+    return { value, changed: false, failedCount: 0 };
+  }
+
+  const uniqueTexts = Array.from(new Set(targets.map((target) => target.sourceText)));
+  const translated = await translateTextsWithGoogle(
+    uniqueTexts,
+    sourceLanguageCode,
+    targetLanguageCode,
+    password
+  );
+  const translationMap = new Map<string, string>();
+  uniqueTexts.forEach((text, index) => {
+    translationMap.set(text, translated.translations[index] || text);
+  });
+
+  let changed = false;
+  targets.forEach((target) => {
+    const nextValue = translationMap.get(target.sourceText) || target.sourceText;
+    if (nextValue !== target.currentText) {
+      target.apply(nextValue);
+      changed = true;
+    }
+  });
+
+  return {
+    value: changed ? clonedRecord : value,
+    changed,
+    failedCount: translated.failedCount,
+  };
 }
 
 function setValueAtPath(
@@ -1199,7 +1446,8 @@ export function useAdminCMS() {
     async (
       languages: LanguageOption[],
       activeLanguageSelections: string[],
-      defaultLanguage: string
+      defaultLanguage: string,
+      adminPassword = ""
     ) => {
       const adminFileItems =
         itemsByFile[CMS_FILES.ADMIN_CONFIG] ||
@@ -1219,6 +1467,11 @@ export function useAdminCMS() {
         );
 
         const currentAdminItem = adminFileItems[0] as Record<string, unknown>;
+        const currentLanguageConfig = extractLanguageConfig(currentAdminItem);
+        const newlyAddedLanguageCodes = normalizedLanguageConfig.languageCodes.filter(
+          (languageCode) =>
+            !currentLanguageConfig.languageCodes.includes(languageCode)
+        );
         const normalizedAdmin = applyLanguageConfigToAdminConfig(
           currentAdminItem,
           normalizedLanguageConfig
@@ -1323,6 +1576,93 @@ export function useAdminCMS() {
           changedFilePaths.add(filePath);
         }
 
+        const translatedLanguageCodes: string[] = [];
+        let totalTranslationFailures = 0;
+
+        if (
+          newlyAddedLanguageCodes.length > 0 &&
+          adminPassword.trim().length > 0
+        ) {
+          for (const targetLanguageCode of newlyAddedLanguageCodes) {
+            if (targetLanguageCode === normalizedLanguageConfig.defaultLanguage) {
+              continue;
+            }
+
+            try {
+              const sourceLanguageCode = normalizedLanguageConfig.defaultLanguage;
+              const filesToTranslate = [
+                CMS_FILES.ADMIN_CONFIG,
+                CMS_FILES.PROJECTS,
+                CMS_FILES.SERVICES,
+              ] as const;
+
+              for (const filePath of filesToTranslate) {
+                const fileItems = nextItemsByFile[filePath];
+                if (!fileItems || fileItems.length === 0) continue;
+
+                const translated = await autoTranslateLocalizedItems(
+                  fileItems,
+                  normalizedLanguageConfig.languageCodes,
+                  sourceLanguageCode,
+                  targetLanguageCode,
+                  adminPassword
+                );
+                totalTranslationFailures += translated.failedCount;
+
+                if (!translated.changed) continue;
+                nextItemsByFile[filePath] = translated.items;
+                nextFieldsByFile[filePath] = detectFields(translated.items);
+                changedFilePaths.add(filePath);
+              }
+
+              const translationItems = nextItemsByFile[CMS_FILES.TRANSLATIONS];
+              if (translationItems && translationItems.length > 0) {
+                const translationItem = translationItems[0];
+                const languageValue = translationItem[targetLanguageCode];
+                if (isRecord(languageValue)) {
+                  const translatedLanguageSection = await autoTranslateRecordStrings(
+                    languageValue,
+                    sourceLanguageCode,
+                    targetLanguageCode,
+                    adminPassword
+                  );
+                  totalTranslationFailures +=
+                    translatedLanguageSection.failedCount;
+
+                  if (translatedLanguageSection.changed) {
+                    const nextTranslationItem: DataItem = {
+                      ...translationItem,
+                      [targetLanguageCode]: translatedLanguageSection.value,
+                    };
+                    nextItemsByFile[CMS_FILES.TRANSLATIONS] = [nextTranslationItem];
+                    nextFieldsByFile[CMS_FILES.TRANSLATIONS] = detectFields([
+                      nextTranslationItem,
+                    ]);
+                    changedFilePaths.add(CMS_FILES.TRANSLATIONS);
+                  }
+                }
+              }
+
+              translatedLanguageCodes.push(targetLanguageCode);
+            } catch (error) {
+              const errorMessage =
+                error instanceof Error
+                  ? error.message
+                  : "Automatic translation failed";
+              toast.warning(
+                `Automatic translation failed for ${targetLanguageCode.toUpperCase()}: ${errorMessage}`
+              );
+            }
+          }
+        } else if (
+          newlyAddedLanguageCodes.length > 0 &&
+          adminPassword.trim().length === 0
+        ) {
+          toast.warning(
+            "New language was added, but automatic translation was skipped (missing admin password)."
+          );
+        }
+
         setItemsByFile(nextItemsByFile);
         setFieldsByFile(nextFieldsByFile);
         setIsArrayFileByPath(nextArrayState);
@@ -1339,6 +1679,18 @@ export function useAdminCMS() {
           );
         } else {
           toast.info("Language configuration already up to date.");
+        }
+        if (translatedLanguageCodes.length > 0) {
+          toast.success(
+            `Automatic translation completed for ${translatedLanguageCodes
+              .map((code) => code.toUpperCase())
+              .join(", ")}.`
+          );
+        }
+        if (totalTranslationFailures > 0) {
+          toast.warning(
+            `Some translation entries failed (${totalTranslationFailures}) and kept default text.`
+          );
         }
 
         applyLanguageState(
