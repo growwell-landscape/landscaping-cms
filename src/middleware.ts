@@ -46,6 +46,9 @@ function isPathWithLanguagePrefix(
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isPrefetchRequest =
+    request.headers.get("next-router-prefetch") === "1" ||
+    request.headers.get("purpose")?.toLowerCase() === "prefetch";
   const preferredLanguageCookie = normalizeLanguageCode(
     request.cookies.get(LANGUAGE_COOKIE_NAME)?.value || ""
   );
@@ -68,6 +71,7 @@ export function middleware(request: NextRequest) {
     const requestHeaders = new Headers(request.headers);
 
     rewriteUrl.pathname = pathnameWithoutLanguage || "/";
+    rewriteUrl.searchParams.set("__site_lang", languageFromPath);
     requestHeaders.set(SITE_LANGUAGE_HEADER, languageFromPath);
 
     const response = NextResponse.rewrite(rewriteUrl, {
@@ -75,11 +79,16 @@ export function middleware(request: NextRequest) {
         headers: requestHeaders,
       },
     });
-    response.cookies.set(LANGUAGE_COOKIE_NAME, languageFromPath, {
-      maxAge: 60 * 60 * 24 * 365,
-      path: "/",
-      sameSite: "lax",
-    });
+    const currentCookieLanguage = normalizeLanguageCode(
+      request.cookies.get(LANGUAGE_COOKIE_NAME)?.value || ""
+    );
+    if (!isPrefetchRequest && currentCookieLanguage !== languageFromPath) {
+      response.cookies.set(LANGUAGE_COOKIE_NAME, languageFromPath, {
+        maxAge: 60 * 60 * 24 * 365,
+        path: "/",
+        sameSite: "lax",
+      });
+    }
     return response;
   }
 

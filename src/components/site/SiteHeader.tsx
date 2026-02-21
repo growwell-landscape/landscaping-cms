@@ -217,6 +217,7 @@ export function SiteHeader({
   siteName,
 }: SiteHeaderProps) {
   const scrollAnimationFrameIdRef = useRef<number | null>(null);
+  const languageRefreshTimerRef = useRef<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -243,7 +244,7 @@ export function SiteHeader({
   )
     ? normalizedCurrentLanguageCode
     : languageOptions[0]?.code || normalizedCurrentLanguageCode || "en";
-  const [activeLanguageCode, setActiveLanguageCode] = useState(resolvedLanguageCode);
+  const activeLanguageCode = resolvedLanguageCode;
   const searchParamsString = searchParams.toString();
   const sitePathname = stripLanguagePrefixFromPath(pathname, normalizedLanguageCodes)
     .split("?")[0]
@@ -286,8 +287,12 @@ export function SiteHeader({
   }, [pathname]);
 
   useEffect(() => {
-    setActiveLanguageCode(resolvedLanguageCode);
-  }, [resolvedLanguageCode]);
+    return () => {
+      if (languageRefreshTimerRef.current !== null) {
+        window.clearTimeout(languageRefreshTimerRef.current);
+      }
+    };
+  }, []);
 
   const isTransparent = isLandingStylePage && !isScrolled;
   const startNavigation = () => {
@@ -311,12 +316,17 @@ export function SiteHeader({
       normalizedLanguageCodes
     );
 
-    setActiveLanguageCode(normalizedNextLanguageCode);
     setLanguagePreference(normalizedNextLanguageCode);
     startNavigation();
     router.push(nextHref);
-    // Locale is resolved via middleware rewrite headers, so force a fresh server payload.
-    router.refresh();
+
+    if (languageRefreshTimerRef.current !== null) {
+      window.clearTimeout(languageRefreshTimerRef.current);
+    }
+    languageRefreshTimerRef.current = window.setTimeout(() => {
+      router.refresh();
+      languageRefreshTimerRef.current = null;
+    }, 80);
   };
 
   return (
