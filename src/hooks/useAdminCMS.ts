@@ -44,7 +44,14 @@ const LANGUAGE_AWARE_FILES = new Set<string>([
   CMS_FILES.PROJECTS,
   CMS_FILES.SERVICES,
 ]);
-const ADMIN_CONFIG_LOCALIZED_SECTIONS = ["hero", "about"] as const;
+const ADMIN_CONFIG_LOCALIZED_SECTIONS = ["hero", "about", "contact"] as const;
+const ADMIN_CONFIG_LOCALIZED_FIELD_PATHS = [
+  ["site", "companyName"],
+  ["site", "tagline"],
+  ["site", "description"],
+  ["seo", "title"],
+  ["seo", "description"],
+] as const;
 const LANGUAGE_DEPENDENT_FILES = [
   CMS_FILES.PROJECTS,
   CMS_FILES.SERVICES,
@@ -245,7 +252,95 @@ function ensureLocalizedAdminConfigItem(
     }
   });
 
+  ADMIN_CONFIG_LOCALIZED_FIELD_PATHS.forEach((fieldPath) => {
+    const parentPath = fieldPath.slice(0, -1);
+    const fieldKey = fieldPath[fieldPath.length - 1];
+    const parentValue = getValueAtPath(nextItem, parentPath as string[]);
+    if (!isRecord(parentValue)) {
+      return;
+    }
+
+    const localizedRecord = localizeRecordFieldByKey(
+      parentValue,
+      fieldKey,
+      languageCodes,
+      defaultLanguage
+    );
+    if (!localizedRecord.changed) {
+      return;
+    }
+
+    nextItem = setValueAtPath(
+      nextItem,
+      parentPath as (string | number)[],
+      localizedRecord.record
+    );
+    changed = true;
+  });
+
   return { item: nextItem, changed };
+}
+
+function getValueAtPath(source: unknown, path: string[]): unknown {
+  let current: unknown = source;
+  for (const segment of path) {
+    if (!isRecord(current)) {
+      return undefined;
+    }
+    current = current[segment];
+  }
+  return current;
+}
+
+function localizeRecordFieldByKey(
+  record: Record<string, unknown>,
+  fieldKey: string,
+  languageCodes: string[],
+  defaultLanguage: string
+): { record: Record<string, unknown>; changed: boolean } {
+  if (!Object.prototype.hasOwnProperty.call(record, fieldKey)) {
+    return { record, changed: false };
+  }
+
+  const localizableFieldState: DataItem = {
+    id: fieldKey,
+    [fieldKey]: record[fieldKey],
+  };
+
+  Object.entries(record).forEach(([key, value]) => {
+    if (key.startsWith(`${fieldKey}_`)) {
+      localizableFieldState[key] = value;
+    }
+  });
+
+  const localized = ensureLocalizedContentItems(
+    [localizableFieldState],
+    languageCodes,
+    defaultLanguage
+  );
+  const localizedFieldState = localized.items[0];
+  if (!localizedFieldState) {
+    return { record, changed: false };
+  }
+
+  const nextRecord: Record<string, unknown> = { ...record };
+  Object.keys(nextRecord).forEach((key) => {
+    if (key.startsWith(`${fieldKey}_`)) {
+      delete nextRecord[key];
+    }
+  });
+
+  Object.entries(localizedFieldState).forEach(([key, value]) => {
+    if (key === "id") return;
+    if (key === fieldKey || key.startsWith(`${fieldKey}_`)) {
+      nextRecord[key] = value;
+    }
+  });
+
+  return {
+    record: nextRecord,
+    changed: JSON.stringify(record) !== JSON.stringify(nextRecord),
+  };
 }
 
 function normalizeItem(

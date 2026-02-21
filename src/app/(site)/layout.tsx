@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { RouteLoadingOverlay } from "@/components/site/RouteLoadingOverlay";
 import { SiteHeader } from "@/components/site/SiteHeader";
-import { configLoader, getActiveProjects, getActiveServices } from "@/lib/config-loader";
+import { getActiveProjects, getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
 import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
@@ -52,7 +52,8 @@ function getLogoText(text?: string): string {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await configLoader.loadSEOConfig();
+  const { adminConfig } = await getSiteCommonData();
+  const seo = adminConfig.seo;
 
   return {
     description: seo.description,

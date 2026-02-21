@@ -36,14 +36,20 @@
       "en",
       "tel",
       "ta"
-    ]
+    ],
+    "description_ta": "வெளிப்புற இடங்களை வாழும் கலைப் படைப்புகளாக மாற்றுதல். 2010 முதல் மொட்டை மாடிகள், தோட்டங்கள் மற்றும் நிலையான நிலத்தோற்ற அலங்காரத்தில் சென்னையின் நம்பகமான நிபுணர்கள்.",
+    "tagline_ta": "தொழில்முறை இயற்கையை ரசித்தல் சேவைகள்"
   },
   "seo": {
     "title": "GrowWell Landscapes - Professional Landscaping Services in Chennai",
     "description": "Transform your outdoor spaces with GrowWell Landscapes. Expert terracing, lawn design, vertical gardens & maintenance services in Chennai since 2010.",
     "keywords": "landscaping, terrace garden, lawn maintenance, vertical gardens, Chennai landscaping, garden design",
     "favicon": "/favicon.ico",
-    "ogImage": "/images/og-image.jpg"
+    "ogImage": "/images/og-image.jpg",
+    "description_ta": "வெளிப்புற இடங்களை வாழும் கலைப் படைப்புகளாக மாற்றுதல். 2010 முதல் மொட்டை மாடிகள், தோட்டங்கள் மற்றும் நிலையான நிலத்தோற்ற அலங்காரத்தில் சென்னையின் நம்பகமான நிபுணர்கள்.",
+    "title_ta": "க்ரோவெல் லேண்ட்ஸ்கேப்ஸ் - சென்னையில் தொழில்முறை லேண்ட்ஸ்கேப்பிங் சேவைகள்",
+    "description_tel": "బయటి ప్రదేశాలను జీవంతో నిండిన కళాఖండాలుగా మలుస్తున్నాం. 2010 నుండి చెన్నైలో టెర్రస్, తోటలు మరియు సస్టైనబుల్ ల్యాండ్‌స్కేపింగ్‌లో నమ్మకమైన నిపుణులు.",
+    "title_tel": "గ్రోవెల్ ల్యాండ్‌స్కేప్‌లు - చెన్నైలో ప్రొఫెషనల్ ల్యాండ్‌స్కేపింగ్ సేవలు"
   },
   "theme": {
     "colors": {

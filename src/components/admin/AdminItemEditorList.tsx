@@ -5,7 +5,17 @@ import { Button } from "@/components/ui/button";
 import { ItemEditorComponent } from "@/components/admin/ItemEditorComponent";
 import type { DataItem, DynamicField } from "@/types/cms";
 
-const ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS = ["hero", "about"];
+const ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS = ["hero", "about", "contact"];
+const ADMIN_CONFIG_LANGUAGE_EDITABLE_FIELD_PATH_PREFIXES = [
+  "hero",
+  "about",
+  "contact",
+  "site.companyName",
+  "site.tagline",
+  "site.description",
+  "seo.title",
+  "seo.description",
+];
 
 interface SiteConfigSection {
   key: string;
@@ -105,6 +115,7 @@ export function AdminItemEditorList({
               availableLanguageCodes={allLanguageCodes}
               enableLanguageEditing={isLanguageEditableFile}
               languageEditableRootPaths={ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS}
+              languageEditablePathPrefixes={ADMIN_CONFIG_LANGUAGE_EDITABLE_FIELD_PATH_PREFIXES}
               hiddenFieldPaths={siteConfigHiddenFieldPaths}
               filterFieldNames={[section.key]}
               titleOverride={section.label}

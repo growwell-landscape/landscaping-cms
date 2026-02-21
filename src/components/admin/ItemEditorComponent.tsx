@@ -52,6 +52,8 @@ interface ItemEditorComponentProps {
   filterFieldNames?: string[];
   /** Limit language-aware editing to these top-level roots */
   languageEditableRootPaths?: string[];
+  /** Limit language-aware editing to specific dot-path prefixes */
+  languageEditablePathPrefixes?: string[];
   /** Custom heading used for collapsed and expanded title */
   titleOverride?: string;
   /** Hide delete action (used for singleton config editors) */
@@ -229,6 +231,7 @@ export function ItemEditorComponent({
   hiddenFieldPaths = [],
   filterFieldNames,
   languageEditableRootPaths,
+  languageEditablePathPrefixes,
   titleOverride,
   hideDeleteAction = false,
   defaultExpanded = false,
@@ -243,11 +246,25 @@ export function ItemEditorComponent({
   const languageEditableRootSet = languageEditableRootPaths
     ? new Set(languageEditableRootPaths)
     : null;
+  const languageEditablePathPrefixesList = (languageEditablePathPrefixes || [])
+    .map((path) => path.trim())
+    .filter(Boolean);
   if (autoIdFromContent) hiddenKeys.add("id");
 
   const isHiddenPath = (fieldPath: (string | number)[]) =>
     hiddenPathSet.has(fieldPath.map((segment) => String(segment)).join("."));
+  const buildPathKey = (fieldPath: (string | number)[]) =>
+    fieldPath
+      .filter((segment): segment is string => typeof segment === "string")
+      .join(".");
   const isLanguageEditablePath = (fieldPath: (string | number)[]) => {
+    const pathKey = buildPathKey(fieldPath);
+    if (languageEditablePathPrefixesList.length > 0) {
+      return languageEditablePathPrefixesList.some(
+        (prefix) => pathKey === prefix || pathKey.startsWith(`${prefix}.`)
+      );
+    }
+
     if (!languageEditableRootSet || languageEditableRootSet.size === 0) {
       return true;
     }
