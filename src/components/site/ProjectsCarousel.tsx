@@ -13,6 +13,8 @@ import {
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/content";
 
+import { SiteImage } from "./SiteImage";
+
 interface ProjectCardProps {
   imagePath: string;
   title: string;
@@ -35,9 +37,11 @@ function getProjectImage(project: Project): string {
 function ProjectCard({ imagePath, title }: ProjectCardProps) {
   return (
     <article className="group relative h-[300px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)]">
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-        style={{ backgroundImage: `url("${imagePath}")` }}
+      <SiteImage
+        alt={`${title} project image`}
+        className="absolute inset-0"
+        imgClassName="transition-transform duration-500 group-hover:scale-105"
+        src={imagePath}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
       <h3 className="site-heading absolute bottom-5 left-5 right-5 text-2xl font-semibold text-white">{title}</h3>

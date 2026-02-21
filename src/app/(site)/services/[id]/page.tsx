@@ -19,6 +19,7 @@ import { notFound } from "next/navigation";
 import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 import { ScrollReveal } from "@/components/site/ScrollReveal";
 import { SectionContainer } from "@/components/site/SectionContainer";
+import { SiteImage } from "@/components/site/SiteImage";
 import { ServiceQuoteButton } from "@/components/site/ServiceQuoteButton";
 import { getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
@@ -106,10 +107,10 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   return (
     <main>
       <section className="relative overflow-hidden border-b border-[var(--site-color-border)] pb-10 pt-28 md:pb-12 md:pt-32">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url("${service.image}")` }}
+        <SiteImage
+          alt={`${service.title} hero image`}
+          className="absolute inset-0"
+          src={service.image}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/40" />
         <SectionContainer className="relative">
@@ -143,7 +144,11 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
             <div className="space-y-10">
               <ScrollReveal variant="zoom">
                 <div className="overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
-                  <div className="h-64 bg-cover bg-center sm:h-80 lg:h-[420px]" style={{ backgroundImage: `url("${service.image}")` }} />
+                  <SiteImage
+                    alt={`${service.title} service image`}
+                    className="h-64 sm:h-80 lg:h-[420px]"
+                    src={service.image}
+                  />
                 </div>
               </ScrollReveal>
 
@@ -180,11 +185,10 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                     <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
                       {galleryItems.map((image, index) => (
                         <div className="overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]" key={`${service.id}-gallery-${index}`}>
-                          <div
-                            aria-label={`${service.title} gallery image ${index + 1}`}
-                            className="h-40 bg-cover bg-center sm:h-44 md:h-48"
-                            role="img"
-                            style={{ backgroundImage: `url("${image}")` }}
+                          <SiteImage
+                            alt={`${service.title} gallery image ${index + 1}`}
+                            className="h-40 sm:h-44 md:h-48"
+                            src={image}
                           />
                         </div>
                       ))}

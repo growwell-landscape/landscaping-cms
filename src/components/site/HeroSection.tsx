@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { SectionContainer } from "./SectionContainer";
+import { SiteImage } from "./SiteImage";
 
 interface HeroSectionProps {
   ctaHref: string;
@@ -27,13 +28,15 @@ export function HeroSection({
   return (
     <section className="relative min-h-[620px] overflow-hidden pt-20 md:min-h-[700px] md:pt-0">
       <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center md:hidden"
-          style={{ backgroundImage: `url("${imageMobile}")` }}
+        <SiteImage
+          alt={`${title} hero background mobile`}
+          className="absolute inset-0 md:hidden"
+          src={imageMobile}
         />
-        <div
-          className="absolute inset-0 hidden bg-cover bg-center md:block"
-          style={{ backgroundImage: `url("${imageDesktop}")` }}
+        <SiteImage
+          alt={`${title} hero background desktop`}
+          className="absolute inset-0 hidden md:block"
+          src={imageDesktop}
         />
         <div className="absolute inset-0 bg-black/45" />
       </div>

@@ -4,6 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Service } from "@/types/content";
 
+import { SiteImage } from "./SiteImage";
+
 interface ServiceCardProps {
   className?: string;
   href: string;
@@ -12,10 +14,6 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ className, href, service, viewDetailsLabel }: Readonly<ServiceCardProps>) {
-  const imageStyle = service.image
-    ? ({ backgroundImage: `url("${service.image}")` } as const)
-    : undefined;
-
   return (
     <Link
       className={cn(
@@ -26,9 +24,11 @@ export function ServiceCard({ className, href, service, viewDetailsLabel }: Read
     >
       <div className="flex h-full flex-col bg-white">
         <div className="h-44 shrink-0 bg-[var(--site-color-muted)] md:h-48">
-          <div
-            className="h-full w-full bg-cover bg-center transition-[transform,filter] duration-500 group-hover:scale-105 group-hover:brightness-110"
-            style={imageStyle}
+          <SiteImage
+            alt={`${service.title} service image`}
+            className="h-full w-full"
+            imgClassName="transition-[transform,filter] duration-500 group-hover:scale-105 group-hover:brightness-110"
+            src={service.image}
           />
         </div>
         <div className="flex-1 p-4">

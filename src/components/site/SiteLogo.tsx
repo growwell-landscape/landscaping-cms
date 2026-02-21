@@ -4,6 +4,8 @@ import Link from "next/link";
 import type { LogoConfig } from "@/types/config";
 import { cn } from "@/lib/utils";
 
+import { SiteImage } from "./SiteImage";
+
 interface SiteLogoProps {
   className?: string;
   companyName: string;
@@ -90,10 +92,10 @@ function renderLogoBadge(logo: LogoConfig, logoText: string, siteName: string) {
       className="site-logo-badge relative inline-flex items-center justify-center overflow-hidden rounded-[5px] bg-[var(--site-color-accent)] p-1.5"
       style={badgeStyle}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <SiteImage
         alt={`${siteName} logo`}
         className="h-full w-full"
+        imgClassName="h-full w-full"
         src={logo.imageUrl}
         style={imageStyle}
       />

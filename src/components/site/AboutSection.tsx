@@ -5,6 +5,7 @@ import type { AboutFeature } from "@/types/config";
 
 import { ScrollReveal } from "./ScrollReveal";
 import { SectionContainer } from "./SectionContainer";
+import { SiteImage } from "./SiteImage";
 
 interface AboutSectionProps {
   ctaHref: string;
@@ -31,9 +32,11 @@ export function AboutSection({
       <SectionContainer>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <ScrollReveal className="h-[300px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)] md:h-[400px]" variant="left">
-            <div
-              className="h-full w-full bg-cover bg-center transition-transform duration-700 hover:scale-105"
-              style={{ backgroundImage: `url("${imagePath}")` }}
+            <SiteImage
+              alt={`${title} section image`}
+              className="h-full w-full"
+              imgClassName="transition-transform duration-700 hover:scale-105"
+              src={imagePath}
             />
           </ScrollReveal>
           <ScrollReveal delayMs={80} variant="right">
