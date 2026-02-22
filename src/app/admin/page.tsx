@@ -494,6 +494,7 @@ export default function AdminDashboard() {
                     defaultLanguageCode={defaultLanguageCode}
                     allLanguageCodes={allLanguageCodes}
                     isLanguageEditableFile={isLanguageEditableFile}
+                    allowProjectGalleryVideo={selectedFile === CMS_FILES.PROJECTS}
                     onAddItem={addItem}
                     onUpdateItemField={updateItemField}
                     onImageUpload={(localItemId, fieldPath, file, currentValue) =>

@@ -1,6 +1,6 @@
 /**
  * POST /api/upload-image
- * Uploads compressed image to GitHub repository
+ * Uploads media files to GitHub repository
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -24,13 +24,14 @@ function validatePassword(password: string): boolean {
 }
 
 /**
- * Validate image file name
+ * Validate upload file name
  * @param fileName - File name to validate
  * @returns True if file name is valid
  */
 function validateFileName(fileName: string): boolean {
   // Only allow alphanumeric, dash, underscore, and dot
-  const validNamePattern = /^[a-zA-Z0-9._-]+\.(jpg|jpeg|png|webp)$/i;
+  const validNamePattern =
+    /^[a-zA-Z0-9._-]+\.(jpg|jpeg|png|webp|mp4|webm|ogg|mov)$/i;
   return validNamePattern.test(fileName);
 }
 
@@ -47,9 +48,9 @@ function validateFolder(folder: string): boolean {
 }
 
 /**
- * Handle POST request to upload image to GitHub
+ * Handle POST request to upload media to GitHub
  * @param request - Next.js request object
- * @returns JSON response with upload status and image path
+ * @returns JSON response with upload status and media path
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -91,7 +92,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const response: APIResponse = {
         success: false,
         error:
-          "Invalid file name. Only alphanumeric, dash, underscore allowed. Must end with .jpg, .jpeg, .png, or .webp",
+          "Invalid file name. Only alphanumeric, dash, underscore allowed. Must end with .jpg, .jpeg, .png, .webp, .mp4, .webm, .ogg, or .mov",
         status: 400,
       };
       return NextResponse.json(response, { status: 400 });
@@ -122,7 +123,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           sha: "local-dev",
           fileName: payload.fileName,
         },
-        message: "Image uploaded successfully (local development)",
+        message: "Media uploaded successfully (local development)",
       };
 
       return NextResponse.json(successResponse);
@@ -139,11 +140,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       sha = undefined;
     }
 
-    // Upload image
+    // Upload media
     const uploadedFile = await github.putFile(
       filePath,
       payload.base64Content,
-      `Upload image: ${payload.fileName}`,
+      `Upload media: ${payload.fileName}`,
       sha,
       { contentEncoding: "base64" }
     );
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         sha: uploadedFile.sha,
         fileName: payload.fileName,
       },
-      message: "Image uploaded successfully",
+      message: "Media uploaded successfully",
     };
 
     return NextResponse.json(successResponse);

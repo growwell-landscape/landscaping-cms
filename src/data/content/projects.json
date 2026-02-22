@@ -8,13 +8,9 @@
     "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
     "images": [
       "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
+      "/uploads/img-efa5561dc143925b14f7808014e218bc.jpeg"
     ],
     "location": "Chennai, Tamil Nadu",
-    "services": [
-      "turfing",
-      "turfing 2"
-    ],
     "sortOrder": 1,
     "title": "Turfing",
     "category_tel": "టర్ఫింగ్",
@@ -35,14 +31,10 @@
     "category": "Residential",
     "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
     "images": [
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
+      "/uploads/img-efa5561dc143925b14f7808014e218bc.jpeg",
+      "/uploads/img-26ff478ad0ad86a024d7931915cb32f3.webp"
     ],
     "completedDate": "2025",
-    "services": [
-      "turfing-lawn-making",
-      "planting-and-landscaping"
-    ],
     "sortOrder": 1,
     "enabled": true,
     "title_tel": "రెసిడెన్షియల్ టెర్రస్ గార్డెన్",
@@ -66,9 +58,6 @@
       "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
     ],
     "completedDate": "2025",
-    "services": [
-      "vertical-green-walls"
-    ],
     "sortOrder": 2,
     "enabled": true,
     "title_tel": "కార్పొరేట్ వర్టికల్ వాల్",
@@ -88,13 +77,8 @@
     "location": "Chennai, Tamil Nadu",
     "category": "Residential",
     "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
-    "images": [
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
-    ],
+    "images": [],
     "completedDate": "2025",
-    "services": [
-      "planting-and-landscaping"
-    ],
     "sortOrder": 3,
     "enabled": true,
     "title_tel": "విల్లా ల్యాండ్‌స్కేప్ డిజైన్",

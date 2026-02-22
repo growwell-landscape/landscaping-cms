@@ -38,6 +38,8 @@ interface ItemEditorComponentProps {
   autoIdFromContent?: boolean;
   /** Whether component is disabled */
   disabled?: boolean;
+  /** Allow video upload support for project gallery (`images`) */
+  allowProjectGalleryVideo?: boolean;
   /** Active language code used in editor */
   activeLanguageCode?: string;
   /** Default language code configured for site */
@@ -151,6 +153,16 @@ function isImagePath(value: string): boolean {
   return trimmedValue.startsWith("/uploads/");
 }
 
+function isVideoPath(value: string): boolean {
+  const trimmedValue = value.trim().toLowerCase();
+  if (!trimmedValue) return false;
+
+  return (
+    /^https?:\/\/.+\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(trimmedValue) ||
+    /^\/.+\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(trimmedValue)
+  );
+}
+
 function pathLooksLikeImage(fieldPath: (string | number)[]): boolean {
   const stringSegments = fieldPath.filter(
     (segment): segment is string => typeof segment === "string"
@@ -242,6 +254,7 @@ export function ItemEditorComponent({
   onDelete,
   autoIdFromContent,
   disabled,
+  allowProjectGalleryVideo = false,
   activeLanguageCode = "en",
   defaultLanguageCode = "en",
   availableLanguageCodes = ["en"],
@@ -373,28 +386,46 @@ export function ItemEditorComponent({
   ) => {
     if (isImageLikeField(fieldName, value, fieldPath)) {
       const currentValue = stringifyValue(value).trim();
-      const hasImage = currentValue.length > 0;
+      const hasMedia = currentValue.length > 0;
+      const isVideoMedia = isVideoPath(currentValue);
+      const rootPathSegment = fieldPath[0];
+      const supportsVideoUpload =
+        allowProjectGalleryVideo &&
+        typeof rootPathSegment === "string" &&
+        rootPathSegment === "images";
       const uploadInputId = createUploadInputId(fieldPath, uploadScopeId);
       const canPreview =
         currentValue.startsWith("/") || currentValue.startsWith("http://") || currentValue.startsWith("https://");
+      const acceptedFileTypes = supportsVideoUpload
+        ? "image/jpeg,image/png,image/webp,video/mp4,video/webm,video/ogg,video/quicktime"
+        : "image/jpeg,image/png,image/webp";
 
       return (
         <div className="space-y-3">
-          {hasImage ? (
+          {hasMedia ? (
             <div className="rounded-md border border-slate-200 bg-slate-50 p-2">
               {canPreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={currentValue}
-                  alt={toLabel(fieldName)}
-                  className="h-32 w-full rounded object-cover"
-                />
+                isVideoMedia ? (
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <video
+                    className="h-32 w-full rounded object-cover bg-black"
+                    controls
+                    src={currentValue}
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={currentValue}
+                    alt={toLabel(fieldName)}
+                    className="h-32 w-full rounded object-cover"
+                  />
+                )
               ) : (
                 <p className="text-xs text-slate-600 break-all">{currentValue}</p>
               )}
             </div>
           ) : (
-            <p className="text-xs text-slate-500">No image selected.</p>
+            <p className="text-xs text-slate-500">No media selected.</p>
           )}
 
           <input
@@ -402,7 +433,7 @@ export function ItemEditorComponent({
             value={stringifyValue(value)}
             onChange={(e) => onFieldChange(fieldPath, e.target.value)}
             disabled={disabled}
-            placeholder="/uploads/path/image.jpg"
+            placeholder="/uploads/path/file.jpg"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
           />
 
@@ -413,13 +444,13 @@ export function ItemEditorComponent({
                 disabled ? "bg-slate-300" : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
-              {hasImage ? <RefreshCw className="h-3.5 w-3.5" /> : <Upload className="h-3.5 w-3.5" />}
-              {hasImage ? "Re-upload" : "Upload"}
+              {hasMedia ? <RefreshCw className="h-3.5 w-3.5" /> : <Upload className="h-3.5 w-3.5" />}
+              {hasMedia ? "Re-upload" : "Upload"}
             </label>
             <input
               id={uploadInputId}
               type="file"
-              accept="image/jpeg,image/png,image/webp"
+              accept={acceptedFileTypes}
               disabled={disabled}
               className="hidden"
               onChange={(e) => {
@@ -431,7 +462,7 @@ export function ItemEditorComponent({
               }}
             />
 
-            {hasImage && (
+            {hasMedia && (
               <button
                 type="button"
                 onClick={() => onImageRemove(fieldPath, currentValue)}

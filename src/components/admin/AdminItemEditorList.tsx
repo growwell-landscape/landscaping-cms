@@ -38,6 +38,7 @@ interface AdminItemEditorListProps {
   defaultLanguageCode: string;
   allLanguageCodes: string[];
   isLanguageEditableFile: boolean;
+  allowProjectGalleryVideo: boolean;
   onAddItem: () => void;
   onUpdateItemField: (
     localItemId: string,
@@ -79,6 +80,7 @@ export function AdminItemEditorList({
   defaultLanguageCode,
   allLanguageCodes,
   isLanguageEditableFile,
+  allowProjectGalleryVideo,
   onAddItem,
   onUpdateItemField,
   onImageUpload,
@@ -114,6 +116,7 @@ export function AdminItemEditorList({
               defaultLanguageCode={defaultLanguageCode}
               availableLanguageCodes={allLanguageCodes}
               enableLanguageEditing={isLanguageEditableFile}
+              allowProjectGalleryVideo={allowProjectGalleryVideo}
               languageEditableRootPaths={ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS}
               languageEditablePathPrefixes={ADMIN_CONFIG_LANGUAGE_EDITABLE_FIELD_PATH_PREFIXES}
               hiddenFieldPaths={siteConfigHiddenFieldPaths}
@@ -155,6 +158,7 @@ export function AdminItemEditorList({
               defaultLanguageCode={defaultLanguageCode}
               availableLanguageCodes={allLanguageCodes}
               enableLanguageEditing={isLanguageEditableFile}
+              allowProjectGalleryVideo={allowProjectGalleryVideo}
               onFieldChange={(fieldPath, value) => onUpdateItemField(localItemId, fieldPath, value)}
               onImageUpload={(fieldPath, file, currentValue) =>
                 onImageUpload(localItemId, fieldPath, file, currentValue)

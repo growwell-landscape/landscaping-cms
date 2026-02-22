@@ -180,7 +180,11 @@ export function generateUniqueFileName(originalFileName: string): string {
 
 function toSafeImageExtension(originalFileName: string): string {
   const rawExtension = originalFileName.split(".").pop()?.toLowerCase() || "jpg";
-  if (["jpg", "jpeg", "png", "webp"].includes(rawExtension)) {
+  if (
+    ["jpg", "jpeg", "png", "webp", "mp4", "webm", "ogg", "mov"].includes(
+      rawExtension
+    )
+  ) {
     return rawExtension;
   }
   return "jpg";

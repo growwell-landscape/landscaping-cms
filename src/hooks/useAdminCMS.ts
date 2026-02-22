@@ -64,6 +64,14 @@ const IMAGE_UPLOAD_COMPRESSION_OPTIONS = {
   maxWidthOrHeight: 1400,
   initialQuality: 0.8,
 };
+const PROJECT_GALLERY_VIDEO_MAX_SIZE_BYTES = 50 * 1024 * 1024;
+const PROJECT_GALLERY_VIDEO_EXTENSIONS = [".mp4", ".webm", ".ogg", ".mov"];
+const PROJECT_GALLERY_VIDEO_MIME_TYPES = new Set<string>([
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
+  "video/quicktime",
+]);
 
 interface SaveAllResult {
   successCount: number;
@@ -246,7 +254,7 @@ function countManagedUploadPathReferencesInFiles(
 function extractManagedUploadHash(imagePath: string): string | null {
   const normalizedPath = imagePath.trim().toLowerCase();
   const match = normalizedPath.match(
-    /\/img-([a-f0-9]{16,64})\.(jpg|jpeg|png|webp)$/
+    /\/img-([a-f0-9]{16,64})\.(jpg|jpeg|png|webp|mp4|webm|ogg|mov)$/
   );
   return match ? match[1] : null;
 }
@@ -275,6 +283,45 @@ function findManagedUploadPathByHash(
 function resolveImageUploadFolder(_filePath: string, _fieldPath: (string | number)[]): string {
   // Keep all uploads under one root path: /public/uploads/
   return "";
+}
+
+function isProjectGalleryField(filePath: string, fieldPath: (string | number)[]): boolean {
+  if (filePath !== CMS_FILES.PROJECTS) return false;
+  const firstSegment = fieldPath[0];
+  return typeof firstSegment === "string" && firstSegment === "images";
+}
+
+function isProjectGalleryVideoFile(file: File): boolean {
+  const fileType = file.type.trim().toLowerCase();
+  if (PROJECT_GALLERY_VIDEO_MIME_TYPES.has(fileType)) {
+    return true;
+  }
+
+  const lowerName = file.name.trim().toLowerCase();
+  return PROJECT_GALLERY_VIDEO_EXTENSIONS.some((extension) =>
+    lowerName.endsWith(extension)
+  );
+}
+
+function normalizeProjectItems(items: DataItem[]): { items: DataItem[]; changed: boolean } {
+  let changed = false;
+  const normalizedItems = items.map((item) => {
+    const nextItem = { ...item };
+
+    if (Object.prototype.hasOwnProperty.call(nextItem, "services")) {
+      delete nextItem.services;
+      changed = true;
+    }
+
+    if (typeof nextItem.showGallery !== "boolean") {
+      nextItem.showGallery = true;
+      changed = true;
+    }
+
+    return nextItem;
+  });
+
+  return { items: normalizedItems, changed };
 }
 
 function ensureLocalizedAdminConfigItem(
@@ -1022,8 +1069,20 @@ export function useAdminCMS() {
       }
 
       if (!forceRemote && itemsByFile[filePath]) {
-        setItems(itemsByFile[filePath]);
-        setFields(fieldsByFile[filePath] || detectFields(itemsByFile[filePath]));
+        const cachedItems =
+          filePath === CMS_FILES.PROJECTS
+            ? normalizeProjectItems(itemsByFile[filePath]).items
+            : itemsByFile[filePath];
+        const cachedFields =
+          filePath === CMS_FILES.PROJECTS
+            ? detectFields(cachedItems)
+            : fieldsByFile[filePath] || detectFields(cachedItems);
+        setItems(cachedItems);
+        setFields(cachedFields);
+        if (filePath === CMS_FILES.PROJECTS) {
+          setItemsByFile((prev) => ({ ...prev, [filePath]: cachedItems }));
+          setFieldsByFile((prev) => ({ ...prev, [filePath]: cachedFields }));
+        }
         setSelectedFile(filePath);
         return;
       }
@@ -1042,6 +1101,7 @@ export function useAdminCMS() {
         let translationsUpdated = false;
         let adminConfigUpdated = false;
         let localizedContentUpdated = false;
+        let projectContentUpdated = false;
         let languageConfig = normalizeLanguageConfig(
           languageOptions,
           defaultLanguageCode,
@@ -1129,6 +1189,12 @@ export function useAdminCMS() {
           ? (rawContent as DataItem[])
           : [rawContent as DataItem]) as DataItem[];
 
+        if (filePath === CMS_FILES.PROJECTS) {
+          const normalizedProjects = normalizeProjectItems(loadedItems);
+          loadedItems = normalizedProjects.items;
+          projectContentUpdated = normalizedProjects.changed;
+        }
+
         if (isLanguageAwareFile(filePath)) {
           const localizedContent = ensureLocalizedContentItems(
             loadedItems,
@@ -1161,6 +1227,8 @@ export function useAdminCMS() {
 
         if (normalized.idsChanged) {
           toast.info("IDs normalized to lowercase category-title format");
+        } else if (projectContentUpdated) {
+          toast.info("Project fields synced");
         } else if (adminConfigUpdated) {
           toast.info("Site config synced with language settings");
         } else if (translationsUpdated) {
@@ -1431,6 +1499,11 @@ export function useAdminCMS() {
               : "";
     });
 
+    if (selectedFile === CMS_FILES.PROJECTS) {
+      newItem.showGallery = true;
+      delete newItem.services;
+    }
+
     if (hasIdField && hasAutoIdSource(newItem)) {
       const nextId = buildAutoId(newItem);
       if (nextId) {
@@ -1518,12 +1591,20 @@ export function useAdminCMS() {
       }
 
       if (!file) {
-        toast.error("Please select an image");
+        toast.error("Please select a file");
         return;
       }
 
       setIsLoading(true);
       try {
+        const allowProjectGalleryVideo = isProjectGalleryField(selectedFile, fieldPath);
+        const isVideoUpload = allowProjectGalleryVideo && isProjectGalleryVideoFile(file);
+
+        if (isVideoUpload && file.size > PROJECT_GALLERY_VIDEO_MAX_SIZE_BYTES) {
+          toast.error("Video size must be 50MB or less");
+          return;
+        }
+
         const originalFileHash = await calculateFileHash(file);
         const effectiveItemsByFile = getEffectiveItemsByFile();
         const reusedImagePath = findManagedUploadPathByHash(
@@ -1544,16 +1625,23 @@ export function useAdminCMS() {
             }
           }
 
-          toast.success("Image already exists. Linked existing path.");
+          toast.success("File already exists. Linked existing path.");
           return;
         }
 
-        const compressed = await compressImage(
-          file,
-          IMAGE_UPLOAD_COMPRESSION_OPTIONS
-        );
+        let uploadFile = file;
+        let compressionRatio = 0;
 
-        const base64Content = await fileToBase64(compressed.file);
+        if (!isVideoUpload) {
+          const compressed = await compressImage(
+            file,
+            IMAGE_UPLOAD_COMPRESSION_OPTIONS
+          );
+          uploadFile = compressed.file;
+          compressionRatio = compressed.ratio;
+        }
+
+        const base64Content = await fileToBase64(uploadFile);
         const uploadFolder = resolveImageUploadFolder(selectedFile, fieldPath);
         const payload: ImageUploadPayload = {
           fileName: generateDeterministicImageFileName(originalFileHash, file.name),
@@ -1589,11 +1677,15 @@ export function useAdminCMS() {
           );
         }
 
-        toast.success(
-          compressed.ratio > 0
-            ? `Image uploaded successfully (${compressed.ratio.toFixed(1)}% smaller)`
-            : "Image uploaded successfully"
-        );
+        if (isVideoUpload) {
+          toast.success("Media uploaded successfully");
+        } else {
+          toast.success(
+            compressionRatio > 0
+              ? `Image uploaded successfully (${compressionRatio.toFixed(1)}% smaller)`
+              : "Image uploaded successfully"
+          );
+        }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Failed to upload image";
         toast.error(errorMessage);

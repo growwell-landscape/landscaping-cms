@@ -45,12 +45,12 @@ export interface GitHubFileResponse {
 }
 
 /**
- * Image upload request payload
+ * Upload request payload
  */
 export interface ImageUploadPayload {
   /** File name with extension */
   fileName: string;
-  /** Base64 encoded image content */
+  /** Base64 encoded file content */
   base64Content: string;
   /** Optional folder inside /public/uploads */
   folder?: string;

@@ -32,8 +32,6 @@ export interface Project {
   images: string[];
   /** Project completion date or year */
   completedDate: string;
-  /** Array of service IDs used in this project */
-  services: string[];
   /** Display order in the portfolio */
   sortOrder: number;
   /** Whether this project is visible/enabled */

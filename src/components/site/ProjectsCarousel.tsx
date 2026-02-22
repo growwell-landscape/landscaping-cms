@@ -33,12 +33,31 @@ interface ProjectsCarouselProps {
   viewGalleryLabel?: string;
 }
 
+function isVideoMediaPath(value: string): boolean {
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return false;
+  return /\.(mp4|webm|ogg|mov)(\?.*)?$/.test(normalized);
+}
+
+function isImageMediaPath(value: string): boolean {
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return false;
+  return /\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/.test(normalized);
+}
+
 function getProjectImage(project: Project): string {
-  if (project.image && project.image.trim().length > 0) {
+  if (
+    project.image &&
+    project.image.trim().length > 0 &&
+    isImageMediaPath(project.image)
+  ) {
     return project.image;
   }
   if (project.images && project.images.length > 0) {
-    return project.images[0];
+    const firstImageFromGallery = project.images.find((entry) =>
+      isImageMediaPath(entry || "")
+    );
+    if (firstImageFromGallery) return firstImageFromGallery;
   }
   return "/uploads/site/site/img-1771472600648.jpeg";
 }
@@ -229,12 +248,21 @@ export function ProjectsCarousel({
           {activeGalleryImages.length > 0 ? (
             <div className="space-y-3">
               <div className="relative overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
-                <SiteImage
-                  alt={`${activeProject?.title || "Project"} gallery image ${activeGalleryIndex + 1}`}
-                  className="h-[52vh] w-full"
-                  imgClassName="object-contain bg-black/85"
-                  src={activeGalleryImages[activeGalleryIndex]}
-                />
+                {isVideoMediaPath(activeGalleryImages[activeGalleryIndex]) ? (
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <video
+                    className="h-[52vh] w-full bg-black object-contain"
+                    controls
+                    src={activeGalleryImages[activeGalleryIndex]}
+                  />
+                ) : (
+                  <SiteImage
+                    alt={`${activeProject?.title || "Project"} gallery image ${activeGalleryIndex + 1}`}
+                    className="h-[52vh] w-full"
+                    imgClassName="object-contain bg-black/85"
+                    src={activeGalleryImages[activeGalleryIndex]}
+                  />
+                )}
                 {activeGalleryImages.length > 1 ? (
                   <>
                     <button
@@ -271,11 +299,16 @@ export function ProjectsCarousel({
                       onClick={() => setActiveGalleryIndex(index)}
                       type="button"
                     >
-                      <SiteImage
-                        alt={`${activeProject?.title || "Project"} thumbnail ${index + 1}`}
-                        className="h-14 w-full"
-                        src={image}
-                      />
+                      {isVideoMediaPath(image) ? (
+                        // eslint-disable-next-line jsx-a11y/media-has-caption
+                        <video className="h-14 w-full bg-black object-cover" muted src={image} />
+                      ) : (
+                        <SiteImage
+                          alt={`${activeProject?.title || "Project"} thumbnail ${index + 1}`}
+                          className="h-14 w-full"
+                          src={image}
+                        />
+                      )}
                     </button>
                   ))}
                 </div>
