@@ -5,6 +5,8 @@ import { createLocalizedPath } from "@/lib/site-i18n";
 const BASE_URL_ENV_KEYS = [
   "NEXT_PUBLIC_SITE_URL",
   "SITE_URL",
+  "VERCEL_PROJECT_PRODUCTION_URL",
+  "VERCEL_URL",
   "NEXT_PUBLIC_API_URL",
 ] as const;
 
