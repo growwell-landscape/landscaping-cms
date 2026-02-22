@@ -167,6 +167,10 @@ class ConfigLoader {
   /** Cache for loaded configurations */
   private cache: Map<string, unknown> = new Map();
 
+  private shouldUseContentCache(): boolean {
+    return process.env.NODE_ENV !== "development";
+  }
+
   /**
    * Load admin settings (PIN, session timeout)
    * @returns Admin settings configuration
@@ -194,14 +198,16 @@ class ConfigLoader {
    */
   async loadAdminConfig(): Promise<AdminConfig> {
     const cacheKey = "admin-config";
-    if (this.cache.has(cacheKey)) {
+    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey) as AdminConfig;
     }
 
     try {
       const config = await import("@/data/content/admin.config.json");
       const typedConfig = normalizeAdminConfig(config.default as unknown as AdminConfig);
-      this.cache.set(cacheKey, typedConfig);
+      if (this.shouldUseContentCache()) {
+        this.cache.set(cacheKey, typedConfig);
+      }
       return typedConfig;
     } catch (error) {
       console.error("Failed to load admin config:", error);
@@ -251,7 +257,7 @@ class ConfigLoader {
    */
   async loadProjects(): Promise<Project[]> {
     const cacheKey = "projects";
-    if (this.cache.has(cacheKey)) {
+    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey) as Project[];
     }
 
@@ -260,7 +266,9 @@ class ConfigLoader {
       const typedProjects = (projects.default as Project[]).filter(
         (p) => p.enabled
       );
-      this.cache.set(cacheKey, typedProjects);
+      if (this.shouldUseContentCache()) {
+        this.cache.set(cacheKey, typedProjects);
+      }
       return typedProjects;
     } catch (error) {
       console.error("Failed to load projects:", error);
@@ -284,7 +292,7 @@ class ConfigLoader {
    */
   async loadServices(): Promise<Service[]> {
     const cacheKey = "services";
-    if (this.cache.has(cacheKey)) {
+    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey) as Service[];
     }
 
@@ -293,7 +301,9 @@ class ConfigLoader {
       const typedServices = (services.default as Service[]).filter(
         (s) => s.enabled
       );
-      this.cache.set(cacheKey, typedServices);
+      if (this.shouldUseContentCache()) {
+        this.cache.set(cacheKey, typedServices);
+      }
       return typedServices;
     } catch (error) {
       console.error("Failed to load services:", error);
@@ -317,7 +327,7 @@ class ConfigLoader {
    */
   async loadTranslations(): Promise<Translations> {
     const cacheKey = "translations";
-    if (this.cache.has(cacheKey)) {
+    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey) as Translations;
     }
 
@@ -335,7 +345,9 @@ class ConfigLoader {
         configuredLanguageCodes,
         adminConfig.site.defaultLanguage || "en"
       );
-      this.cache.set(cacheKey, normalizedTranslations);
+      if (this.shouldUseContentCache()) {
+        this.cache.set(cacheKey, normalizedTranslations);
+      }
       return normalizedTranslations;
     } catch (error) {
       console.error("Failed to load translations:", error);

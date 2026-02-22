@@ -58,12 +58,6 @@ const LANGUAGE_DEPENDENT_FILES = [
   CMS_FILES.SERVICES,
   CMS_FILES.TRANSLATIONS,
 ] as const;
-const IMAGE_UPLOAD_FOLDER_BY_FILE: Record<string, string> = {
-  [CMS_FILES.ADMIN_CONFIG]: "site",
-  [CMS_FILES.PROJECTS]: "projects",
-  [CMS_FILES.SERVICES]: "services",
-  [CMS_FILES.TRANSLATIONS]: "translations",
-};
 const IMAGE_UPLOAD_COMPRESSION_OPTIONS = {
   ...DEFAULT_COMPRESSION_OPTIONS,
   maxSizeMB: 0.35,
@@ -278,13 +272,9 @@ function findManagedUploadPathByHash(
   return null;
 }
 
-function resolveImageUploadFolder(filePath: string, fieldPath: (string | number)[]): string {
-  const baseFolder = IMAGE_UPLOAD_FOLDER_BY_FILE[filePath] || "content";
-  const rootSegment = fieldPath.find(
-    (segment): segment is string => typeof segment === "string"
-  );
-  const rootFolder = rootSegment ? toSlug(rootSegment) : "";
-  return rootFolder ? `${baseFolder}/${rootFolder}` : baseFolder;
+function resolveImageUploadFolder(_filePath: string, _fieldPath: (string | number)[]): string {
+  // Keep all uploads under one root path: /public/uploads/
+  return "";
 }
 
 function ensureLocalizedAdminConfigItem(
@@ -1540,15 +1530,11 @@ export function useAdminCMS() {
 
       setIsLoading(true);
       try {
-        const compressed = await compressImage(
-          file,
-          IMAGE_UPLOAD_COMPRESSION_OPTIONS
-        );
-        const contentHash = await calculateFileHash(compressed.file);
+        const originalFileHash = await calculateFileHash(file);
         const effectiveItemsByFile = getEffectiveItemsByFile();
         const reusedImagePath = findManagedUploadPathByHash(
           effectiveItemsByFile,
-          contentHash
+          originalFileHash
         );
 
         if (reusedImagePath) {
@@ -1568,11 +1554,17 @@ export function useAdminCMS() {
           return;
         }
 
+        const compressed = await compressImage(
+          file,
+          IMAGE_UPLOAD_COMPRESSION_OPTIONS
+        );
+
         const base64Content = await fileToBase64(compressed.file);
+        const uploadFolder = resolveImageUploadFolder(selectedFile, fieldPath);
         const payload: ImageUploadPayload = {
-          fileName: generateDeterministicImageFileName(contentHash, file.name),
+          fileName: generateDeterministicImageFileName(originalFileHash, file.name),
           base64Content,
-          folder: resolveImageUploadFolder(selectedFile, fieldPath),
+          folder: uploadFolder || undefined,
           password,
         };
 

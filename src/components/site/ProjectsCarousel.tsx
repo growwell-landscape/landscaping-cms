@@ -16,6 +16,8 @@ import type { Project } from "@/types/content";
 import { SiteImage } from "./SiteImage";
 
 interface ProjectCardProps {
+  completedDate: string;
+  description: string;
   imagePath: string;
   title: string;
 }
@@ -34,17 +36,27 @@ function getProjectImage(project: Project): string {
   return "/uploads/site/site/img-1771472600648.jpeg";
 }
 
-function ProjectCard({ imagePath, title }: ProjectCardProps) {
+function ProjectCard({ completedDate, description, imagePath, title }: ProjectCardProps) {
   return (
-    <article className="group relative h-[300px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)]">
+    <article className="group relative h-[320px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)]">
       <SiteImage
         alt={`${title} project image`}
         className="absolute inset-0"
         imgClassName="transition-transform duration-500 group-hover:scale-105"
         src={imagePath}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-      <h3 className="site-heading absolute bottom-5 left-5 right-5 text-2xl font-semibold text-white">{title}</h3>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
+      <div className="absolute bottom-4 left-4 right-4 space-y-2 text-white">
+        <h3 className="site-heading text-xl font-semibold leading-tight">{title}</h3>
+        {description ? (
+          <p className="line-clamp-2 text-sm text-white/90">{description}</p>
+        ) : null}
+        {completedDate ? (
+          <p className="text-xs font-medium uppercase tracking-wide text-white/80">
+            Completed: {completedDate}
+          </p>
+        ) : null}
+      </div>
     </article>
   );
 }
@@ -83,7 +95,12 @@ export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
         <CarouselContent>
           {projects.map((project) => (
             <CarouselItem className="basis-full sm:basis-1/2 lg:basis-1/3" key={project.id}>
-              <ProjectCard imagePath={getProjectImage(project)} title={project.title} />
+              <ProjectCard
+                completedDate={project.completedDate}
+                description={project.description}
+                imagePath={getProjectImage(project)}
+                title={project.title}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
