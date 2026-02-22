@@ -303,6 +303,22 @@ function isProjectGalleryVideoFile(file: File): boolean {
   );
 }
 
+function normalizeProjectShowGalleryValue(value: unknown): boolean {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
+
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (!normalized) return false;
+    if (["false", "0", "no", "off"].includes(normalized)) return false;
+    if (["true", "1", "yes", "on"].includes(normalized)) return true;
+    return false;
+  }
+
+  if (value === undefined) return true;
+  return false;
+}
+
 function normalizeProjectItems(items: DataItem[]): { items: DataItem[]; changed: boolean } {
   let changed = false;
   const normalizedItems = items.map((item) => {
@@ -313,8 +329,9 @@ function normalizeProjectItems(items: DataItem[]): { items: DataItem[]; changed:
       changed = true;
     }
 
-    if (typeof nextItem.showGallery !== "boolean") {
-      nextItem.showGallery = true;
+    const normalizedShowGallery = normalizeProjectShowGalleryValue(nextItem.showGallery);
+    if (nextItem.showGallery !== normalizedShowGallery) {
+      nextItem.showGallery = normalizedShowGallery;
       changed = true;
     }
 

@@ -78,11 +78,27 @@ function getProjectGalleryImages(project: Project): string[] {
     return items;
   }, []);
 
-  return deduped.length > 0 ? deduped : ["/uploads/site/site/img-1771472600648.jpeg"];
+  return deduped;
+}
+
+function isProjectGalleryEnabled(showGallery: unknown): boolean {
+  if (typeof showGallery === "boolean") return showGallery;
+  if (typeof showGallery === "number") return showGallery !== 0;
+
+  if (typeof showGallery === "string") {
+    const normalized = showGallery.trim().toLowerCase();
+    if (!normalized) return false;
+    if (["false", "0", "no", "off"].includes(normalized)) return false;
+    if (["true", "1", "yes", "on"].includes(normalized)) return true;
+    return false;
+  }
+
+  if (showGallery === undefined) return true;
+  return false;
 }
 
 function shouldShowGalleryAction(project: Project): boolean {
-  return (project.showGallery ?? true) && getProjectGalleryImages(project).length > 0;
+  return isProjectGalleryEnabled(project.showGallery) && getProjectGalleryImages(project).length > 0;
 }
 
 function ProjectCard({
@@ -147,7 +163,10 @@ export function ProjectsCarousel({
     [activeProjectId, projects]
   );
   const activeGalleryImages = useMemo(
-    () => (activeProject ? getProjectGalleryImages(activeProject) : []),
+    () =>
+      activeProject && shouldShowGalleryAction(activeProject)
+        ? getProjectGalleryImages(activeProject)
+        : [],
     [activeProject]
   );
 
