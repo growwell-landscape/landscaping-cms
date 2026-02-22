@@ -82,6 +82,7 @@ export class GitHubAPI {
     try {
       const response = await fetch(url, {
         headers: this.getHeaders(),
+        cache: "no-store",
       });
 
       if (!response.ok) {
@@ -138,6 +139,7 @@ export class GitHubAPI {
         method: "PUT",
         headers: this.getHeaders(),
         body: JSON.stringify(body),
+        cache: "no-store",
       });
 
       if (!response.ok) {
@@ -182,6 +184,7 @@ export class GitHubAPI {
         method: "DELETE",
         headers: this.getHeaders(),
         body: JSON.stringify(body),
+        cache: "no-store",
       });
 
       if (!response.ok) {

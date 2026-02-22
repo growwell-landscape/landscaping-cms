@@ -72,6 +72,7 @@ const PROJECT_GALLERY_VIDEO_MIME_TYPES = new Set<string>([
   "video/ogg",
   "video/quicktime",
 ]);
+const GET_JSON_PASSWORD_HEADER = "x-admin-password";
 
 interface SaveAllResult {
   successCount: number;
@@ -87,6 +88,19 @@ interface TranslationTarget {
 
 function createLocalItemId(): string {
   return `local-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+async function fetchCMSFile(
+  filePath: string,
+  password: string
+): Promise<APIResponse<{ content: unknown; sha: string }>> {
+  const query = new URLSearchParams({ filePath });
+  const response = await fetch(`/api/get-json?${query.toString()}`, {
+    headers: {
+      [GET_JSON_PASSWORD_HEADER]: password,
+    },
+  });
+  return (await response.json()) as APIResponse<{ content: unknown; sha: string }>;
 }
 
 function toSlug(value: unknown): string {
@@ -1143,10 +1157,14 @@ export function useAdminCMS() {
    * @param forceRemote - Skip local draft and fetch latest remote data
    */
   const loadData = useCallback(
-    async (filePath: string, password: string, forceRemote = false) => {
+    async (
+      filePath: string,
+      password: string,
+      forceRemote = false
+    ): Promise<boolean> => {
       if (!filePath || !password) {
         toast.error("Please select a file and enter password");
-        return;
+        return false;
       }
 
       if (!forceRemote && itemsByFile[filePath]) {
@@ -1165,17 +1183,16 @@ export function useAdminCMS() {
           setFieldsByFile((prev) => ({ ...prev, [filePath]: cachedFields }));
         }
         setSelectedFile(filePath);
-        return;
+        return true;
       }
 
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/get-json?filePath=${filePath}`);
-        const data = (await response.json()) as APIResponse;
+        const data = await fetchCMSFile(filePath, password);
 
         if (!data.success) {
           toast.error(data.error || "Failed to load data");
-          return;
+          return false;
         }
 
         let rawContent = (data.data as Record<string, unknown>).content;
@@ -1196,10 +1213,10 @@ export function useAdminCMS() {
           let adminRaw: Record<string, unknown> | null = cachedAdminRaw || null;
 
           if (!adminRaw) {
-            const adminConfigResponse = await fetch(
-              `/api/get-json?filePath=${CMS_FILES.ADMIN_CONFIG}`
+            const adminConfigData = await fetchCMSFile(
+              CMS_FILES.ADMIN_CONFIG,
+              password
             );
-            const adminConfigData = (await adminConfigResponse.json()) as APIResponse;
             if (adminConfigData.success) {
               adminRaw = (adminConfigData.data as Record<string, unknown>)
                 .content as Record<string, unknown>;
@@ -1319,9 +1336,11 @@ export function useAdminCMS() {
         } else {
           toast.success(forceRemote ? "Data reloaded successfully" : "Data loaded successfully");
         }
+        return true;
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Failed to load data";
         toast.error(errorMessage);
+        return false;
       } finally {
         setIsLoading(false);
       }
@@ -1965,8 +1984,7 @@ export function useAdminCMS() {
             return cachedItems;
           }
 
-          const response = await fetch(`/api/get-json?filePath=${filePath}`);
-          const data = (await response.json()) as APIResponse;
+          const data = await fetchCMSFile(filePath, adminPassword);
           if (!data.success) {
             throw new Error(data.error || `Failed to load ${filePath}`);
           }

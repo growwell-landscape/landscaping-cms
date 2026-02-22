@@ -141,6 +141,7 @@ export default function AdminDashboard() {
   // When user authenticates, auto-select and load the default site configuration
   useEffect(() => {
     if (!isAuthenticated) return;
+    if (!password) return;
 
     const defaultFile = CMS_FILES.ADMIN_CONFIG;
 
@@ -149,10 +150,8 @@ export default function AdminDashboard() {
 
     // Set selection input and load automatically
     setSelectFileInput(defaultFile);
-    if (password) {
-      loadData(defaultFile, password);
-    }
-  }, [isAuthenticated]);
+    void loadData(defaultFile, password);
+  }, [isAuthenticated, loadData, password, selectedFile]);
 
   const handleSelectFile = (filePath: string) => {
     setSelectFileInput(filePath);
@@ -163,8 +162,21 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleAuthenticate = () => {
-    if (password) setIsAuthenticated(true);
+  const handleAuthenticate = async () => {
+    const trimmedPassword = password.trim();
+    if (!trimmedPassword) return;
+
+    if (trimmedPassword !== password) {
+      setPassword(trimmedPassword);
+    }
+
+    const defaultFile = CMS_FILES.ADMIN_CONFIG;
+    setSelectFileInput(defaultFile);
+    const isAuthenticatedUser = await loadData(defaultFile, trimmedPassword, true);
+    setIsAuthenticated(isAuthenticatedUser);
+    if (!isAuthenticatedUser) {
+      setSelectFileInput("");
+    }
   };
 
   const handleLogout = () => {

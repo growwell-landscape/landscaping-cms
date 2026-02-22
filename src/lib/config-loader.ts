@@ -16,6 +16,7 @@ import type {
   SEOConfig,
 } from "@/types/config";
 import type { Project, Service, Translations } from "@/types/content";
+import { createGitHubAPI, type GitHubAPI } from "@/lib/github-api";
 
 function normalizeLanguageCode(code: string): string {
   return code.trim().toLowerCase();
@@ -168,10 +169,61 @@ function ensureTranslationsForLanguages(
  */
 class ConfigLoader {
   /** Cache for loaded configurations */
-  private cache: Map<string, unknown> = new Map();
+  private cache: Map<string, { value: unknown; expiresAt: number }> = new Map();
+  private githubAPI: GitHubAPI | null = null;
+
+  private getContentCacheTTLMS(): number {
+    const rawValue = process.env.CONTENT_CACHE_TTL_SECONDS;
+    const parsedValue = Number(rawValue);
+    if (Number.isFinite(parsedValue) && parsedValue >= 0) {
+      return parsedValue * 1000;
+    }
+    return 30_000;
+  }
 
   private shouldUseContentCache(): boolean {
-    return process.env.NODE_ENV !== "development";
+    return process.env.NODE_ENV !== "development" && this.getContentCacheTTLMS() > 0;
+  }
+
+  private getCachedValue<T>(cacheKey: string): T | null {
+    const cachedEntry = this.cache.get(cacheKey);
+    if (!cachedEntry) {
+      return null;
+    }
+
+    if (cachedEntry.expiresAt <= Date.now()) {
+      this.cache.delete(cacheKey);
+      return null;
+    }
+
+    return cachedEntry.value as T;
+  }
+
+  private setCachedValue(cacheKey: string, value: unknown): void {
+    if (!this.shouldUseContentCache()) {
+      return;
+    }
+
+    const ttlMS = this.getContentCacheTTLMS();
+    this.cache.set(cacheKey, {
+      value,
+      expiresAt: Date.now() + ttlMS,
+    });
+  }
+
+  private canUseGitHubContentSource(): boolean {
+    return Boolean(
+      process.env.GITHUB_TOKEN &&
+        process.env.GITHUB_OWNER &&
+        process.env.GITHUB_REPO
+    );
+  }
+
+  private getGitHubAPI(): GitHubAPI {
+    if (!this.githubAPI) {
+      this.githubAPI = createGitHubAPI();
+    }
+    return this.githubAPI;
   }
 
   private async loadContentJSON<T>(
@@ -184,6 +236,23 @@ class ConfigLoader {
       return JSON.parse(raw) as T;
     }
 
+    if (this.canUseGitHubContentSource()) {
+      try {
+        const github = this.getGitHubAPI();
+        const fileData = await github.getFile(relativePath);
+        if (!fileData.content) {
+          throw new Error(`GitHub response did not include file content: ${relativePath}`);
+        }
+        const decodedContent = Buffer.from(fileData.content, "base64").toString("utf-8");
+        return JSON.parse(decodedContent) as T;
+      } catch (error) {
+        console.warn(
+          `Falling back to bundled content for ${relativePath} because GitHub source failed`,
+          error
+        );
+      }
+    }
+
     const module = await importer();
     return module.default as T;
   }
@@ -194,14 +263,15 @@ class ConfigLoader {
    */
   async loadAdminSettings(): Promise<AdminSettings> {
     const cacheKey = "admin-settings";
-    if (this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey) as AdminSettings;
+    const cachedValue = this.getCachedValue<AdminSettings>(cacheKey);
+    if (cachedValue) {
+      return cachedValue;
     }
 
     try {
       const settings = await import("@/data/defaults/admin.json");
       const typedSettings = settings.default as AdminSettings;
-      this.cache.set(cacheKey, typedSettings);
+      this.setCachedValue(cacheKey, typedSettings);
       return typedSettings;
     } catch (error) {
       console.error("Failed to load admin settings:", error);
@@ -215,8 +285,9 @@ class ConfigLoader {
    */
   async loadAdminConfig(): Promise<AdminConfig> {
     const cacheKey = "admin-config";
-    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey) as AdminConfig;
+    const cachedValue = this.getCachedValue<AdminConfig>(cacheKey);
+    if (cachedValue) {
+      return cachedValue;
     }
 
     try {
@@ -225,9 +296,7 @@ class ConfigLoader {
         () => import("@/data/content/admin.config.json")
       );
       const typedConfig = normalizeAdminConfig(config);
-      if (this.shouldUseContentCache()) {
-        this.cache.set(cacheKey, typedConfig);
-      }
+      this.setCachedValue(cacheKey, typedConfig);
       return typedConfig;
     } catch (error) {
       console.error("Failed to load admin config:", error);
@@ -277,8 +346,9 @@ class ConfigLoader {
    */
   async loadProjects(): Promise<Project[]> {
     const cacheKey = "projects";
-    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey) as Project[];
+    const cachedValue = this.getCachedValue<Project[]>(cacheKey);
+    if (cachedValue) {
+      return cachedValue;
     }
 
     try {
@@ -289,9 +359,7 @@ class ConfigLoader {
       const typedProjects = projects.filter(
         (p) => p.enabled
       );
-      if (this.shouldUseContentCache()) {
-        this.cache.set(cacheKey, typedProjects);
-      }
+      this.setCachedValue(cacheKey, typedProjects);
       return typedProjects;
     } catch (error) {
       console.error("Failed to load projects:", error);
@@ -315,8 +383,9 @@ class ConfigLoader {
    */
   async loadServices(): Promise<Service[]> {
     const cacheKey = "services";
-    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey) as Service[];
+    const cachedValue = this.getCachedValue<Service[]>(cacheKey);
+    if (cachedValue) {
+      return cachedValue;
     }
 
     try {
@@ -327,9 +396,7 @@ class ConfigLoader {
       const typedServices = services.filter(
         (s) => s.enabled
       );
-      if (this.shouldUseContentCache()) {
-        this.cache.set(cacheKey, typedServices);
-      }
+      this.setCachedValue(cacheKey, typedServices);
       return typedServices;
     } catch (error) {
       console.error("Failed to load services:", error);
@@ -353,8 +420,9 @@ class ConfigLoader {
    */
   async loadTranslations(): Promise<Translations> {
     const cacheKey = "translations";
-    if (this.shouldUseContentCache() && this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey) as Translations;
+    const cachedValue = this.getCachedValue<Translations>(cacheKey);
+    if (cachedValue) {
+      return cachedValue;
     }
 
     try {
@@ -373,9 +441,7 @@ class ConfigLoader {
         configuredLanguageCodes,
         adminConfig.site.defaultLanguage || "en"
       );
-      if (this.shouldUseContentCache()) {
-        this.cache.set(cacheKey, normalizedTranslations);
-      }
+      this.setCachedValue(cacheKey, normalizedTranslations);
       return normalizedTranslations;
     } catch (error) {
       console.error("Failed to load translations:", error);

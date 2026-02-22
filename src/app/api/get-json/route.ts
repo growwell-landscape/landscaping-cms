@@ -7,7 +7,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { createGitHubAPI } from "@/lib/github-api";
+import { CMS_FILES } from "@/lib/cms-utils";
 import type { APIResponse } from "@/types/cms";
+
+const ADMIN_PASSWORD_HEADER = "x-admin-password";
+const ALLOWED_FILE_PATHS = new Set<string>(Object.values(CMS_FILES));
+
+/**
+ * Validate admin password
+ * @param password - Password to validate
+ * @returns True if password is correct
+ */
+function validatePassword(password: string): boolean {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    console.error("ADMIN_PASSWORD environment variable not set");
+    return false;
+  }
+  return password === adminPassword;
+}
 
 /**
  * Handle GET request to fetch JSON
@@ -18,6 +36,19 @@ import type { APIResponse } from "@/types/cms";
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
+    const providedPassword = request.headers.get(ADMIN_PASSWORD_HEADER) || "";
+    if (!validatePassword(providedPassword)) {
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid password",
+        status: 401,
+      };
+      return NextResponse.json(response, {
+        status: 401,
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
+
     // Get filePath from query parameters
     const filePath = request.nextUrl.searchParams.get("filePath");
 
@@ -25,6 +56,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       const response: APIResponse = {
         success: false,
         error: "filePath query parameter is required",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
+    }
+    if (!ALLOWED_FILE_PATHS.has(filePath)) {
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid file path",
         status: 400,
       };
       return NextResponse.json(response, { status: 400 });
@@ -93,7 +132,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       message: "File fetched successfully",
     };
 
-    return NextResponse.json(successResponse);
+    return NextResponse.json(successResponse, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Internal server error";
@@ -104,6 +145,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       status: 500,
     };
 
-    return NextResponse.json(response, { status: 500 });
+    return NextResponse.json(response, {
+      status: 500,
+      headers: { "Cache-Control": "no-store" },
+    });
   }
 }

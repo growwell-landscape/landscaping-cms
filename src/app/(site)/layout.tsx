@@ -11,6 +11,8 @@ import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
 import type { ThemeConfig } from "@/types/config";
 
+export const dynamic = "force-dynamic";
+
 interface SiteLayoutProps {
   children: ReactNode;
 }
