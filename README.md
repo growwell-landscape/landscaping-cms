@@ -83,3 +83,5 @@ Copy their URLs into the GitHub secrets above.
 ### Important
 
 If Vercel Git auto-deploy is still enabled for these branches, each push can create duplicate deployments (one from Vercel Git integration + one from GitHub Action hook). Keep only one deployment trigger strategy.
+
+`vercel.json` in this repo also restricts Git-triggered deployments to `main` and `dev` only.
