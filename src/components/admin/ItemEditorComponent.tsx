@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Plus, Trash2, Upload, RefreshCw, X } from "lucide-react";
 import type { DataItem, DynamicField } from "@/types/cms";
 import { stringifyValue } from "@/lib/cms-utils";
@@ -215,8 +215,8 @@ function isImageLikeField(
   return pathLooksLikeImage(fieldPath);
 }
 
-function createUploadInputId(fieldPath: (string | number)[]): string {
-  return `upload-${fieldPath
+function createUploadInputId(fieldPath: (string | number)[], scopeId: string): string {
+  return `upload-${scopeId}-${fieldPath
     .map((segment) => String(segment))
     .join("-")
     .replace(/[^a-zA-Z0-9-]/g, "-")
@@ -255,6 +255,7 @@ export function ItemEditorComponent({
   defaultExpanded = false,
 }: Readonly<ItemEditorComponentProps>) {
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const uploadScopeId = useId().replace(/[^a-zA-Z0-9-]/g, "-").toLowerCase();
   const languageCodes = Array.from(new Set(availableLanguageCodes));
   const isSecondaryLanguageSelected =
     enableLanguageEditing && activeLanguageCode !== defaultLanguageCode;
@@ -373,7 +374,7 @@ export function ItemEditorComponent({
     if (isImageLikeField(fieldName, value, fieldPath)) {
       const currentValue = stringifyValue(value).trim();
       const hasImage = currentValue.length > 0;
-      const uploadInputId = createUploadInputId(fieldPath);
+      const uploadInputId = createUploadInputId(fieldPath, uploadScopeId);
       const canPreview =
         currentValue.startsWith("/") || currentValue.startsWith("http://") || currentValue.startsWith("https://");
 

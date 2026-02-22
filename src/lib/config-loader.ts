@@ -3,6 +3,9 @@
  * Provides type-safe access to all application configuration files
  */
 
+import { readFile } from "fs/promises";
+import { join } from "path";
+
 import type {
   AdminConfig,
   AdminSettings,
@@ -171,6 +174,20 @@ class ConfigLoader {
     return process.env.NODE_ENV !== "development";
   }
 
+  private async loadContentJSON<T>(
+    relativePath: string,
+    importer: () => Promise<{ default: unknown }>
+  ): Promise<T> {
+    if (process.env.NODE_ENV === "development") {
+      const fullPath = join(process.cwd(), relativePath);
+      const raw = await readFile(fullPath, "utf-8");
+      return JSON.parse(raw) as T;
+    }
+
+    const module = await importer();
+    return module.default as T;
+  }
+
   /**
    * Load admin settings (PIN, session timeout)
    * @returns Admin settings configuration
@@ -203,8 +220,11 @@ class ConfigLoader {
     }
 
     try {
-      const config = await import("@/data/content/admin.config.json");
-      const typedConfig = normalizeAdminConfig(config.default as unknown as AdminConfig);
+      const config = await this.loadContentJSON<AdminConfig>(
+        "src/data/content/admin.config.json",
+        () => import("@/data/content/admin.config.json")
+      );
+      const typedConfig = normalizeAdminConfig(config);
       if (this.shouldUseContentCache()) {
         this.cache.set(cacheKey, typedConfig);
       }
@@ -262,8 +282,11 @@ class ConfigLoader {
     }
 
     try {
-      const projects = await import("@/data/content/projects.json");
-      const typedProjects = (projects.default as Project[]).filter(
+      const projects = await this.loadContentJSON<Project[]>(
+        "src/data/content/projects.json",
+        () => import("@/data/content/projects.json")
+      );
+      const typedProjects = projects.filter(
         (p) => p.enabled
       );
       if (this.shouldUseContentCache()) {
@@ -297,8 +320,11 @@ class ConfigLoader {
     }
 
     try {
-      const services = await import("@/data/content/services.json");
-      const typedServices = (services.default as Service[]).filter(
+      const services = await this.loadContentJSON<Service[]>(
+        "src/data/content/services.json",
+        () => import("@/data/content/services.json")
+      );
+      const typedServices = services.filter(
         (s) => s.enabled
       );
       if (this.shouldUseContentCache()) {
@@ -333,8 +359,10 @@ class ConfigLoader {
 
     try {
       const adminConfig = await this.loadAdminConfig();
-      const translations = await import("@/data/content/translations.json");
-      const typedTranslations = translations.default as unknown as Translations;
+      const typedTranslations = await this.loadContentJSON<Translations>(
+        "src/data/content/translations.json",
+        () => import("@/data/content/translations.json")
+      );
       const configuredLanguageCodes =
         (adminConfig.site.availableLanguages &&
         adminConfig.site.availableLanguages.length > 0

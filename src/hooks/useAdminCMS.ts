@@ -1155,14 +1155,8 @@ export function useAdminCMS() {
         }));
         setResetSnapshotQueuedByFile((prev) => ({ ...prev, [filePath]: false }));
         setIsArrayFileByPath((prev) => ({ ...prev, [filePath]: isArrayContent }));
-        setDirtyFiles((prev) => ({
-          ...prev,
-          [filePath]:
-            normalized.idsChanged ||
-            translationsUpdated ||
-            adminConfigUpdated ||
-            localizedContentUpdated,
-        }));
+        // Loading/syncing remote data should not create draft state automatically.
+        setDirtyFiles((prev) => ({ ...prev, [filePath]: false }));
         setStagedFiles((prev) => ({ ...prev, [filePath]: false }));
 
         if (normalized.idsChanged) {

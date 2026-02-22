@@ -48,8 +48,8 @@
     "title": "GrowWell Landscapes - Professional Landscaping Services in Chennai",
     "description": "Transform your outdoor spaces with GrowWell Landscapes. Expert terracing, lawn design, vertical gardens & maintenance services in Chennai since 2010.",
     "keywords": "landscaping, terrace garden, lawn maintenance, vertical gardens, Chennai landscaping, garden design",
-    "favicon": "/favicon.ico",
-    "ogImage": "/images/og-image.jpg",
+    "favicon": "/uploads/site/site/img-1771472600648.jpeg",
+    "ogImage": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
     "title_ta": "க்ரோவெல் லேண்ட்ஸ்கேப்ஸ் - சென்னையில் தொழில்முறை லேண்ட்ஸ்கேப்பிங் சேவைகள்",
     "title_tel": "గ్రోవెల్ ల్యాండ్‌స్కేప్‌లు - చెన్నైలో ప్రొఫెషనల్ ల్యాండ్‌స్కేపింగ్ సేవలు",
     "description_ta": "வெளிப்புற இடங்களை வாழும் கலைப் படைப்புகளாக மாற்றுதல். 2010 முதல் மொட்டை மாடிகள், தோட்டங்கள் மற்றும் நிலையான நிலத்தோற்ற அலங்காரத்தில் சென்னையின் நம்பகமான நிபுணர்கள்.",
@@ -113,8 +113,8 @@
     "ctaText": "View Services",
     "ctaLink": "/services",
     "images": {
-      "desktop": "/uploads/site/about/img-1771504255188.jpg",
-      "mobile": "/uploads/site/about/img-1771504255188.jpg"
+      "desktop": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
+      "mobile": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
     },
     "title_tel": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్‌కు స్వాగతం",
     "subtitle_tel": "వృత్తిపరమైన ల్యాండ్‌స్కేపింగ్ సేవలు",
@@ -164,7 +164,7 @@
         "description_ta": "உங்கள் தோட்டம் செழித்து வளர நிரந்தர பராமரிப்பு"
       }
     ],
-    "image": "/uploads/site/about/img-1771504255188.jpg",
+    "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
     "title": "Transforming Chennai's Terraces and Landscapes Since 2010",
     "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life.",
     "ctaLink_tel": "/contact",
