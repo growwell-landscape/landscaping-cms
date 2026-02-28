@@ -11,6 +11,7 @@ import type {
   DynamicField,
   APIResponse,
   JSONBatchUpdatePayload,
+  MediaUploadFieldState,
 } from "@/types/cms";
 import {
   CMS_FILES,
@@ -23,6 +24,7 @@ import {
   calculateFileHash,
   DEFAULT_COMPRESSION_OPTIONS,
   fileToBase64,
+  formatFileSize,
   generateDeterministicImageFileName,
 } from "@/lib/image-compression";
 import {
@@ -70,12 +72,15 @@ const PROJECT_GALLERY_VIDEO_MIME_TYPES = new Set<string>([
   "video/ogg",
   "video/quicktime",
 ]);
+const MAX_DEPLOYED_BATCH_REQUEST_BYTES = 4 * 1024 * 1024;
 const GET_JSON_PASSWORD_HEADER = "x-admin-password";
 
 interface SaveAllResult {
   successCount: number;
   failedCount: number;
   publishedFiles: string[];
+  uploadedMediaCount: number;
+  deletedMediaCount: number;
 }
 
 interface TranslationTarget {
@@ -91,8 +96,22 @@ interface PendingMediaOperation {
   sourceFilePath: string;
 }
 
+const DEFAULT_MEDIA_UPLOAD_STATE: MediaUploadFieldState = {
+  status: "processing",
+  progress: 0,
+  message: "",
+};
+
 function createLocalItemId(): string {
   return `local-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function createMediaUploadStateKey(
+  filePath: string,
+  localItemId: string,
+  fieldPath: (string | number)[]
+): string {
+  return `${filePath}::${localItemId}::${JSON.stringify(fieldPath)}`;
 }
 
 function toRepositoryUploadPath(path: string): string | null {
@@ -1058,6 +1077,9 @@ export function useAdminCMS() {
   const [pendingMediaOperations, setPendingMediaOperations] = useState<
     PendingMediaOperation[]
   >([]);
+  const [mediaUploadStateByField, setMediaUploadStateByField] = useState<
+    Record<string, MediaUploadFieldState>
+  >({});
   const isCurrentFileArray = selectedFile ? isArrayFileByPath[selectedFile] !== false : true;
 
   const applyLanguageState = useCallback(
@@ -1098,6 +1120,32 @@ export function useAdminCMS() {
       return next;
     });
   }, []);
+
+  const setMediaUploadState = useCallback(
+    (
+      filePath: string,
+      localItemId: string,
+      fieldPath: (string | number)[],
+      state:
+        | MediaUploadFieldState
+        | ((previous: MediaUploadFieldState) => MediaUploadFieldState)
+    ) => {
+      const key = createMediaUploadStateKey(filePath, localItemId, fieldPath);
+      setMediaUploadStateByField((prev) => {
+        const previousState = prev[key] || DEFAULT_MEDIA_UPLOAD_STATE;
+        const nextState =
+          typeof state === "function" ? state(previousState) : state;
+        return {
+          ...prev,
+          [key]: {
+            ...nextState,
+            progress: Math.max(0, Math.min(100, nextState.progress)),
+          },
+        };
+      });
+    },
+    []
+  );
 
   const queueMediaUpload = useCallback(
     (sourceFilePath: string, publicPath: string, base64Content: string) => {
@@ -1140,6 +1188,16 @@ export function useAdminCMS() {
     setPendingMediaOperations((prev) =>
       prev.filter((operation) => !filePathSet.has(operation.sourceFilePath))
     );
+    setMediaUploadStateByField((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).filter(([key]) => {
+          const separatorIndex = key.indexOf("::");
+          const sourceFilePath =
+            separatorIndex >= 0 ? key.slice(0, separatorIndex) : "";
+          return !filePathSet.has(sourceFilePath);
+        })
+      )
+    );
   }, []);
 
   const getEffectiveItemsByFile = useCallback((): Record<string, DataItem[]> => {
@@ -1150,6 +1208,18 @@ export function useAdminCMS() {
       [selectedFile]: items,
     };
   }, [items, itemsByFile, selectedFile]);
+
+  const getMediaUploadState = useCallback(
+    (
+      localItemId: string,
+      fieldPath: (string | number)[]
+    ): MediaUploadFieldState | null => {
+      if (!selectedFile) return null;
+      const key = createMediaUploadStateKey(selectedFile, localItemId, fieldPath);
+      return mediaUploadStateByField[key] || null;
+    },
+    [mediaUploadStateByField, selectedFile]
+  );
 
   /**
    * Load JSON data from GitHub
@@ -1554,30 +1624,63 @@ export function useAdminCMS() {
           mediaDeletes: Array.from(mediaDeleteSet),
           password,
         };
+        const serializedPayload = JSON.stringify(payload);
+        const payloadSizeBytes = new Blob([serializedPayload]).size;
+        if (payloadSizeBytes > MAX_DEPLOYED_BATCH_REQUEST_BYTES) {
+          throw new Error(
+            `Publish payload is too large (${formatFileSize(payloadSizeBytes)}). Reduce media size or publish fewer media changes at once.`
+          );
+        }
 
         const response = await fetch("/api/update-json-batch", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: serializedPayload,
         });
-        const data = (await response.json()) as APIResponse;
-        const isSaved = data.success;
+        const responseText = await response.text();
+        let data: APIResponse | null = null;
+        if (responseText.trim().length > 0) {
+          try {
+            data = JSON.parse(responseText) as APIResponse;
+          } catch {
+            data = null;
+          }
+        }
 
-        const successCount = isSaved ? publishCandidates.length : 0;
-        const failedCount = (isSaved ? 0 : publishCandidates.length) + skippedFileCount;
-        const publishedFiles = isSaved
-          ? publishCandidates.map((entry) => entry.filePath)
-          : [];
+        if (!response.ok) {
+          if (response.status === 413) {
+            throw new Error(
+              "Publish request exceeded the deployed API size limit. Reduce video size and publish again."
+            );
+          }
+          if (data && !data.success) {
+            throw new Error(data.error || "Failed to publish content");
+          }
+          throw new Error(
+            responseText.trim() || `Publish failed with HTTP ${response.status}`
+          );
+        }
+
+        if (!data) {
+          throw new Error("Invalid publish response from server");
+        }
+        if (!data.success) {
+          throw new Error(data.error || "Failed to publish content");
+        }
+
+        const successCount = publishCandidates.length;
+        const failedCount = skippedFileCount;
+        const uploadedMediaCount = mediaUploadMap.size;
+        const deletedMediaCount = mediaDeleteSet.size;
+        const publishedFiles = publishCandidates.map((entry) => entry.filePath);
         const publishedSnapshots: Record<string, DataItem[]> = {};
 
-        if (isSaved) {
-          publishCandidates.forEach((entry) => {
-            publishedSnapshots[entry.filePath] = cloneDataItems(entry.fileItems);
-            setDirtyFiles((prev) => ({ ...prev, [entry.filePath]: false }));
-            setStagedFiles((prev) => ({ ...prev, [entry.filePath]: false }));
-          });
-          clearPendingMediaForFiles(Array.from(publishedFileSet));
-        }
+        publishCandidates.forEach((entry) => {
+          publishedSnapshots[entry.filePath] = cloneDataItems(entry.fileItems);
+          setDirtyFiles((prev) => ({ ...prev, [entry.filePath]: false }));
+          setStagedFiles((prev) => ({ ...prev, [entry.filePath]: false }));
+        });
+        clearPendingMediaForFiles(Array.from(publishedFileSet));
 
         const publishedPaths = Object.keys(publishedSnapshots);
         if (publishedPaths.length > 0) {
@@ -1592,14 +1695,22 @@ export function useAdminCMS() {
         }
 
         if (successCount > 0) {
-          toast.success(`Published ${successCount} file(s) in one commit`);
+          toast.success(
+            `Published ${successCount} file(s), ${uploadedMediaCount} upload(s), ${deletedMediaCount} deletion(s) in one commit`
+          );
         }
 
         if (failedCount > 0) {
           toast.error(`Failed to save ${failedCount} file(s)`);
         }
 
-        return { successCount, failedCount, publishedFiles };
+        return {
+          successCount,
+          failedCount,
+          publishedFiles,
+          uploadedMediaCount,
+          deletedMediaCount,
+        };
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Failed to save all data";
         toast.error(errorMessage);
@@ -1805,22 +1916,42 @@ export function useAdminCMS() {
         toast.error("Select a file before uploading an image");
         return;
       }
+      const sourceFilePath = selectedFile;
 
       if (!file) {
         toast.error("Please select a file");
         return;
       }
 
+      setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+        status: "processing",
+        progress: 3,
+        message: "Preparing media...",
+      });
+
       setIsLoading(true);
       try {
-        const allowProjectGalleryVideo = isProjectGalleryField(selectedFile, fieldPath);
+        const allowProjectGalleryVideo = isProjectGalleryField(
+          sourceFilePath,
+          fieldPath
+        );
         const isVideoUpload = allowProjectGalleryVideo && isProjectGalleryVideoFile(file);
 
         if (isVideoUpload && file.size > PROJECT_GALLERY_VIDEO_MAX_SIZE_BYTES) {
+          setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+            status: "error",
+            progress: 0,
+            message: "Video must be 50MB or less.",
+          });
           toast.error("Video size must be 50MB or less");
           return;
         }
 
+        setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+          status: "processing",
+          progress: 12,
+          message: "Calculating file fingerprint...",
+        });
         const originalFileHash = await calculateFileHash(file);
         const effectiveItemsByFile = getEffectiveItemsByFile();
         const reusedImagePath = findManagedUploadPathByHash(
@@ -1833,10 +1964,15 @@ export function useAdminCMS() {
             updateItemField(localItemId, fieldPath, reusedImagePath);
 
             if (isManagedUploadPath(previousImagePath)) {
-              queueMediaDelete(selectedFile, previousImagePath);
+              queueMediaDelete(sourceFilePath, previousImagePath);
             }
           }
 
+          setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+            status: "queued",
+            progress: 100,
+            message: "Media already exists. Linked to current item.",
+          });
           toast.success("File already exists. Linked existing path.");
           return;
         }
@@ -1845,6 +1981,11 @@ export function useAdminCMS() {
         let compressionRatio = 0;
 
         if (!isVideoUpload) {
+          setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+            status: "processing",
+            progress: 28,
+            message: "Compressing image...",
+          });
           const compressed = await compressImage(
             file,
             IMAGE_UPLOAD_COMPRESSION_OPTIONS
@@ -1853,23 +1994,37 @@ export function useAdminCMS() {
           compressionRatio = compressed.ratio;
         }
 
-        const base64Content = await fileToBase64(uploadFile);
-        const uploadFolder = resolveImageUploadFolder(selectedFile, fieldPath);
+        const base64Content = await fileToBase64(uploadFile, (percent) => {
+          const normalized = Math.max(0, Math.min(100, percent));
+          setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+            status: "processing",
+            progress: 40 + normalized * 0.5,
+            message: "Encoding media...",
+          });
+        });
+        const uploadFolder = resolveImageUploadFolder(sourceFilePath, fieldPath);
         const fileName = generateDeterministicImageFileName(originalFileHash, file.name);
         const folderSegment = uploadFolder ? `/${uploadFolder}` : "";
         const imagePath = `/uploads${folderSegment}/${fileName}`;
-        queueMediaUpload(selectedFile, imagePath, base64Content);
+        queueMediaUpload(sourceFilePath, imagePath, base64Content);
         updateItemField(localItemId, fieldPath, imagePath);
 
         if (
           isManagedUploadPath(previousImagePath) &&
           previousImagePath !== imagePath
         ) {
-          queueMediaDelete(selectedFile, previousImagePath);
+          queueMediaDelete(sourceFilePath, previousImagePath);
         }
 
+        setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+          status: "queued",
+          progress: 100,
+          message:
+            "Media queued. Click Local Save, then Global Save to publish live.",
+        });
+
         if (isVideoUpload) {
-          toast.success("Media added to publish queue");
+          toast.success("Video queued. Save locally, then publish globally.");
         } else {
           toast.success(
             compressionRatio > 0
@@ -1879,6 +2034,11 @@ export function useAdminCMS() {
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Failed to upload image";
+        setMediaUploadState(sourceFilePath, localItemId, fieldPath, {
+          status: "error",
+          progress: 0,
+          message: "Upload failed. Try again.",
+        });
         toast.error(errorMessage);
       } finally {
         setIsLoading(false);
@@ -1889,6 +2049,7 @@ export function useAdminCMS() {
       queueMediaDelete,
       queueMediaUpload,
       selectedFile,
+      setMediaUploadState,
       updateItemField,
     ]
   );
@@ -1900,16 +2061,22 @@ export function useAdminCMS() {
       _password: string,
       currentImagePath?: string
     ) => {
+      if (!selectedFile) return;
+
       if (isManagedUploadPath(currentImagePath)) {
-        if (selectedFile) {
-          queueMediaDelete(selectedFile, currentImagePath);
-        }
+        queueMediaDelete(selectedFile, currentImagePath);
       }
 
       updateItemField(localItemId, fieldPath, "");
+      setMediaUploadState(selectedFile, localItemId, fieldPath, {
+        status: "queued",
+        progress: 100,
+        message:
+          "Removal queued. Click Local Save, then Global Save to publish live.",
+      });
       toast.success("Image removed");
     },
-    [queueMediaDelete, selectedFile, updateItemField]
+    [queueMediaDelete, selectedFile, setMediaUploadState, updateItemField]
   );
 
   /**
@@ -2309,6 +2476,7 @@ export function useAdminCMS() {
     deleteItem,
     uploadImage,
     removeImage,
+    getMediaUploadState,
     addField,
     removeField,
     setItems,

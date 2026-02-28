@@ -14,6 +14,8 @@ export interface PublishSummary {
   successCount: number;
   failedCount: number;
   publishedFiles: string[];
+  uploadedMediaCount?: number;
+  deletedMediaCount?: number;
 }
 
 interface PublishSummaryDialogProps {
@@ -44,6 +46,11 @@ export function PublishSummaryDialog({
         {publishSummary && (
           <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm space-y-1">
             <p className="font-medium text-slate-800">{publishSummary.successCount} file(s) updated</p>
+            {typeof publishSummary.uploadedMediaCount === "number" && (
+              <p className="text-slate-600">
+                {publishSummary.uploadedMediaCount} media upload(s), {publishSummary.deletedMediaCount || 0} media deletion(s)
+              </p>
+            )}
             {publishSummary.failedCount > 0 && (
               <p className="text-red-600">{publishSummary.failedCount} file(s) failed to update</p>
             )}

@@ -6,8 +6,16 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Plus, Trash2, Upload, RefreshCw, X } from "lucide-react";
-import type { DataItem, DynamicField } from "@/types/cms";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Plus,
+  Trash2,
+  Upload,
+  RefreshCw,
+  X,
+} from "lucide-react";
+import type { DataItem, DynamicField, MediaUploadFieldState } from "@/types/cms";
 import { stringifyValue } from "@/lib/cms-utils";
 import {
   buildLocalizedFieldKey,
@@ -24,6 +32,10 @@ interface ItemEditorComponentProps {
   password: string;
   /** Callback when field changes */
   onFieldChange: (fieldPath: (string | number)[], value: unknown) => void;
+  /** Upload status for the provided media field path */
+  getMediaUploadState?: (
+    fieldPath: (string | number)[]
+  ) => MediaUploadFieldState | null;
   /** Callback to upload image at given field path */
   onImageUpload: (
     fieldPath: (string | number)[],
@@ -249,6 +261,7 @@ export function ItemEditorComponent({
   item,
   fields,
   onFieldChange,
+  getMediaUploadState,
   onImageUpload,
   onImageRemove,
   onDelete,
@@ -399,6 +412,31 @@ export function ItemEditorComponent({
       const acceptedFileTypes = supportsVideoUpload
         ? "image/jpeg,image/png,image/webp,video/mp4,video/webm,video/ogg,video/quicktime"
         : "image/jpeg,image/png,image/webp";
+      const mediaUploadState = getMediaUploadState?.(fieldPath) || null;
+      const uploadProgress = Math.round(
+        Math.max(0, Math.min(100, mediaUploadState?.progress ?? 0))
+      );
+      const isUploading = mediaUploadState?.status === "processing";
+      const uploadStatusLabel =
+        mediaUploadState?.status === "queued"
+          ? "Queued"
+          : mediaUploadState?.status === "error"
+            ? "Failed"
+            : mediaUploadState?.status === "processing"
+              ? "Uploading"
+              : "";
+      const uploadStatusColor =
+        mediaUploadState?.status === "queued"
+          ? "#16a34a"
+          : mediaUploadState?.status === "error"
+            ? "#dc2626"
+            : "#2563eb";
+      const uploadStatusClassName =
+        mediaUploadState?.status === "queued"
+          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          : mediaUploadState?.status === "error"
+            ? "border-red-200 bg-red-50 text-red-700"
+            : "border-blue-200 bg-blue-50 text-blue-700";
 
       return (
         <div className="space-y-3">
@@ -441,17 +479,23 @@ export function ItemEditorComponent({
             <label
               htmlFor={uploadInputId}
               className={`inline-flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-xs font-medium text-white ${
-                disabled ? "bg-slate-300" : "bg-blue-600 hover:bg-blue-700"
+                disabled || isUploading
+                  ? "bg-slate-300"
+                  : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
-              {hasMedia ? <RefreshCw className="h-3.5 w-3.5" /> : <Upload className="h-3.5 w-3.5" />}
-              {hasMedia ? "Re-upload" : "Upload"}
+              {hasMedia ? (
+                <RefreshCw className={`h-3.5 w-3.5 ${isUploading ? "animate-spin" : ""}`} />
+              ) : (
+                <Upload className="h-3.5 w-3.5" />
+              )}
+              {isUploading ? "Uploading..." : hasMedia ? "Re-upload" : "Upload"}
             </label>
             <input
               id={uploadInputId}
               type="file"
               accept={acceptedFileTypes}
-              disabled={disabled}
+              disabled={disabled || isUploading}
               className="hidden"
               onChange={(e) => {
                 const selectedFile = e.target.files?.[0];
@@ -466,7 +510,7 @@ export function ItemEditorComponent({
               <button
                 type="button"
                 onClick={() => onImageRemove(fieldPath, currentValue)}
-                disabled={disabled}
+                disabled={disabled || isUploading}
                 className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-100 disabled:opacity-50"
               >
                 <X className="h-3.5 w-3.5" />
@@ -474,6 +518,38 @@ export function ItemEditorComponent({
               </button>
             )}
           </div>
+          {mediaUploadState && (
+            <div
+              className={`flex items-center gap-2 rounded-md border px-2.5 py-2 text-xs ${uploadStatusClassName}`}
+            >
+              <div
+                className="relative h-8 w-8 rounded-full"
+                style={{
+                  background: `conic-gradient(${uploadStatusColor} ${uploadProgress * 3.6}deg, #cbd5e1 0deg)`,
+                }}
+                aria-hidden
+              >
+                <div className="absolute inset-[3px] flex items-center justify-center rounded-full bg-white text-[10px] font-semibold text-slate-700">
+                  {uploadProgress}%
+                </div>
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1 font-medium">
+                  {mediaUploadState.status === "queued" ? (
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                  ) : mediaUploadState.status === "error" ? (
+                    <AlertCircle className="h-3.5 w-3.5" />
+                  ) : (
+                    <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                  )}
+                  <span>{uploadStatusLabel}</span>
+                </div>
+                {mediaUploadState.message && (
+                  <p className="truncate">{mediaUploadState.message}</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       );
     }

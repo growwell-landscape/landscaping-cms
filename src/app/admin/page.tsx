@@ -62,6 +62,7 @@ export default function AdminDashboard() {
     deleteItem,
     uploadImage,
     removeImage,
+    getMediaUploadState,
   } = useAdminCMS();
 
   const selectedMetadata = selectedFile
@@ -512,6 +513,7 @@ export default function AdminDashboard() {
                     allowProjectGalleryVideo={selectedFile === CMS_FILES.PROJECTS}
                     onAddItem={addItem}
                     onUpdateItemField={updateItemField}
+                    getMediaUploadState={getMediaUploadState}
                     onImageUpload={(localItemId, fieldPath, file, currentValue) =>
                       handleImageUpload(localItemId, fieldPath, currentValue)(file)
                     }
