@@ -45,7 +45,11 @@ export function SiteImage({
           style={style}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center border border-slate-300 bg-slate-100 text-slate-500">
+        <div
+          aria-label={alt}
+          className="flex h-full w-full items-center justify-center border border-slate-300 bg-slate-100 text-slate-500"
+          role="img"
+        >
           <Leaf aria-hidden="true" className="h-8 w-8" />
         </div>
       )}

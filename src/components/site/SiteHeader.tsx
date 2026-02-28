@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Check, ChevronDown, Languages, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
@@ -94,10 +94,22 @@ function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const listboxRef = useRef<HTMLDivElement | null>(null);
+  const listboxId = useId();
   const activeLanguageName =
     languageOptions.find((language) => language.code === activeLanguageCode)?.name ||
     activeLanguageCode.toUpperCase();
   const isMobile = size === "mobile";
+
+  const focusOption = (index: number) => {
+    const options = Array.from(
+      listboxRef.current?.querySelectorAll<HTMLButtonElement>('[role="option"]') || []
+    );
+    if (options.length === 0) return;
+
+    const boundedIndex = ((index % options.length) + options.length) % options.length;
+    options[boundedIndex]?.focus();
+  };
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -126,9 +138,16 @@ function LanguageSwitcher({
     setIsOpen(false);
   }, [activeLanguageCode]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const activeIndex = languageOptions.findIndex((language) => language.code === activeLanguageCode);
+    focusOption(activeIndex >= 0 ? activeIndex : 0);
+  }, [activeLanguageCode, isOpen, languageOptions]);
+
   return (
     <div className={cn("relative", isMobile ? "w-full" : "")} ref={containerRef}>
       <button
+        aria-controls={listboxId}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label={languageSwitcherAriaLabel}
@@ -162,6 +181,32 @@ function LanguageSwitcher({
             "absolute z-[80] mt-2 overflow-hidden rounded-[8px] border border-[var(--site-color-border)] bg-white shadow-lg",
             isMobile ? "left-0 right-0" : "right-0 w-48"
           )}
+          id={listboxId}
+          onKeyDown={(event) => {
+            const options = Array.from(
+              listboxRef.current?.querySelectorAll<HTMLButtonElement>('[role="option"]') || []
+            );
+            const currentIndex = options.findIndex((option) => option === document.activeElement);
+
+            if (event.key === "ArrowDown") {
+              event.preventDefault();
+              focusOption(currentIndex + 1);
+            } else if (event.key === "ArrowUp") {
+              event.preventDefault();
+              focusOption(currentIndex - 1);
+            } else if (event.key === "Home") {
+              event.preventDefault();
+              focusOption(0);
+            } else if (event.key === "End") {
+              event.preventDefault();
+              focusOption(options.length - 1);
+            } else if (event.key === "Escape") {
+              event.preventDefault();
+              setIsOpen(false);
+            }
+          }}
+          ref={listboxRef}
+          aria-label={languageSwitcherAriaLabel}
           role="listbox"
         >
           <ul className="max-h-72 overflow-y-auto py-1">
@@ -363,7 +408,7 @@ export function SiteHeader({
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
 
-          <nav className="hidden md:block">
+          <nav aria-label="Primary navigation" className="hidden md:block">
             <ul className="flex items-center gap-4">
               {navItems.map((item) => {
                 const active = isNavItemActive(
@@ -374,6 +419,7 @@ export function SiteHeader({
                 return (
                   <li key={item.href}>
                     <Link
+                      aria-current={active ? "page" : undefined}
                       className={cn(
                         "relative rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-200",
                         isTransparent ? "text-white hover:bg-white/20" : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]",
@@ -385,6 +431,7 @@ export function SiteHeader({
                     >
                       {item.label}
                       <span
+                        aria-hidden="true"
                         className={cn(
                           "absolute inset-x-4 bottom-1 h-0.5 rounded-full bg-[var(--site-color-primary)] transition-opacity duration-200",
                           active ? "opacity-100" : "opacity-0"
@@ -412,6 +459,7 @@ export function SiteHeader({
 
         {isMenuOpen ? (
           <nav
+            aria-label="Mobile navigation"
             className="border-t border-[var(--site-color-border)] bg-white px-4 pb-4 pt-3 text-[var(--site-color-foreground)] md:hidden"
             id="mobile-nav"
           >
@@ -425,6 +473,7 @@ export function SiteHeader({
                 return (
                   <li key={item.href}>
                     <Link
+                      aria-current={active ? "page" : undefined}
                       className={cn(
                         "block rounded-[5px] px-3 py-2 text-sm font-medium transition-colors duration-200",
                         active

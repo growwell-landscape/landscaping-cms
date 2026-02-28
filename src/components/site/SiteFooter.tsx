@@ -23,9 +23,9 @@ interface SiteFooterProps {
 
 function getSocialIcon(icon: string) {
   if (icon.toLowerCase() === "instagram") {
-    return <Instagram className="h-4 w-4" />;
+    return <Instagram aria-hidden="true" className="h-4 w-4" />;
   }
-  return <Instagram className="h-4 w-4" />;
+  return <Instagram aria-hidden="true" className="h-4 w-4" />;
 }
 
 /**
@@ -66,19 +66,19 @@ export function SiteFooter({
             <ul className="mt-4 space-y-3 text-sm text-[var(--site-color-muted-foreground)]">
               {phoneNumbers.map((phone, index) => (
                 <li className="flex items-center gap-2" key={`footer-phone-${index}`}>
-                  <Phone className="h-4 w-4 text-[var(--site-color-primary)]" />
-                  <a href={`tel:${phone.replace(/[^\d+]/g, "")}`}>{phone}</a>
+                  <Phone aria-hidden="true" className="h-4 w-4 text-[var(--site-color-primary)]" />
+                  <a className="hover:underline" href={`tel:${phone.replace(/[^\d+]/g, "")}`}>{phone}</a>
                 </li>
               ))}
               {emails.map((email, index) => (
                 <li className="flex items-center gap-2" key={`footer-email-${index}`}>
-                  <Mail className="h-4 w-4 text-[var(--site-color-primary)]" />
-                  <a href={`mailto:${email}`}>{email}</a>
+                  <Mail aria-hidden="true" className="h-4 w-4 text-[var(--site-color-primary)]" />
+                  <a className="hover:underline" href={`mailto:${email}`}>{email}</a>
                 </li>
               ))}
               {addresses.map((address, index) => (
                 <li className="flex items-center gap-2" key={`footer-address-${index}`}>
-                  <MapPin className="h-4 w-4 text-[var(--site-color-primary)]" />
+                  <MapPin aria-hidden="true" className="h-4 w-4 text-[var(--site-color-primary)]" />
                   <span>{address}</span>
                 </li>
               ))}
@@ -96,10 +96,10 @@ export function SiteFooter({
                 return (
                   <li key={social.id}>
                     <a
-                      aria-label={social.name}
+                      aria-label={`${social.name} (opens in a new tab)`}
                       className="inline-flex h-9 w-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] text-[var(--site-color-muted-foreground)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
                       href={social.url}
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       target="_blank"
                     >
                       {getSocialIcon(social.icon)}

@@ -174,6 +174,9 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
 
   return (
     <div className="site-theme min-h-screen" style={themeStyle}>
+      <a className="site-skip-link" href="#main-content">
+        Skip to main content
+      </a>
       {adminConfig.theme.customCss ? <style>{adminConfig.theme.customCss}</style> : null}
       <script
         type="application/ld+json"
@@ -192,7 +195,9 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
         siteName={adminConfig.site.name}
       />
       <div className="flex min-h-screen flex-col">
-        <div className="flex-1">{children}</div>
+        <div className="flex-1" id="main-content" tabIndex={-1}>
+          {children}
+        </div>
         <SiteFooter
           addresses={contactCollections.addresses}
           companyName={adminConfig.site.companyName}

@@ -197,7 +197,7 @@ export default async function ContactPage() {
                       href={`tel:${sanitizePhoneNumber(phone)}`}
                     >
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-[5px] bg-[var(--site-color-muted)] text-[var(--site-color-primary)]">
-                        <Phone className="h-6 w-6" />
+                        <Phone aria-hidden="true" className="h-6 w-6" />
                       </span>
                       <span>
                         <span className="block text-sm text-[var(--site-color-muted-foreground)]">{contactCopy.callUs || "Call Us"}</span>
@@ -213,7 +213,7 @@ export default async function ContactPage() {
                   <a
                     className="flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] bg-white px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
                     href={whatsappHref}
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
                     <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-white shadow-sm">
@@ -235,7 +235,7 @@ export default async function ContactPage() {
                       href={`mailto:${email}`}
                     >
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-[5px] bg-[var(--site-color-muted)] text-[var(--site-color-primary)]">
-                        <Mail className="h-6 w-6" />
+                        <Mail aria-hidden="true" className="h-6 w-6" />
                       </span>
                       <span>
                         <span className="block text-sm text-[var(--site-color-muted-foreground)]">{contactCopy.emailUs || "Email Us"}</span>
@@ -253,11 +253,11 @@ export default async function ContactPage() {
                   <a
                     className="mt-6 inline-flex h-[52px] w-full items-center justify-center gap-3 rounded-[5px] bg-[var(--site-color-primary)] px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)] md:text-lg"
                     href={social.url}
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
                     <span>{contactCopy.followUs || "Follow us on Instagram"}</span>
-                    <ExternalLink className="h-5 w-5" />
+                    <ExternalLink aria-hidden="true" className="h-5 w-5" />
                   </a>
                 </ScrollReveal>
               ) : null}
@@ -283,7 +283,7 @@ export default async function ContactPage() {
                     <ul className="space-y-3 text-sm text-[var(--site-color-muted-foreground)]">
                       {locationRows.map((entry, index) => (
                         <li className="flex items-start gap-2" key={`contact-location-${index}`}>
-                          <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
+                          <MapPin aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
                           <span>
                             <span className="block font-medium text-[var(--site-color-foreground)]">
                               {entry.location?.name || locationCardTitle}
@@ -293,11 +293,11 @@ export default async function ContactPage() {
                               <a
                                 className="mt-1 inline-flex items-center gap-1 text-[var(--site-color-primary)] hover:underline"
                                 href={entry.location.url}
-                                rel="noreferrer"
+                                rel="noopener noreferrer"
                                 target="_blank"
                               >
                                 {mapActionLabel}
-                                <ExternalLink className="h-3.5 w-3.5" />
+                                <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
                               </a>
                             ) : null}
                           </span>
@@ -317,7 +317,7 @@ export default async function ContactPage() {
                     <ul className="mt-3 space-y-2 text-sm text-[var(--site-color-muted-foreground)]">
                       {timings.map((timing, index) => (
                         <li className="flex items-start gap-2" key={`contact-timing-${index}`}>
-                          <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
+                          <Clock3 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
                           <span>{timing}</span>
                         </li>
                       ))}

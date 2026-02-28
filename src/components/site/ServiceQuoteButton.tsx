@@ -43,7 +43,7 @@ export function ServiceQuoteButton({
     <a
       className={className}
       href={href}
-      rel="noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <WhatsAppIcon className="h-5 w-5" />
