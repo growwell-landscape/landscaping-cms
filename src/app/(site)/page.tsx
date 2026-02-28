@@ -23,7 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ROUTES.HOME,
     language.currentLanguageCode,
     language.languageCodes,
-    metadataBase
+    metadataBase,
+    language.defaultLanguageCode
   );
   const title = adminConfig.seo.title;
   const description = adminConfig.site.description || adminConfig.seo.description;

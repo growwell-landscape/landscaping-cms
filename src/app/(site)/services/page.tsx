@@ -22,7 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ROUTES.SERVICES,
     language.currentLanguageCode,
     language.languageCodes,
-    metadataBase
+    metadataBase,
+    language.defaultLanguageCode
   );
   const pageTitle = servicesCopy.title || "Our Services";
   const title = `${pageTitle} | ${adminConfig.site.name}`;

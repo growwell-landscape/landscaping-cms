@@ -7,8 +7,14 @@ const BASE_URL_ENV_KEYS = [
   "SITE_URL",
   "VERCEL_PROJECT_PRODUCTION_URL",
   "VERCEL_URL",
-  "NEXT_PUBLIC_API_URL",
 ] as const;
+
+const TRUE_ENV_VALUES = new Set(["1", "true", "yes", "on"]);
+const FALSE_ENV_VALUES = new Set(["0", "false", "no", "off"]);
+const HREFLANG_LANGUAGE_MAP: Record<string, string> = {
+  // "tel" is commonly used in app config for Telugu; search engines expect "te".
+  tel: "te",
+};
 
 function normalizeBaseUrl(value: string): string {
   const trimmed = value.trim();
@@ -20,6 +26,23 @@ function normalizeBaseUrl(value: string): string {
   }
 
   return `https://${trimmed}`;
+}
+
+function normalizeLanguageCode(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+function toHrefLangCode(value: string): string {
+  const normalized = normalizeLanguageCode(value);
+  return HREFLANG_LANGUAGE_MAP[normalized] || normalized;
+}
+
+function readBooleanEnv(value: string | undefined): boolean | null {
+  if (!value) return null;
+  const normalized = value.trim().toLowerCase();
+  if (TRUE_ENV_VALUES.has(normalized)) return true;
+  if (FALSE_ENV_VALUES.has(normalized)) return false;
+  return null;
 }
 
 /**
@@ -44,6 +67,36 @@ export function resolveMetadataBase(): URL {
   }
 
   return new URL("http://localhost:3000");
+}
+
+/**
+ * Determines whether search engines should index the current deployment.
+ * Override with SITE_INDEXABLE=true/false when needed.
+ */
+export function isSiteIndexable(metadataBase?: URL): boolean {
+  const explicitOverride = readBooleanEnv(process.env.SITE_INDEXABLE);
+  if (explicitOverride !== null) {
+    return explicitOverride;
+  }
+
+  const vercelEnv = (process.env.VERCEL_ENV || "").trim().toLowerCase();
+  if (vercelEnv && vercelEnv !== "production") {
+    return false;
+  }
+
+  const resolvedMetadataBase = metadataBase || resolveMetadataBase();
+  const hostname = resolvedMetadataBase.hostname.trim().toLowerCase();
+  const isLocalHost =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "::1" ||
+    hostname.endsWith(".local");
+
+  if (isLocalHost) {
+    return false;
+  }
+
+  return process.env.NODE_ENV === "production";
 }
 
 /**
@@ -83,13 +136,21 @@ export function buildPageAlternates(
   routePath: string,
   currentLanguageCode: string,
   languageCodes: string[],
-  metadataBase: URL
+  metadataBase: URL,
+  defaultLanguageCode?: string
 ): NonNullable<Metadata["alternates"]> {
   const safeLanguageCodes = languageCodes.length > 0 ? languageCodes : [currentLanguageCode];
+  const normalizedDefaultLanguageCode = normalizeLanguageCode(defaultLanguageCode || "");
+  const xDefaultLanguageCode = safeLanguageCodes.includes(normalizedDefaultLanguageCode)
+    ? normalizedDefaultLanguageCode
+    : safeLanguageCodes[0];
   const languages: Record<string, string> = {};
 
   safeLanguageCodes.forEach((languageCode) => {
-    languages[languageCode] = toAbsoluteUrl(
+    const hrefLangCode = toHrefLangCode(languageCode);
+    if (languages[hrefLangCode]) return;
+
+    languages[hrefLangCode] = toAbsoluteUrl(
       createLocalizedPath(routePath, languageCode, safeLanguageCodes),
       metadataBase
     );
@@ -101,7 +162,7 @@ export function buildPageAlternates(
     safeLanguageCodes
   );
   languages["x-default"] = toAbsoluteUrl(
-    createLocalizedPath(routePath, safeLanguageCodes[0], safeLanguageCodes),
+    createLocalizedPath(routePath, xDefaultLanguageCode, safeLanguageCodes),
     metadataBase
   );
 

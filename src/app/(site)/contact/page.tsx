@@ -87,7 +87,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ROUTES.CONTACT,
     language.currentLanguageCode,
     language.languageCodes,
-    metadataBase
+    metadataBase,
+    language.defaultLanguageCode
   );
   const contactTitle = contactCopy.title || "Contact Us";
   const title = `${contactTitle} | ${adminConfig.site.name}`;

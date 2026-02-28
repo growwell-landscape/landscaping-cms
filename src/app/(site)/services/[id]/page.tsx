@@ -96,7 +96,8 @@ export async function generateMetadata({
     routePath,
     siteData.language.currentLanguageCode,
     siteData.language.languageCodes,
-    metadataBase
+    metadataBase,
+    siteData.language.defaultLanguageCode
   );
   const title = `${service.title} | ${siteData.adminConfig.site.name}`;
   const description =
@@ -181,9 +182,75 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   const breadcrumbHomeLabel = navCopy.home || detailCopy.breadcrumbHome || "Home";
   const breadcrumbServicesLabel = navCopy.services || detailCopy.breadcrumbServices || "Services";
   const contactCollections = getContactCollections(siteData.adminConfig.contact);
+  const metadataBase = resolveMetadataBase();
+  const servicePath = createLocalizedPath(
+    `${ROUTES.SERVICE_DETAIL}/${service.id}`,
+    siteData.language.currentLanguageCode,
+    siteData.language.languageCodes
+  );
+  const localizedHomeUrl = toAbsoluteUrl(
+    createLocalizedPath(
+      ROUTES.HOME,
+      siteData.language.currentLanguageCode,
+      siteData.language.languageCodes
+    ),
+    metadataBase
+  );
+  const localizedServicesUrl = toAbsoluteUrl(servicesHref, metadataBase);
+  const localizedServiceUrl = toAbsoluteUrl(servicePath, metadataBase);
+  const serviceImageUrl = service.image
+    ? toAbsoluteUrl(service.image, metadataBase)
+    : undefined;
+  const businessName = siteData.adminConfig.site.companyName || siteData.adminConfig.site.name;
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          item: localizedHomeUrl,
+          name: breadcrumbHomeLabel,
+          position: 1,
+        },
+        {
+          "@type": "ListItem",
+          item: localizedServicesUrl,
+          name: breadcrumbServicesLabel,
+          position: 2,
+        },
+        {
+          "@type": "ListItem",
+          item: localizedServiceUrl,
+          name: service.title,
+          position: 3,
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      areaServed: contactCollections.addresses[0],
+      description: service.description || service.shortDescription,
+      image: serviceImageUrl,
+      inLanguage: siteData.language.currentLanguageCode,
+      name: service.title,
+      provider: {
+        "@type": "LocalBusiness",
+        name: businessName,
+        url: localizedHomeUrl,
+      },
+      serviceType: service.title,
+      url: localizedServiceUrl,
+    },
+  ];
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <section className="relative overflow-hidden border-b border-[var(--site-color-border)] pb-10 pt-28 md:pb-12 md:pt-32">
         <SiteImage
           alt={`${service.title} hero image`}

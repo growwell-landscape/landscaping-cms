@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 import { configLoader, getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
-import { resolveMetadataBase, toAbsoluteUrl } from "@/lib/seo";
+import { isSiteIndexable, resolveMetadataBase, toAbsoluteUrl } from "@/lib/seo";
 import { createLocalizedPath, resolveSiteLanguage } from "@/lib/site-i18n";
 
 export const dynamic = "force-dynamic";
@@ -44,6 +44,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } catch {
       metadataBase = fallbackBase;
     }
+  }
+  if (!isSiteIndexable(metadataBase)) {
+    return [];
   }
   const adminConfig = await configLoader.loadAdminConfig();
   const languageState = resolveSiteLanguage(adminConfig.site);

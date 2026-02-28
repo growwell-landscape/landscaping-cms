@@ -7,7 +7,12 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { getActiveProjects, getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
 import { getContactCollections } from "@/lib/contact-utils";
-import { parseKeywords, resolveMetadataBase, toAbsoluteUrl } from "@/lib/seo";
+import {
+  isSiteIndexable,
+  parseKeywords,
+  resolveMetadataBase,
+  toAbsoluteUrl,
+} from "@/lib/seo";
 import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
 import type { ThemeConfig } from "@/types/config";
@@ -67,6 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
     `/${language.currentLanguageCode}`,
     metadataBase
   );
+  const shouldIndexSite = isSiteIndexable(metadataBase);
   const iconUrl = seo.favicon ? toAbsoluteUrl(seo.favicon, metadataBase) : undefined;
 
   return {
@@ -90,8 +96,8 @@ export async function generateMetadata(): Promise<Metadata> {
       url: localizedHomeUrl,
     },
     robots: {
-      follow: true,
-      index: true,
+      follow: shouldIndexSite,
+      index: shouldIndexSite,
     },
     twitter: {
       card: "summary_large_image",

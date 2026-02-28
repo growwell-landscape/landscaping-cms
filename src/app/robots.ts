@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { headers } from "next/headers";
 
-import { resolveMetadataBase, toAbsoluteUrl } from "@/lib/seo";
+import { isSiteIndexable, resolveMetadataBase, toAbsoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -20,16 +20,22 @@ export default function robots(): MetadataRoute.Robots {
       metadataBase = fallbackBase;
     }
   }
+  const shouldIndexSite = isSiteIndexable(metadataBase);
 
   return {
     host: metadataBase.origin,
     rules: [
-      {
-        allow: "/",
-        disallow: ["/admin", "/api"],
-        userAgent: "*",
-      },
+      shouldIndexSite
+        ? {
+            allow: "/",
+            disallow: ["/admin", "/api"],
+            userAgent: "*",
+          }
+        : {
+            disallow: "/",
+            userAgent: "*",
+          },
     ],
-    sitemap: toAbsoluteUrl("/sitemap.xml", metadataBase),
+    sitemap: shouldIndexSite ? toAbsoluteUrl("/sitemap.xml", metadataBase) : undefined,
   };
 }
