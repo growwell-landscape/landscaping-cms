@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ItemEditorComponent } from "@/components/admin/ItemEditorComponent";
-import type { DataItem, DynamicField } from "@/types/cms";
+import type { DataItem, DynamicField, MediaUploadFieldState } from "@/types/cms";
 
 const ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS = ["hero", "about", "contact"];
 const ADMIN_CONFIG_LANGUAGE_EDITABLE_FIELD_PATH_PREFIXES = [
@@ -45,6 +45,10 @@ interface AdminItemEditorListProps {
     fieldPath: (string | number)[],
     value: unknown
   ) => void;
+  getMediaUploadState: (
+    localItemId: string,
+    fieldPath: (string | number)[]
+  ) => MediaUploadFieldState | null;
   onImageUpload: (
     localItemId: string,
     fieldPath: (string | number)[],
@@ -83,6 +87,7 @@ export function AdminItemEditorList({
   allowProjectGalleryVideo,
   onAddItem,
   onUpdateItemField,
+  getMediaUploadState,
   onImageUpload,
   onImageRemove,
   onDeleteItem,
@@ -127,6 +132,9 @@ export function AdminItemEditorList({
               onFieldChange={(fieldPath, value) =>
                 onUpdateItemField(siteConfigLocalId, fieldPath, value)
               }
+              getMediaUploadState={(fieldPath) =>
+                getMediaUploadState(siteConfigLocalId, fieldPath)
+              }
               onImageUpload={(fieldPath, file, currentValue) =>
                 onImageUpload(siteConfigLocalId, fieldPath, file, currentValue)
               }
@@ -160,6 +168,9 @@ export function AdminItemEditorList({
               enableLanguageEditing={isLanguageEditableFile}
               allowProjectGalleryVideo={allowProjectGalleryVideo}
               onFieldChange={(fieldPath, value) => onUpdateItemField(localItemId, fieldPath, value)}
+              getMediaUploadState={(fieldPath) =>
+                getMediaUploadState(localItemId, fieldPath)
+              }
               onImageUpload={(fieldPath, file, currentValue) =>
                 onImageUpload(localItemId, fieldPath, file, currentValue)
               }

@@ -86,8 +86,16 @@ export function RouteLoadingOverlay() {
   }
 
   return (
-    <div className="fixed inset-0 z-[80] grid place-items-center bg-black/35">
-      <div className="h-11 w-11 animate-spin rounded-full border-4 border-white/35 border-t-[var(--site-color-primary)]" />
+    <div
+      aria-live="polite"
+      className="fixed inset-0 z-[80] grid place-items-center bg-black/35"
+      role="status"
+    >
+      <span className="sr-only">Loading next page</span>
+      <div
+        aria-hidden="true"
+        className="h-11 w-11 animate-spin rounded-full border-4 border-white/35 border-t-[var(--site-color-primary)]"
+      />
     </div>
   );
 }

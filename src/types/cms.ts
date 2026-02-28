@@ -104,6 +104,14 @@ export interface JSONBatchUpdatePayload {
   password: string;
 }
 
+export type MediaUploadStatus = "processing" | "queued" | "error";
+
+export interface MediaUploadFieldState {
+  status: MediaUploadStatus;
+  progress: number;
+  message: string;
+}
+
 /**
  * JSON file fetch request payload
  */

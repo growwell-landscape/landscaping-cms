@@ -22,7 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ROUTES.SERVICES,
     language.currentLanguageCode,
     language.languageCodes,
-    metadataBase
+    metadataBase,
+    language.defaultLanguageCode
   );
   const pageTitle = servicesCopy.title || "Our Services";
   const title = `${pageTitle} | ${adminConfig.site.name}`;
@@ -84,7 +85,7 @@ export default async function ServicesPage() {
       {floatingContact.enabled && floatingContact.showWhatsApp ? (
         <FloatingWhatsApp
           ariaLabel={contactCopy.chatOnWhatsApp || "Chat on WhatsApp"}
-          defaultMessage={siteData.adminConfig.contact.whatsapp.defaultMessage}
+          defaultMessage={siteData.whatsAppDefaultMessageEnglish}
           number={siteData.adminConfig.contact.whatsapp.number}
         />
       ) : null}

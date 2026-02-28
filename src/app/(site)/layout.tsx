@@ -7,7 +7,12 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { getActiveProjects, getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
 import { getContactCollections } from "@/lib/contact-utils";
-import { parseKeywords, resolveMetadataBase, toAbsoluteUrl } from "@/lib/seo";
+import {
+  isSiteIndexable,
+  parseKeywords,
+  resolveMetadataBase,
+  toAbsoluteUrl,
+} from "@/lib/seo";
 import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
 import type { ThemeConfig } from "@/types/config";
@@ -67,6 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
     `/${language.currentLanguageCode}`,
     metadataBase
   );
+  const shouldIndexSite = isSiteIndexable(metadataBase);
   const iconUrl = seo.favicon ? toAbsoluteUrl(seo.favicon, metadataBase) : undefined;
 
   return {
@@ -90,8 +96,8 @@ export async function generateMetadata(): Promise<Metadata> {
       url: localizedHomeUrl,
     },
     robots: {
-      follow: true,
-      index: true,
+      follow: shouldIndexSite,
+      index: shouldIndexSite,
     },
     twitter: {
       card: "summary_large_image",
@@ -174,6 +180,9 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
 
   return (
     <div className="site-theme min-h-screen" style={themeStyle}>
+      <a className="site-skip-link" href="#main-content">
+        Skip to main content
+      </a>
       {adminConfig.theme.customCss ? <style>{adminConfig.theme.customCss}</style> : null}
       <script
         type="application/ld+json"
@@ -192,7 +201,9 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
         siteName={adminConfig.site.name}
       />
       <div className="flex min-h-screen flex-col">
-        <div className="flex-1">{children}</div>
+        <div className="flex-1" id="main-content" tabIndex={-1}>
+          {children}
+        </div>
         <SiteFooter
           addresses={contactCollections.addresses}
           companyName={adminConfig.site.companyName}

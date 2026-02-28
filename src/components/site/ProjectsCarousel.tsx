@@ -3,7 +3,13 @@
 import { ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Carousel,
   CarouselApi,
@@ -28,6 +34,7 @@ interface ProjectCardProps {
 }
 
 interface ProjectsCarouselProps {
+  carouselLabel?: string;
   galleryTitleLabel?: string;
   projects: Project[];
   viewGalleryLabel?: string;
@@ -148,6 +155,7 @@ function ProjectCard({
  * Client carousel for project cards.
  */
 export function ProjectsCarousel({
+  carouselLabel = "Featured projects",
   galleryTitleLabel = "Gallery",
   projects,
   viewGalleryLabel = "View Gallery",
@@ -157,6 +165,8 @@ export function ProjectsCarousel({
   const [slideCount, setSlideCount] = useState(0);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
+  const [isAutoplayEnabled, setIsAutoplayEnabled] = useState(true);
 
   const activeProject = useMemo(
     () => projects.find((project) => project.id === activeProjectId) || null,
@@ -205,10 +215,31 @@ export function ProjectsCarousel({
     setActiveGalleryIndex(0);
   }, [activeGalleryImages.length, activeGalleryIndex]);
 
+  useEffect(() => {
+    if (!api || projects.length <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      if (isAutoplayPaused || !isAutoplayEnabled || activeProjectId) return;
+      api.scrollNext();
+    }, 3500);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [activeProjectId, api, isAutoplayEnabled, isAutoplayPaused, projects.length]);
+
   return (
     <>
       <div className="mt-10">
-        <Carousel opts={{ align: "start", loop: true }} setApi={setApi}>
+        <Carousel
+          opts={{ align: "start", loop: true }}
+          setApi={setApi}
+          aria-label={carouselLabel}
+          onBlurCapture={() => setIsAutoplayPaused(false)}
+          onFocusCapture={() => setIsAutoplayPaused(true)}
+          onMouseEnter={() => setIsAutoplayPaused(true)}
+          onMouseLeave={() => setIsAutoplayPaused(false)}
+        >
           <CarouselContent>
             {projects.map((project) => (
               <CarouselItem className="basis-full sm:basis-1/2 lg:basis-1/3" key={project.id}>
@@ -234,6 +265,7 @@ export function ProjectsCarousel({
           {Array.from({ length: slideCount }).map((_, index) => (
             <button
               aria-label={`Go to project slide ${index + 1}`}
+              aria-current={index === currentSlideIndex ? "true" : undefined}
               className={cn(
                 "h-2.5 w-2.5 rounded-[5px] border transition-colors duration-200",
                 index === currentSlideIndex
@@ -246,6 +278,21 @@ export function ProjectsCarousel({
             />
           ))}
         </div>
+        {projects.length > 1 ? (
+          <div className="mt-5 flex items-center justify-center">
+            <button
+              aria-label={isAutoplayEnabled ? "Pause carousel autoplay" : "Resume carousel autoplay"}
+              className="inline-flex h-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] bg-white px-3 text-xs font-semibold text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+              onClick={() => setIsAutoplayEnabled((previousValue) => !previousValue)}
+              type="button"
+            >
+              {isAutoplayEnabled ? "Pause autoplay" : "Resume autoplay"}
+            </button>
+          </div>
+        ) : null}
+        <p aria-live="polite" className="sr-only">
+          {slideCount > 0 ? `Slide ${currentSlideIndex + 1} of ${slideCount}` : "No slides"}
+        </p>
       </div>
 
       <Dialog
@@ -262,6 +309,9 @@ export function ProjectsCarousel({
             <DialogTitle className="site-heading text-xl text-[var(--site-color-foreground)]">
               {activeProject?.title} {galleryTitleLabel}
             </DialogTitle>
+            <DialogDescription className="text-[var(--site-color-muted-foreground)]">
+              Use the previous and next buttons to browse the project gallery.
+            </DialogDescription>
           </DialogHeader>
 
           {activeGalleryImages.length > 0 ? (
@@ -270,8 +320,10 @@ export function ProjectsCarousel({
                 {isVideoMediaPath(activeGalleryImages[activeGalleryIndex]) ? (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
                   <video
+                    aria-label={`${activeProject?.title || "Project"} gallery video ${activeGalleryIndex + 1}`}
                     className="h-[52vh] w-full bg-black object-contain"
                     controls
+                    title={`${activeProject?.title || "Project"} video`}
                     src={activeGalleryImages[activeGalleryIndex]}
                   />
                 ) : (
@@ -308,6 +360,8 @@ export function ProjectsCarousel({
                 <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
                   {activeGalleryImages.map((image, index) => (
                     <button
+                      aria-current={index === activeGalleryIndex ? "true" : undefined}
+                      aria-label={`View media ${index + 1} of ${activeGalleryImages.length}`}
                       className={cn(
                         "overflow-hidden rounded-[5px] border bg-[var(--site-color-muted)]",
                         index === activeGalleryIndex
@@ -320,7 +374,12 @@ export function ProjectsCarousel({
                     >
                       {isVideoMediaPath(image) ? (
                         // eslint-disable-next-line jsx-a11y/media-has-caption
-                        <video className="h-14 w-full bg-black object-cover" muted src={image} />
+                        <video
+                          aria-hidden="true"
+                          className="h-14 w-full bg-black object-cover"
+                          muted
+                          src={image}
+                        />
                       ) : (
                         <SiteImage
                           alt={`${activeProject?.title || "Project"} thumbnail ${index + 1}`}

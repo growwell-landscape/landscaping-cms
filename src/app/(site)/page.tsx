@@ -23,7 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ROUTES.HOME,
     language.currentLanguageCode,
     language.languageCodes,
-    metadataBase
+    metadataBase,
+    language.defaultLanguageCode
   );
   const title = adminConfig.seo.title;
   const description = adminConfig.site.description || adminConfig.seo.description;
@@ -55,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const { adminConfig, language, projects, services, translations } = await getSiteHomeData();
+  const { adminConfig, language, projects, services, translations, whatsAppDefaultMessageEnglish } = await getSiteHomeData();
   const aboutCopy = adminConfig.about;
   const contactCopy = translations.contact || {};
   const floatingContact = adminConfig.contact.floatingContact;
@@ -121,7 +122,7 @@ export default async function HomePage() {
       {floatingContact.enabled && floatingContact.showWhatsApp ? (
         <FloatingWhatsApp
           ariaLabel={contactCopy.chatOnWhatsApp || "Chat on WhatsApp"}
-          defaultMessage={adminConfig.contact.whatsapp.defaultMessage}
+          defaultMessage={whatsAppDefaultMessageEnglish}
           number={adminConfig.contact.whatsapp.number}
         />
       ) : null}

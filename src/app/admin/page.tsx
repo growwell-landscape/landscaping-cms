@@ -30,6 +30,7 @@ const SITE_CONFIG_SECTION_ORDER = [
 export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const [selectFileInput, setSelectFileInput] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [newLanguageName, setNewLanguageName] = useState("");
@@ -62,6 +63,7 @@ export default function AdminDashboard() {
     deleteItem,
     uploadImage,
     removeImage,
+    getMediaUploadState,
   } = useAdminCMS();
 
   const selectedMetadata = selectedFile
@@ -163,7 +165,10 @@ export default function AdminDashboard() {
 
   const handleAuthenticate = async () => {
     const trimmedPassword = password.trim();
-    if (!trimmedPassword) return;
+    if (!trimmedPassword) {
+      setLoginError("Please enter your password.");
+      return;
+    }
 
     if (trimmedPassword !== password) {
       setPassword(trimmedPassword);
@@ -173,7 +178,11 @@ export default function AdminDashboard() {
     setSelectFileInput(defaultFile);
     const isAuthenticatedUser = await loadData(defaultFile, trimmedPassword, true);
     setIsAuthenticated(isAuthenticatedUser);
+    if (isAuthenticatedUser) {
+      setLoginError("");
+    }
     if (!isAuthenticatedUser) {
+      setLoginError("Invalid password. Please try again.");
       setSelectFileInput("");
     }
   };
@@ -181,6 +190,7 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setPassword("");
+    setLoginError("");
     setSelectFileInput("");
     setIsMobileSidebarOpen(false);
   };
@@ -372,7 +382,13 @@ export default function AdminDashboard() {
       <AdminLoginCard
         password={password}
         showPassword={showPassword}
-        onPasswordChange={setPassword}
+        errorMessage={loginError}
+        onPasswordChange={(nextPassword) => {
+          setPassword(nextPassword);
+          if (loginError) {
+            setLoginError("");
+          }
+        }}
         onToggleShowPassword={() => setShowPassword((prevValue) => !prevValue)}
         onAuthenticate={handleAuthenticate}
       />
@@ -512,6 +528,7 @@ export default function AdminDashboard() {
                     allowProjectGalleryVideo={selectedFile === CMS_FILES.PROJECTS}
                     onAddItem={addItem}
                     onUpdateItemField={updateItemField}
+                    getMediaUploadState={getMediaUploadState}
                     onImageUpload={(localItemId, fieldPath, file, currentValue) =>
                       handleImageUpload(localItemId, fieldPath, currentValue)(file)
                     }

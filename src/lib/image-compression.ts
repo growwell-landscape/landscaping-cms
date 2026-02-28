@@ -145,7 +145,10 @@ export async function compressImage(
  * @returns Base64 encoded string
  * @throws Error if conversion fails
  */
-export function fileToBase64(file: File): Promise<string> {
+export function fileToBase64(
+  file: File,
+  onProgress?: (percent: number) => void
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -153,10 +156,18 @@ export function fileToBase64(file: File): Promise<string> {
       const result = reader.result as string;
       const base64 = result.split(",")[1];
       if (base64) {
+        onProgress?.(100);
         resolve(base64);
       } else {
         reject(new Error("Failed to convert file to base64"));
       }
+    };
+
+    reader.onprogress = (event) => {
+      if (!event.lengthComputable || event.total <= 0) {
+        return;
+      }
+      onProgress?.((event.loaded / event.total) * 100);
     };
 
     reader.onerror = () => {
