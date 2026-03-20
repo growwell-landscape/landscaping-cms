@@ -1,10 +1,11 @@
 "use client";
 
-import { Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 
 interface AdminLoginCardProps {
   password: string;
   showPassword: boolean;
+  isAuthenticating?: boolean;
   errorMessage?: string;
   onPasswordChange: (value: string) => void;
   onToggleShowPassword: () => void;
@@ -14,6 +15,7 @@ interface AdminLoginCardProps {
 export function AdminLoginCard({
   password,
   showPassword,
+  isAuthenticating = false,
   errorMessage,
   onPasswordChange,
   onToggleShowPassword,
@@ -37,29 +39,51 @@ export function AdminLoginCard({
           <input
             type={showPassword ? "text" : "password"}
             value={password}
+            disabled={isAuthenticating}
             onChange={(e) => onPasswordChange(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !isAuthenticating) {
+                onAuthenticate();
+              }
+            }}
             className={`admin-input w-full rounded-lg px-4 py-3 ${
               errorMessage ? "border-[var(--admin-color-danger)]" : ""
             }`}
             placeholder="Password"
           />
           <button
+            type="button"
+            disabled={isAuthenticating}
             onClick={onToggleShowPassword}
-            className="absolute right-3 top-3 text-[var(--admin-color-muted-foreground)]"
+            className="absolute right-3 top-3 text-[var(--admin-color-muted-foreground)] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {showPassword ? <EyeOff /> : <Eye />}
           </button>
         </div>
 
         {errorMessage && (
-          <p className="text-sm text-[var(--admin-color-danger)]">{errorMessage}</p>
+          <p
+            role="alert"
+            className="rounded-lg border border-[var(--admin-color-danger)]/25 bg-[color-mix(in_srgb,var(--admin-color-danger)_8%,white)] px-3 py-2 text-sm text-[var(--admin-color-danger)]"
+          >
+            {errorMessage}
+          </p>
         )}
 
         <button
+          type="button"
+          disabled={isAuthenticating}
           onClick={onAuthenticate}
-          className="admin-button-primary w-full rounded-lg py-3"
+          className="admin-button-primary flex w-full items-center justify-center gap-2 rounded-lg py-3 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          Sign In
+          {isAuthenticating ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Signing in...
+            </>
+          ) : (
+            "Sign In"
+          )}
         </button>
       </div>
     </div>

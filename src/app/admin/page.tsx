@@ -32,6 +32,7 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [selectFileInput, setSelectFileInput] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [newLanguageName, setNewLanguageName] = useState("");
@@ -167,6 +168,8 @@ export default function AdminDashboard() {
   };
 
   const handleAuthenticate = async () => {
+    if (isAuthenticating) return;
+
     const trimmedPassword = password.trim();
     if (!trimmedPassword) {
       setLoginError("Please enter your password.");
@@ -179,14 +182,20 @@ export default function AdminDashboard() {
 
     const defaultFile = CMS_FILES.ADMIN_CONFIG;
     setSelectFileInput(defaultFile);
-    const isAuthenticatedUser = await loadData(defaultFile, trimmedPassword, true);
-    setIsAuthenticated(isAuthenticatedUser);
-    if (isAuthenticatedUser) {
-      setLoginError("");
-    }
-    if (!isAuthenticatedUser) {
-      setLoginError("Invalid password. Please try again.");
-      setSelectFileInput("");
+    setIsAuthenticating(true);
+
+    try {
+      const isAuthenticatedUser = await loadData(defaultFile, trimmedPassword, true);
+      setIsAuthenticated(isAuthenticatedUser);
+
+      if (isAuthenticatedUser) {
+        setLoginError("");
+      } else {
+        setLoginError("Password is wrong.");
+        setSelectFileInput("");
+      }
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
@@ -386,6 +395,7 @@ export default function AdminDashboard() {
         <AdminLoginCard
           password={password}
           showPassword={showPassword}
+          isAuthenticating={isAuthenticating}
           errorMessage={loginError}
           onPasswordChange={(nextPassword) => {
             setPassword(nextPassword);
