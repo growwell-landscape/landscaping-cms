@@ -17,12 +17,12 @@ export function ServiceCard({ className, href, service, viewDetailsLabel }: Read
   return (
     <Link
       className={cn(
-        "group block h-full cursor-pointer overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--site-color-primary)] hover:shadow-md",
+        "site-surface-elevated group block h-full cursor-pointer overflow-hidden rounded-[5px] border border-[var(--site-color-border)] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--site-color-primary)] hover:shadow-md",
         className
       )}
       href={href}
     >
-      <div className="flex h-full flex-col bg-white">
+      <div className="site-surface-elevated flex h-full flex-col">
         <div className="h-36 shrink-0 bg-[var(--site-color-muted)] md:h-40">
           <SiteImage
             alt={`${service.title} service image`}

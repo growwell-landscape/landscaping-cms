@@ -157,9 +157,19 @@ function LanguageSwitcher({
             ? "h-10 w-full px-3 text-sm font-medium"
             : "h-9 min-w-[132px] px-3 text-xs font-semibold",
           !isMobile && isTransparent
-            ? "border-white/40 bg-white/15 text-white hover:bg-white/25"
-            : "border-[var(--site-color-border)] bg-white text-[var(--site-color-foreground)] hover:border-[var(--site-color-primary)]"
+            ? "text-[var(--site-color-hero-text)] hover:bg-white/25"
+            : "border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-foreground)] hover:border-[var(--site-color-primary)]"
         )}
+        style={
+          !isMobile && isTransparent
+            ? {
+                borderColor:
+                  "color-mix(in srgb, var(--site-color-hero-text) 40%, transparent)",
+                backgroundColor:
+                  "color-mix(in srgb, var(--site-color-hero-text) 15%, transparent)",
+              }
+            : undefined
+        }
         onClick={() => setIsOpen((previousValue) => !previousValue)}
         type="button"
       >
@@ -178,7 +188,7 @@ function LanguageSwitcher({
       {isOpen ? (
         <div
           className={cn(
-            "absolute z-[80] mt-2 overflow-hidden rounded-[8px] border border-[var(--site-color-border)] bg-white shadow-lg",
+            "absolute z-[80] mt-2 overflow-hidden rounded-[8px] border border-[var(--site-color-border)] bg-[var(--site-color-surface)] shadow-lg",
             isMobile ? "left-0 right-0" : "right-0 w-48"
           )}
           id={listboxId}
@@ -381,8 +391,16 @@ export function SiteHeader({
           "fixed inset-x-0 top-0 z-50 w-full border-b transition-colors duration-300",
           isTransparent
             ? "border-transparent"
-            : "border-[var(--site-color-border)] bg-white/95 text-[var(--site-color-foreground)] shadow-sm backdrop-blur"
+            : "border-[var(--site-color-border)] text-[var(--site-color-foreground)] shadow-sm backdrop-blur"
         )}
+        style={
+          isTransparent
+            ? undefined
+            : {
+                backgroundColor:
+                  "color-mix(in srgb, var(--site-color-surface) 95%, transparent)",
+              }
+        }
       >
         <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-4 md:px-8">
           <SiteLogo
@@ -399,9 +417,17 @@ export function SiteHeader({
             className={cn(
               "inline-flex h-10 w-10 items-center justify-center rounded-[5px] border transition-colors md:hidden",
               isTransparent
-                ? "border-white/50 text-white hover:bg-white/15"
+                ? "text-[var(--site-color-hero-text)] hover:bg-white/15"
                 : "border-[var(--site-color-border)] text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"
             )}
+            style={
+              isTransparent
+                ? {
+                    borderColor:
+                      "color-mix(in srgb, var(--site-color-hero-text) 50%, transparent)",
+                  }
+                : undefined
+            }
             onClick={() => setIsMenuOpen((prev) => !prev)}
             type="button"
           >
@@ -422,7 +448,7 @@ export function SiteHeader({
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "relative rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-200",
-                        isTransparent ? "text-white hover:bg-white/20" : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]",
+                        isTransparent ? "text-[var(--site-color-hero-text)] hover:bg-white/20" : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]",
                         active
                           && "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
                       )}
@@ -460,7 +486,7 @@ export function SiteHeader({
         {isMenuOpen ? (
           <nav
             aria-label="Mobile navigation"
-            className="border-t border-[var(--site-color-border)] bg-white px-4 pb-4 pt-3 text-[var(--site-color-foreground)] md:hidden"
+            className="border-t border-[var(--site-color-border)] bg-[var(--site-color-surface)] px-4 pb-4 pt-3 text-[var(--site-color-foreground)] md:hidden"
             id="mobile-nav"
           >
             <ul className="space-y-1">

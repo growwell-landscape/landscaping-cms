@@ -59,17 +59,49 @@
     "colors": {
       "primary": "#48a649",
       "primaryHover": "#3d8c3e",
+      "primaryForeground": "#ffffff",
       "secondary": "#6fbf73",
+      "secondaryHover": "#5ca960",
+      "secondaryForeground": "#0f1f14",
       "background": "#ffffff",
+      "backgroundAlt": "#f6f8f4",
       "foreground": "#1a1a1a",
       "muted": "#f5f5f5",
       "mutedForeground": "#6b7280",
       "accent": "#e8f5e9",
-      "border": "#e5e7eb"
+      "accentForeground": "#1f5133",
+      "border": "#e5e7eb",
+      "surface": "#ffffff",
+      "surfaceMuted": "#edf2ee",
+      "surfaceElevated": "#ffffff",
+      "footerBackground": "#f4f6f4",
+      "heroText": "#ffffff",
+      "heroMutedText": "rgba(255, 255, 255, 0.85)",
+      "overlay": "rgba(0, 0, 0, 0.28)",
+      "overlayStrong": "rgba(0, 0, 0, 0.45)",
+      "success": "#16a34a",
+      "successForeground": "#ffffff",
+      "warning": "#f59e0b",
+      "warningForeground": "#ffffff",
+      "danger": "#dc2626",
+      "dangerForeground": "#ffffff",
+      "info": "#2563eb",
+      "infoForeground": "#ffffff",
+      "whatsapp": "#25d366",
+      "whatsappForeground": "#ffffff",
+      "mapAccent": "#1a73e8",
+      "mapAccentForeground": "#ffffff"
     },
     "fonts": {
       "heading": "'Montserrat', sans-serif",
-      "body": "'Inter', sans-serif"
+      "body": "'Inter', sans-serif",
+      "ui": "'Inter', sans-serif"
+    },
+    "effects": {
+      "pageHeroGradient": "linear-gradient(130deg, #173425 0%, #1e4a34 42%, #2a6848 100%), radial-gradient(circle at 15% 20%, rgba(255,255,255,0.16) 0 12%, transparent 13%), radial-gradient(circle at 82% 72%, rgba(255,255,255,0.12) 0 9%, transparent 10%)",
+      "heroImageOverlay": "rgba(0, 0, 0, 0.45)",
+      "serviceHeroImageOverlay": "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6), rgba(0,0,0,0.4))",
+      "adminLoginGradient": "linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)"
     },
     "customCss": ""
   },

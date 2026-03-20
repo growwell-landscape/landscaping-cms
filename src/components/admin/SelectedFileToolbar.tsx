@@ -33,13 +33,16 @@ export function SelectedFileToolbar({
   onResetCurrent,
 }: SelectedFileToolbarProps) {
   return (
-    <div className="sticky top-0 z-10 bg-white/95 backdrop-blur p-4 border-b space-y-4">
+    <div
+      className="sticky top-0 z-10 border-b border-[var(--admin-color-border)] p-4 space-y-4 backdrop-blur"
+      style={{ backgroundColor: "color-mix(in srgb, var(--admin-color-surface) 95%, transparent)" }}
+    >
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-slate-900">
+          <h2 className="admin-heading text-base font-semibold">
             {title} ({itemCount})
           </h2>
-          <p className="text-sm text-slate-500">{description}</p>
+          <p className="text-sm text-[var(--admin-color-muted-foreground)]">{description}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -47,7 +50,7 @@ export function SelectedFileToolbar({
             variant="outline"
             onClick={onReload}
             disabled={isLoading}
-            className="rounded-[5px] text-slate-700"
+            className="admin-button-outline rounded-[5px]"
           >
             {isLoading ? <Loader className="animate-spin h-4 w-4" /> : <Loader className="h-4 w-4" />}
             Reload
@@ -56,7 +59,7 @@ export function SelectedFileToolbar({
             variant="outline"
             onClick={onResetCurrent}
             disabled={isLoading || !selectedFileHasPendingChanges}
-            className="rounded-[5px] text-slate-700"
+            className="admin-button-outline rounded-[5px]"
           >
             <RotateCcw className="h-4 w-4" />
             Reset Local Changes
@@ -65,7 +68,7 @@ export function SelectedFileToolbar({
             <Button
               onClick={onAddItem}
               disabled={isLoading}
-              className="inline-flex items-center gap-2 rounded-[6px] text-center"
+              className="admin-button-primary inline-flex items-center gap-2 rounded-[6px] text-center"
             >
               <Plus className="h-4 w-4" />
               Add Item
@@ -75,7 +78,7 @@ export function SelectedFileToolbar({
             <Button
               onClick={onSaveCurrent}
               disabled={isLoading}
-              className="inline-flex items-center gap-2 rounded-[6px] text-center bg-emerald-600 hover:bg-emerald-700"
+              className="admin-button-primary inline-flex items-center gap-2 rounded-[6px] text-center"
             >
               {isLoading ? <Loader className="animate-spin h-4 w-4" /> : <Save className="h-4 w-4" />}
               Save Current Locally
@@ -85,12 +88,12 @@ export function SelectedFileToolbar({
       </div>
       <div className="flex flex-wrap items-center gap-2 text-xs">
         {selectedFileHasDraftChanges && (
-          <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
+          <span className="admin-badge-warning rounded-full px-3 py-1 font-medium">
             Draft changes pending local save
           </span>
         )}
         {selectedFileIsQueued && (
-          <span className="rounded-full bg-emerald-100 px-3 py-1 font-medium text-emerald-700">
+          <span className="admin-badge-success rounded-full px-3 py-1 font-medium">
             Local save complete. Ready for global update
           </span>
         )}

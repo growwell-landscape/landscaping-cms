@@ -160,22 +160,15 @@ export default async function ContactPage() {
   return (
     <main>
       <section className="relative overflow-hidden border-b border-[var(--site-color-border)] pb-14 pt-32 text-center md:pb-16 md:pt-36">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(130deg, #183a2a 0%, #1f4d35 42%, #2a6848 100%), radial-gradient(circle at 16% 22%, rgba(255,255,255,0.16) 0 12%, transparent 13%), radial-gradient(circle at 84% 70%, rgba(255,255,255,0.14) 0 10%, transparent 11%)",
-          }}
-        />
+        <div aria-hidden="true" className="site-page-hero absolute inset-0" />
         <SectionContainer className="relative">
           <ScrollReveal>
-            <h1 className="site-heading text-4xl font-semibold text-white md:text-4xl">
+            <h1 className="site-heading text-4xl font-semibold md:text-4xl" style={{ color: "var(--site-color-hero-text)" }}>
               {contactCopy.title || "Contact Us"}
             </h1>
           </ScrollReveal>
           <ScrollReveal delayMs={80}>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">
+            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed md:text-lg" style={{ color: "var(--site-color-hero-muted-text)" }}>
               {contactCopy.subtitle ||
                 "Let's build your dream garden! Reach out to us for quotes, consultations, or any questions."}
             </p>
@@ -183,7 +176,7 @@ export default async function ContactPage() {
         </SectionContainer>
       </section>
 
-      <section className="bg-white py-10 md:py-14">
+      <section className="site-surface py-10 md:py-14">
         <SectionContainer>
           <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
             <div>
@@ -194,7 +187,7 @@ export default async function ContactPage() {
                 {contactCollections.phoneNumbers.map((phone, index) => (
                   <ScrollReveal delayMs={50 + index * 40} key={`contact-phone-${index}`}>
                     <a
-                      className="flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] bg-white px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
+                      className="site-surface-elevated flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
                       href={`tel:${sanitizePhoneNumber(phone)}`}
                     >
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-[5px] bg-[var(--site-color-muted)] text-[var(--site-color-primary)]">
@@ -212,12 +205,12 @@ export default async function ContactPage() {
 
                 <ScrollReveal delayMs={130}>
                   <a
-                    className="flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] bg-white px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
+                    className="site-surface-elevated flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
                     href={whatsappHref}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-white shadow-sm">
+                    <span className="site-whatsapp-badge inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-sm">
                       <WhatsAppIcon className="h-6 w-6" />
                     </span>
                     <span>
@@ -232,7 +225,7 @@ export default async function ContactPage() {
                 {contactCollections.emails.map((email, index) => (
                   <ScrollReveal delayMs={180 + index * 40} key={`contact-email-${index}`}>
                     <a
-                      className="flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] bg-white px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
+                      className="site-surface-elevated flex items-center gap-4 rounded-[5px] border border-[var(--site-color-border)] px-5 py-[18px] transition-colors hover:border-[var(--site-color-primary)]"
                       href={`mailto:${email}`}
                     >
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-[5px] bg-[var(--site-color-muted)] text-[var(--site-color-primary)]">
@@ -252,7 +245,7 @@ export default async function ContactPage() {
               {social ? (
                 <ScrollReveal delayMs={220}>
                   <a
-                    className="mt-6 inline-flex h-[52px] w-full items-center justify-center gap-3 rounded-[5px] bg-[var(--site-color-primary)] px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)] md:text-lg"
+                    className="site-button-primary mt-6 inline-flex h-[52px] w-full items-center justify-center gap-3 rounded-[5px] px-7 text-base font-semibold shadow-sm transition-colors md:text-lg"
                     href={social.url}
                     rel="noopener noreferrer"
                     target="_blank"

@@ -66,17 +66,32 @@ export function MediaFieldEditor({
       : mediaUploadState?.status === "error"
         ? "#dc2626"
         : "#2563eb";
-  const uploadStatusClassName =
+  const uploadStatusStyle =
     mediaUploadState?.status === "queued"
-      ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+      ? {
+          borderColor: "color-mix(in srgb, var(--admin-color-success) 20%, white)",
+          backgroundColor:
+            "color-mix(in srgb, var(--admin-color-success) 10%, white)",
+          color: "var(--admin-color-success)",
+        }
       : mediaUploadState?.status === "error"
-        ? "border-red-200 bg-red-50 text-red-700"
-        : "border-blue-200 bg-blue-50 text-blue-700";
+        ? {
+            borderColor: "color-mix(in srgb, var(--admin-color-danger) 20%, white)",
+            backgroundColor:
+              "color-mix(in srgb, var(--admin-color-danger) 10%, white)",
+            color: "var(--admin-color-danger)",
+          }
+        : {
+            borderColor: "color-mix(in srgb, var(--admin-color-info) 20%, white)",
+            backgroundColor:
+              "color-mix(in srgb, var(--admin-color-info) 10%, white)",
+            color: "var(--admin-color-info)",
+          };
 
   return (
     <div className="space-y-3">
       {hasMedia ? (
-        <div className="rounded-md border border-slate-200 bg-slate-50 p-2">
+        <div className="rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-2">
           {canPreview ? (
             isVideoMedia ? (
               // eslint-disable-next-line jsx-a11y/media-has-caption
@@ -94,15 +109,15 @@ export function MediaFieldEditor({
               />
             )
           ) : (
-            <p className="break-all text-xs text-slate-600">{currentValue}</p>
+            <p className="break-all text-xs text-[var(--admin-color-muted-foreground)]">{currentValue}</p>
           )}
         </div>
       ) : (
-        <p className="text-xs text-slate-500">No media selected.</p>
+        <p className="text-xs text-[var(--admin-color-muted-foreground)]">No media selected.</p>
       )}
 
       <input
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+        className="admin-input w-full rounded-lg px-3 py-2 disabled:opacity-50"
         disabled={disabled}
         onChange={(event) => onFieldChange(fieldPath, event.target.value)}
         placeholder="/uploads/path/file.jpg"
@@ -112,8 +127,8 @@ export function MediaFieldEditor({
 
       <div className="flex flex-wrap items-center gap-2">
         <label
-          className={`inline-flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-xs font-medium text-white ${
-            disabled || isUploading ? "bg-slate-300" : "bg-blue-600 hover:bg-blue-700"
+          className={`inline-flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-xs font-medium ${
+            disabled || isUploading ? "bg-[var(--admin-color-border)] text-[var(--admin-color-muted-foreground)]" : "admin-button-primary"
           }`}
           htmlFor={uploadInputId}
         >
@@ -143,7 +158,7 @@ export function MediaFieldEditor({
 
         {hasMedia && (
           <button
-            className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-100 disabled:opacity-50"
+            className="admin-button-danger inline-flex items-center gap-1 rounded-md px-3 py-2 text-xs font-medium disabled:opacity-50"
             disabled={disabled || isUploading}
             onClick={() => onImageRemove(fieldPath, currentValue)}
             type="button"
@@ -155,7 +170,8 @@ export function MediaFieldEditor({
       </div>
       {mediaUploadState && (
         <div
-          className={`flex items-center gap-2 rounded-md border px-2.5 py-2 text-xs ${uploadStatusClassName}`}
+          className="flex items-center gap-2 rounded-md border px-2.5 py-2 text-xs"
+          style={uploadStatusStyle}
         >
           <div
             aria-hidden
@@ -164,7 +180,7 @@ export function MediaFieldEditor({
               background: `conic-gradient(${uploadStatusColor} ${uploadProgress * 3.6}deg, #cbd5e1 0deg)`,
             }}
           >
-            <div className="absolute inset-[3px] flex items-center justify-center rounded-full bg-white text-[10px] font-semibold text-slate-700">
+            <div className="absolute inset-[3px] flex items-center justify-center rounded-full bg-[var(--admin-color-surface)] text-[10px] font-semibold text-[var(--admin-color-foreground)]">
               {uploadProgress}%
             </div>
           </div>

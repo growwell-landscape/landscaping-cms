@@ -125,20 +125,31 @@ function ProjectCard({
         imgClassName="transition-transform duration-500 group-hover:scale-105"
         src={imagePath}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
-      <div className="absolute bottom-4 left-4 right-4 space-y-2 text-white">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to top, color-mix(in srgb, var(--site-color-overlay-strong) 100%, black) 0%, color-mix(in srgb, var(--site-color-overlay) 70%, transparent) 45%, transparent 100%)",
+        }}
+      />
+      <div className="absolute bottom-4 left-4 right-4 space-y-2" style={{ color: "var(--site-color-hero-text)" }}>
         <h3 className="site-heading text-xl font-semibold leading-tight">{title}</h3>
         {description ? (
-          <p className="line-clamp-2 text-sm text-white/90">{description}</p>
+          <p className="line-clamp-2 text-sm" style={{ color: "var(--site-color-hero-muted-text)" }}>{description}</p>
         ) : null}
         {completedDate ? (
-          <p className="text-xs font-medium uppercase tracking-wide text-white/80">
+          <p className="text-xs font-medium uppercase tracking-wide" style={{ color: "color-mix(in srgb, var(--site-color-hero-text) 80%, transparent)" }}>
             {completedDate}
           </p>
         ) : null}
         {showGalleryAction ? (
           <button
-            className="mt-2 inline-flex items-center gap-2 rounded-[5px] border border-white/40 bg-black/45 px-3 py-2 text-xs font-semibold text-white transition-colors hover:border-white hover:bg-black/60"
+            className="mt-2 inline-flex items-center gap-2 rounded-[5px] border px-3 py-2 text-xs font-semibold transition-colors"
+            style={{
+              borderColor: "color-mix(in srgb, var(--site-color-hero-text) 40%, transparent)",
+              backgroundColor: "var(--site-color-overlay-strong)",
+              color: "var(--site-color-hero-text)",
+            }}
             onClick={onOpenGallery}
             type="button"
           >
@@ -258,8 +269,8 @@ export function ProjectsCarousel({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
-          <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
+          <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
+          <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
         </Carousel>
         <div className="mt-6 flex items-center justify-center gap-2 md:hidden">
           {Array.from({ length: slideCount }).map((_, index) => (
@@ -282,7 +293,7 @@ export function ProjectsCarousel({
           <div className="mt-5 flex items-center justify-center">
             <button
               aria-label={isAutoplayEnabled ? "Pause carousel autoplay" : "Resume carousel autoplay"}
-              className="inline-flex h-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] bg-white px-3 text-xs font-semibold text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+              className="inline-flex h-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-surface)] px-3 text-xs font-semibold text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
               onClick={() => setIsAutoplayEnabled((previousValue) => !previousValue)}
               type="button"
             >
@@ -304,7 +315,7 @@ export function ProjectsCarousel({
           }
         }}
       >
-        <DialogContent className="max-w-[96vw] border-[var(--site-color-border)] bg-white p-4 sm:max-w-4xl" showCloseButton>
+        <DialogContent className="max-w-[96vw] border-[var(--site-color-border)] bg-[var(--site-color-surface)] p-4 sm:max-w-4xl" showCloseButton>
           <DialogHeader>
             <DialogTitle className="site-heading text-xl text-[var(--site-color-foreground)]">
               {activeProject?.title} {galleryTitleLabel}
@@ -338,7 +349,12 @@ export function ProjectsCarousel({
                   <>
                     <button
                       aria-label="Previous image"
-                      className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white transition-colors hover:bg-black/70"
+                      className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border transition-colors"
+                      style={{
+                        borderColor: "color-mix(in srgb, var(--site-color-hero-text) 30%, transparent)",
+                        backgroundColor: "var(--site-color-overlay-strong)",
+                        color: "var(--site-color-hero-text)",
+                      }}
                       onClick={() => moveGallery(-1)}
                       type="button"
                     >
@@ -346,7 +362,12 @@ export function ProjectsCarousel({
                     </button>
                     <button
                       aria-label="Next image"
-                      className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white transition-colors hover:bg-black/70"
+                      className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border transition-colors"
+                      style={{
+                        borderColor: "color-mix(in srgb, var(--site-color-hero-text) 30%, transparent)",
+                        backgroundColor: "var(--site-color-overlay-strong)",
+                        color: "var(--site-color-hero-text)",
+                      }}
                       onClick={() => moveGallery(1)}
                       type="button"
                     >

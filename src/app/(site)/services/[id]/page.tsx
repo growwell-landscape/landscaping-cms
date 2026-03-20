@@ -257,33 +257,39 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
           className="absolute inset-0"
           src={service.image}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/40" />
+        <div
+          className="absolute inset-0"
+          style={{ backgroundImage: "var(--site-effect-service-hero-image-overlay)" }}
+        />
         <SectionContainer className="relative">
-          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-white/75">
-            <Link className="transition-colors hover:text-white" href={homeHref}>
+          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm" style={{ color: "color-mix(in srgb, var(--site-color-hero-text) 75%, transparent)" }}>
+            <Link className="transition-colors" href={homeHref} style={{ color: "inherit" }}>
               {breadcrumbHomeLabel}
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <Link className="transition-colors hover:text-white" href={servicesHref}>
+            <Link className="transition-colors" href={servicesHref} style={{ color: "inherit" }}>
               {breadcrumbServicesLabel}
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <span className="font-medium text-white">{service.title}</span>
+            <span className="font-medium" style={{ color: "var(--site-color-hero-text)" }}>{service.title}</span>
           </nav>
 
           <div className="flex items-start gap-4">
-            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-[5px] bg-white/85 text-[var(--site-color-primary)]">
+            <span
+              className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-[5px] text-[var(--site-color-primary)]"
+              style={{ backgroundColor: "color-mix(in srgb, var(--site-color-surface) 85%, transparent)" }}
+            >
               <Icon className="h-7 w-7" />
             </span>
             <div>
-              <h1 className="site-heading text-3xl font-semibold text-white md:text-5xl">{service.title}</h1>
-              <p className="mt-3 max-w-3xl text-base text-white/85 md:text-lg">{service.shortDescription}</p>
+              <h1 className="site-heading text-3xl font-semibold md:text-5xl" style={{ color: "var(--site-color-hero-text)" }}>{service.title}</h1>
+              <p className="mt-3 max-w-3xl text-base md:text-lg" style={{ color: "var(--site-color-hero-muted-text)" }}>{service.shortDescription}</p>
             </div>
           </div>
         </SectionContainer>
       </section>
 
-      <section className="bg-white py-10 md:py-14">
+      <section className="site-surface py-10 md:py-14">
         <SectionContainer>
           <div className="grid gap-10 lg:grid-cols-[1.6fr_0.74fr]">
             <div className="space-y-10">
@@ -311,7 +317,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                     <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                       {service.features.map((feature, index) => (
                         <li
-                          className="flex items-start gap-3 rounded-[5px] border border-[var(--site-color-border)] bg-white px-4 py-4 text-[15px] text-[var(--site-color-foreground)]"
+                          className="site-surface-elevated flex items-start gap-3 rounded-[5px] border border-[var(--site-color-border)] px-4 py-4 text-[15px] text-[var(--site-color-foreground)]"
                           key={`${service.id}-feature-${index}`}
                         >
                           <Check className="mt-[2px] h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
@@ -351,7 +357,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                     {needServiceDescription}
                   </p>
                   <ServiceQuoteButton
-                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-[var(--site-color-primary)] px-6 py-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[var(--site-color-primary-hover)]"
+                    className="site-button-primary mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[5px] px-6 py-4 text-base font-semibold shadow-sm transition-colors"
                     label={getQuoteLabel}
                     number={siteData.adminConfig.contact.whatsapp.number}
                     serviceTitle={sourceService.title}
@@ -377,7 +383,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
               {otherServices.length > 0 ? (
                 <ScrollReveal delayMs={120} variant="right">
-                  <div className="rounded-[5px] border border-[var(--site-color-border)] bg-white p-6">
+                  <div className="site-surface-elevated rounded-[5px] border border-[var(--site-color-border)] p-6">
                     <h3 className="site-heading text-xl font-semibold text-[var(--site-color-foreground)]">{otherServicesHeading}</h3>
                     <ul className="mt-4 space-y-3">
                       {otherServices.map((item) => (

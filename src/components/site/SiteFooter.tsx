@@ -47,7 +47,10 @@ export function SiteFooter({
   socialMedia,
 }: SiteFooterProps) {
   return (
-    <footer className="border-t border-[var(--site-color-border)] bg-[#f4f6f4]">
+    <footer
+      className="border-t border-[var(--site-color-border)]"
+      style={{ backgroundColor: "var(--site-color-footer-background)" }}
+    >
       <SectionContainer className="py-12">
         <div className="grid gap-10 md:grid-cols-[1.35fr_1fr_0.7fr]">
           <div className="space-y-4">

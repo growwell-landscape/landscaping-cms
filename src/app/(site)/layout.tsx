@@ -15,42 +15,12 @@ import {
 } from "@/lib/seo";
 import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
-import type { ThemeConfig } from "@/types/config";
+import { createSiteThemeStyle } from "@/lib/theme";
 
 export const dynamic = "force-dynamic";
 
 interface SiteLayoutProps {
   children: ReactNode;
-}
-
-interface SiteThemeStyle extends CSSProperties {
-  "--site-color-accent": string;
-  "--site-color-background": string;
-  "--site-color-border": string;
-  "--site-color-foreground": string;
-  "--site-color-muted": string;
-  "--site-color-muted-foreground": string;
-  "--site-color-primary": string;
-  "--site-color-primary-hover": string;
-  "--site-color-secondary": string;
-  "--site-font-body": string;
-  "--site-font-heading": string;
-}
-
-function createThemeStyle(theme: ThemeConfig): SiteThemeStyle {
-  return {
-    "--site-color-accent": theme.colors.accent,
-    "--site-color-background": theme.colors.background,
-    "--site-color-border": theme.colors.border,
-    "--site-color-foreground": theme.colors.foreground,
-    "--site-color-muted": theme.colors.muted,
-    "--site-color-muted-foreground": theme.colors.mutedForeground,
-    "--site-color-primary": theme.colors.primary,
-    "--site-color-primary-hover": theme.colors.primaryHover,
-    "--site-color-secondary": theme.colors.secondary,
-    "--site-font-body": theme.fonts.body,
-    "--site-font-heading": theme.fonts.heading,
-  };
 }
 
 function getLogoText(text?: string): string {
@@ -139,7 +109,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
   });
   const socialMedia = adminConfig.socialMedia.filter((social) => social.enabled);
   const contactCollections = getContactCollections(adminConfig.contact);
-  const themeStyle = createThemeStyle(adminConfig.theme);
+  const themeStyle = createSiteThemeStyle(adminConfig.theme) as CSSProperties;
   const metadataBase = resolveMetadataBase();
   const localizedHomeUrl = toAbsoluteUrl(
     `/${language.currentLanguageCode}`,

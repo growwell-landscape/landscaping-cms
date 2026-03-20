@@ -62,7 +62,7 @@ export function ServicesSection({
         </div>
         <ScrollReveal className="mt-10 text-center" delayMs={120}>
           <Link
-            className="inline-flex h-11 items-center gap-2 rounded-[5px] border border-[var(--site-color-border)] bg-white px-8 text-sm font-semibold text-[var(--site-color-primary)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:bg-[var(--site-color-accent)]"
+            className="site-surface inline-flex h-11 items-center gap-2 rounded-[5px] border border-[var(--site-color-border)] px-8 text-sm font-semibold text-[var(--site-color-primary)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:bg-[var(--site-color-accent)]"
             href={servicesPageHref}
           >
             {viewAllLabel}
