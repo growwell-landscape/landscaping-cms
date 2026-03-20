@@ -31,11 +31,15 @@ export function HeroSection({
         <SiteImage
           alt={`${title} hero background mobile`}
           className="absolute inset-0 md:hidden"
+          priority
+          sizes="100vw"
           src={imageMobile}
         />
         <SiteImage
           alt={`${title} hero background desktop`}
           className="absolute inset-0 hidden md:block"
+          priority
+          sizes="100vw"
           src={imageDesktop}
         />
         <div

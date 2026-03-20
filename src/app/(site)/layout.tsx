@@ -46,8 +46,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const iconUrl = seo.favicon ? toAbsoluteUrl(seo.favicon, metadataBase) : undefined;
 
   return {
+    applicationName: adminConfig.site.name,
     metadataBase,
     description: seo.description,
+    formatDetection: {
+      address: false,
+      email: false,
+      telephone: false,
+    },
     icons: iconUrl
       ? {
           icon: iconUrl,
@@ -56,6 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
         }
       : undefined,
     keywords,
+    manifest: "/manifest.webmanifest",
     openGraph: {
       description: seo.description,
       images: ogImage ? [{ url: ogImage }] : undefined,
@@ -67,8 +74,20 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     robots: {
       follow: shouldIndexSite,
+      googleBot: {
+        follow: shouldIndexSite,
+        index: shouldIndexSite,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
       index: shouldIndexSite,
     },
+    verification: process.env.GOOGLE_SITE_VERIFICATION
+      ? {
+          google: process.env.GOOGLE_SITE_VERIFICATION,
+        }
+      : undefined,
     twitter: {
       card: "summary_large_image",
       description: seo.description,
@@ -125,8 +144,24 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      description: adminConfig.site.description || adminConfig.seo.description,
       inLanguage: language.currentLanguageCode,
+      keywords: parseKeywords(adminConfig.seo.keywords)?.join(", "),
       name: adminConfig.site.name,
+      publisher: {
+        "@type": "Organization",
+        name: adminConfig.site.companyName || adminConfig.site.name,
+      },
+      url: localizedHomeUrl,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      description: adminConfig.site.description,
+      image: logoImageUrl,
+      logo: logoImageUrl,
+      name: adminConfig.site.companyName || adminConfig.site.name,
+      sameAs: socialLinks.length > 0 ? socialLinks : undefined,
       url: localizedHomeUrl,
     },
     {

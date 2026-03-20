@@ -14,6 +14,7 @@ import {
   resolveMetadataBase,
   toAbsoluteUrl,
 } from "@/lib/seo";
+import { createLocalizedPath } from "@/lib/site-i18n";
 import { getSiteCommonData } from "@/lib/site-data";
 
 function sanitizePhoneNumber(value: string): string {
@@ -156,9 +157,46 @@ export default async function ContactPage() {
   const hasMultipleLocations = locationRows.length > 1;
   const showLocationMap = !hasMultipleLocations;
   const showLocationCards = hasMultipleLocations && locationRows.length > 0;
+  const metadataBase = resolveMetadataBase();
+  const contactUrl = toAbsoluteUrl(
+    createLocalizedPath(
+      ROUTES.CONTACT,
+      siteData.language.currentLanguageCode,
+      siteData.language.languageCodes
+    ),
+    metadataBase
+  );
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      description: contactCopy.subtitle || adminConfig.seo.description,
+      inLanguage: siteData.language.currentLanguageCode,
+      name: contactCopy.title || "Contact Us",
+      url: contactUrl,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      address: primaryAddress
+        ? {
+            "@type": "PostalAddress",
+            streetAddress: primaryAddress,
+          }
+        : undefined,
+      email: contactCollections.emails[0],
+      name: adminConfig.site.companyName || adminConfig.site.name,
+      telephone: contactCollections.phoneNumbers[0],
+      url: contactUrl,
+    },
+  ];
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <section className="relative overflow-hidden border-b border-[var(--site-color-border)] pb-14 pt-32 text-center md:pb-16 md:pt-36">
         <div aria-hidden="true" className="site-page-hero absolute inset-0" />
         <SectionContainer className="relative">

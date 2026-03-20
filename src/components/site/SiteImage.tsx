@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState, type CSSProperties } from "react";
 import { Leaf } from "lucide-react";
 
@@ -11,6 +12,8 @@ interface SiteImageProps {
   className?: string;
   imgClassName?: string;
   loading?: "lazy" | "eager";
+  priority?: boolean;
+  sizes?: string;
   style?: CSSProperties;
 }
 
@@ -19,21 +22,46 @@ function normalizeImageSource(src?: string | null): string {
   return src.trim();
 }
 
+function isRemoteImageSource(src: string): boolean {
+  return /^https?:\/\//i.test(src);
+}
+
+function isSvgSource(src: string): boolean {
+  return /\.svg(\?.*)?$/i.test(src);
+}
+
 export function SiteImage({
   alt,
   src,
   className,
   imgClassName,
   loading = "lazy",
+  priority = false,
+  sizes = "100vw",
   style,
 }: Readonly<SiteImageProps>) {
   const [hasError, setHasError] = useState(false);
   const normalizedSrc = useMemo(() => normalizeImageSource(src), [src]);
   const canRenderImage = normalizedSrc.length > 0 && !hasError;
+  const shouldUseOptimizedImage =
+    canRenderImage &&
+    !isRemoteImageSource(normalizedSrc) &&
+    !isSvgSource(normalizedSrc);
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      {canRenderImage ? (
+      {shouldUseOptimizedImage ? (
+        <Image
+          alt={alt}
+          className={cn("object-cover object-center", imgClassName)}
+          fill
+          onError={() => setHasError(true)}
+          priority={priority}
+          sizes={sizes}
+          src={normalizedSrc}
+          style={style}
+        />
+      ) : canRenderImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           alt={alt}
