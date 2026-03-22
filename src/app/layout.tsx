@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Landscaping CMS",
@@ -17,8 +18,9 @@ export default async function RootLayout({
 
   return (
     <html lang={htmlLanguage}>
-      <body>
+      <body suppressHydrationWarning>
         {children}
+        <Analytics />
       </body>
     </html>
   );
