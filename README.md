@@ -6,6 +6,10 @@ Landscaping CMS is a Next.js 15 application that combines:
 - a protected `/admin` CMS used to edit content, media, SEO, theme, and language settings
 - a GitHub-backed publishing flow for deployed environments
 
+Client-facing admin documentation:
+
+- [ADMIN_DASHBOARD.md](C:/Users/dines/Documents/GitHub/landscaping-cms/ADMIN_DASHBOARD.md)
+
 The project is designed to work in two modes:
 
 - `development`: content is read from and written to local JSON/media files on disk
