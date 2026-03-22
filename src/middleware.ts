@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import bundledAdminConfig from "@/data/content/admin.config.json";
 import {
   normalizeLanguageCode,
   resolveSiteLanguage,
@@ -30,6 +31,12 @@ interface CachedLanguageRoutingState {
 let cachedLanguageRoutingState: CachedLanguageRoutingState | null = null;
 
 function createFallbackSiteConfig(): SiteConfig {
+  const bundledSiteConfig = bundledAdminConfig?.site;
+
+  if (bundledSiteConfig && typeof bundledSiteConfig === "object") {
+    return bundledSiteConfig as SiteConfig;
+  }
+
   return {
     name: "Site",
     companyName: "Site",

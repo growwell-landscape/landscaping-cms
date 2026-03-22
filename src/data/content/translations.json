@@ -1,14 +1,15 @@
 {
+  "id": "translations",
   "en": {
     "nav": {
       "home": "Home",
       "services": "Services",
       "projects": "Projects",
       "about": "About",
-      "contact": "Contact Us"
+      "contact": "Contact"
     },
     "hero": {
-      "viewServices": "View Services"
+      "viewServices": "Explore Services"
     },
     "services": {
       "title": "Our Services",
@@ -24,23 +25,23 @@
       "subtitle": "Browse our portfolio of successful landscaping projects"
     },
     "contact": {
-      "title": "Get in Touch",
-      "subtitle": "Let's build your dream garden! Reach out to us for quick consultations, or any queries.",
-      "callUs": "Call Us",
-      "emailUs": "Email Us",
+      "title": "Let's Talk About Your Space",
+      "subtitle": "Planning a terrace garden, lawn, or landscape upgrade? Share your requirement and we will help you move forward with the right solution.",
+      "callUs": "Call Our Team",
+      "emailUs": "Send an Email",
       "chatOnWhatsApp": "Chat on WhatsApp",
-      "startConversation": "Start Conversation",
-      "visitUs": "Visit Us",
-      "getInTouchSectionTitle": "Get in Touch",
-      "mapAction": "Go to location",
+      "startConversation": "Start a Chat",
+      "visitUs": "Our Location",
+      "getInTouchSectionTitle": "Connect With Us",
+      "mapAction": "Open in Maps",
       "followUs": "Follow Us on Instagram",
-      "timingsTitle": "Business Hours",
-      "businessHours": "Business Hours"
+      "timingsTitle": "Working Hours",
+      "businessHours": "Working Hours"
     },
     "footer": {
-      "contactTitle": "Contact",
+      "contactTitle": "Reach Us",
       "copyright": "(c) 2026 GrowWell Landscape Pvt Ltd. All rights reserved.",
-      "followUsTitle": "Follow Us",
+      "followUsTitle": "Stay Connected",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
     },
@@ -62,136 +63,6 @@
       "contactUs": "Contact Us",
       "getStarted": "Get Started",
       "learnMore": "Learn More"
-    }
-  },
-  "tel": {
-    "nav": {
-      "home": "హోమ్",
-      "services": "సేవలు",
-      "projects": "ప్రాజెక్టులు",
-      "about": "మా గురించి",
-      "contact": "సంప్రదించండి"
-    },
-    "hero": {
-      "viewServices": "సేవలను చూడండి"
-    },
-    "services": {
-      "title": "మా సేవలు",
-      "subtitle": "డిజైన్ నుంచి నిర్వహణ వరకు, మీ అవసరాలకు సరిపోయే సమగ్ర ల్యాండ్‌స్కేపింగ్ పరిష్కారాలను అందిస్తున్నాము.",
-      "viewDetails": "వివరాలు చూడండి",
-      "viewAll": "అన్ని సేవలు చూడండి",
-      "getQuote": "కొటేషన్ పొందండి",
-      "searchPlaceholder": "సేవ కోసం వెతకండి...",
-      "noResults": "మీ శోధనకు సరిపోయే సేవలు కనపడలేదు."
-    },
-    "projects": {
-      "title": "మా ప్రాజెక్టులు",
-      "subtitle": "మా విజయవంతమైన ల్యాండ్‌స్కేపింగ్ ప్రాజెక్టుల పోర్ట్‌ఫోలియోను చూడండి"
-    },
-    "contact": {
-      "title": "మమ్మల్ని సంప్రదించండి",
-      "subtitle": "మీ కలల తోటను కలిసి నిర్మిద్దాం! కొటేషన్లు, సంప్రదింపులు లేదా ఏవైనా ప్రశ్నల కోసం మాకు చేరండి.",
-      "callUs": "కాల్ చేయండి",
-      "emailUs": "ఈమెయిల్ చేయండి",
-      "chatOnWhatsApp": "వాట్సాప్‌లో చాట్ చేయండి",
-      "startConversation": "చాట్ ప్రారంభించండి",
-      "visitUs": "మా వద్దకు రండి",
-      "getInTouchSectionTitle": "సంప్రదించండి",
-      "mapAction": "నిర్దేశిత స్థానాన్ని తెరవండి",
-      "followUs": "ఇన్‌స్టాగ్రామ్‌లో ఫాలో అవ్వండి",
-      "timingsTitle": "\u0c35\u0c4d\u0c2f\u0c3e\u0c2a\u0c3e\u0c30 \u0c38\u0c2e\u0c2f\u0c3e\u0c32\u0c41",
-      "businessHours": "\u0c35\u0c4d\u0c2f\u0c3e\u0c2a\u0c3e\u0c30 \u0c38\u0c2e\u0c2f\u0c3e\u0c32\u0c41"
-    },
-    "footer": {
-      "contactTitle": "సంప్రదింపు",
-      "copyright": "(c) 2026 GrowWell Landscape Pvt Ltd. అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.",
-      "followUsTitle": "మమ్మల్ని ఫాలో అవ్వండి",
-      "privacyPolicy": "గోప్యతా విధానం",
-      "termsOfService": "సేవా నిబంధనలు"
-    },
-    "serviceDetail": {
-      "aboutTitle": "ఈ సేవ గురించి",
-      "breadcrumbHome": "హోమ్",
-      "breadcrumbServices": "సేవలు",
-      "callDirectly": "లేదా నేరుగా ఈ నంబర్‌కు కాల్ చేయండి",
-      "featuresTitle": "ముఖ్య లక్షణాలు",
-      "galleryTitle": "గ్యాలరీ",
-      "getQuoteButton": "సంప్రదించి కొటేషన్ పొందండి",
-      "needServiceDescription": "ఉచిత సంప్రదింపు మరియు కొటేషన్ కోసం ఈరోజే మమ్మల్ని సంప్రదించండి.",
-      "needServiceTitle": "ఈ సేవ కావాలా?",
-      "otherServicesTitle": "ఇతర సేవలు"
-    },
-    "common": {
-      "comingSoon": "పేజీ డిజైన్ త్వరలో అందుబాటులో ఉంటుంది.",
-      "chooseLanguage": "భాషను ఎంచుకోండి",
-      "contactUs": "సంప్రదించండి",
-      "getStarted": "ప్రారంభించండి",
-      "learnMore": "ఇంకా తెలుసుకోండి"
-    }
-  },
-  "ta": {
-    "nav": {
-      "home": "முகப்பு",
-      "services": "சேவைகள்",
-      "projects": "திட்டங்கள்",
-      "about": "எங்களை பற்றி",
-      "contact": "எங்களை தொடர்புகொள்ள"
-    },
-    "hero": {
-      "viewServices": "சேவைகளை பார்க்க"
-    },
-    "services": {
-      "title": "எங்கள் சேவைகள்",
-      "subtitle": "வடிவமைப்பில் இருந்து பராமரிப்பு வரை, உங்கள் தேவைக்கு ஏற்ப முழுமையான லேண்ட்ஸ்கேப்பிங் தீர்வுகளை வழங்குகிறோம்.",
-      "viewDetails": "விவரங்களை பார்க்க",
-      "viewAll": "அனைத்து சேவைகளையும் பார்க்க",
-      "getQuote": "விலைமதிப்பீடு பெற",
-      "searchPlaceholder": "ஒரு சேவையைத் தேடுங்கள்...",
-      "noResults": "உங்கள் தேடலுக்கு பொருந்தும் சேவைகள் கிடைக்கவில்லை."
-    },
-    "projects": {
-      "title": "எங்கள் திட்டங்கள்",
-      "subtitle": "எங்கள் வெற்றிகரமான லேண்ட்ஸ்கேப்பிங் திட்டங்களை பாருங்கள்"
-    },
-    "contact": {
-      "title": "எங்களை தொடர்புகொள்ளுங்கள்",
-      "subtitle": "உங்கள் கனவு தோட்டத்தை உருவாக்க நாம் உதவுகிறோம்! விலைமதிப்பீடு, ஆலோசனை அல்லது ஏதேனும் கேள்விக்காக எங்களை அணுகுங்கள்.",
-      "callUs": "அழைக்கவும்",
-      "emailUs": "மின்னஞ்சல் அனுப்பவும்",
-      "chatOnWhatsApp": "வாட்ஸ்அப்பில் உரையாடவும்",
-      "startConversation": "உரையாடலை தொடங்கவும்",
-      "visitUs": "எங்களை சந்திக்கவும்",
-      "getInTouchSectionTitle": "தொடர்புகொள்ளுங்கள்",
-      "mapAction": "குறிப்பிட்ட இடத்தைத் திறக்கவும்",
-      "followUs": "இன்ஸ்டாகிராமில் பின்தொடருங்கள்",
-      "timingsTitle": "\u0bb5\u0ba3\u0bbf\u0b95 \u0ba8\u0bc7\u0bb0\u0bae\u0bcd",
-      "businessHours": "\u0bb5\u0ba3\u0bbf\u0b95 \u0ba8\u0bc7\u0bb0\u0bae\u0bcd"
-    },
-    "footer": {
-      "contactTitle": "தொடர்பு",
-      "copyright": "(c) 2026 GrowWell Landscape Pvt Ltd. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
-      "followUsTitle": "எங்களை பின்தொடருங்கள்",
-      "privacyPolicy": "தனியுரிமைக் கொள்கை",
-      "termsOfService": "சேவை விதிமுறைகள்"
-    },
-    "serviceDetail": {
-      "aboutTitle": "இந்த சேவை பற்றி",
-      "breadcrumbHome": "முகப்பு",
-      "breadcrumbServices": "சேவைகள்",
-      "callDirectly": "அல்லது இந்த எண்ணிற்கு நேரடியாக அழைக்கவும்",
-      "featuresTitle": "முக்கிய அம்சங்கள்",
-      "galleryTitle": "படத் தொகுப்பு",
-      "getQuoteButton": "தொடர்பு கொண்டு விலைமதிப்பீடு பெறுங்கள்",
-      "needServiceDescription": "இலவச ஆலோசனை மற்றும் விலைமதிப்பீட்டிற்கு இன்றே எங்களை தொடர்புகொள்ளுங்கள்.",
-      "needServiceTitle": "இந்த சேவை தேவையா?",
-      "otherServicesTitle": "மற்ற சேவைகள்"
-    },
-    "common": {
-      "comingSoon": "பக்க வடிவமைப்பு விரைவில் வருகிறது.",
-      "chooseLanguage": "மொழியை தேர்ந்தெடுக்கவும்",
-      "contactUs": "எங்களை தொடர்புகொள்ள",
-      "getStarted": "தொடங்குங்கள்",
-      "learnMore": "மேலும் அறிய"
     }
   }
 }

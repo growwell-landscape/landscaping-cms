@@ -16,6 +16,7 @@ import { LanguageSettingsCard } from "@/components/admin/LanguageSettingsCard";
 import { PublishSummaryDialog, type PublishSummary } from "@/components/admin/PublishSummaryDialog";
 import { SelectedFileToolbar } from "@/components/admin/SelectedFileToolbar";
 import { CMS_FILES, getFileLabel, getFileMetadata } from "@/lib/cms-utils";
+import { createAdminThemeStyle, DEFAULT_THEME_CONFIG, normalizeThemeConfig } from "@/lib/theme";
 
 const SITE_CONFIG_SECTION_ORDER = [
   { key: "site", label: "Site Settings" },
@@ -31,6 +32,7 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [selectFileInput, setSelectFileInput] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [newLanguageName, setNewLanguageName] = useState("");
@@ -105,6 +107,8 @@ export default function AdminDashboard() {
     selectedFile === CMS_FILES.ADMIN_CONFIG || selectedFile === CMS_FILES.TRANSLATIONS;
   const canAddTopLevelItems = isCurrentFileArray && !hideAddItemButton;
   const siteConfigItem = isSiteConfigFile ? items[0] : null;
+  const resolvedTheme = normalizeThemeConfig(siteConfigItem?.theme || DEFAULT_THEME_CONFIG);
+  const adminThemeStyle = createAdminThemeStyle(resolvedTheme);
   const siteConfigLocalId =
     siteConfigItem &&
     (typeof siteConfigItem.__localId === "string"
@@ -164,6 +168,8 @@ export default function AdminDashboard() {
   };
 
   const handleAuthenticate = async () => {
+    if (isAuthenticating) return;
+
     const trimmedPassword = password.trim();
     if (!trimmedPassword) {
       setLoginError("Please enter your password.");
@@ -176,14 +182,20 @@ export default function AdminDashboard() {
 
     const defaultFile = CMS_FILES.ADMIN_CONFIG;
     setSelectFileInput(defaultFile);
-    const isAuthenticatedUser = await loadData(defaultFile, trimmedPassword, true);
-    setIsAuthenticated(isAuthenticatedUser);
-    if (isAuthenticatedUser) {
-      setLoginError("");
-    }
-    if (!isAuthenticatedUser) {
-      setLoginError("Invalid password. Please try again.");
-      setSelectFileInput("");
+    setIsAuthenticating(true);
+
+    try {
+      const isAuthenticatedUser = await loadData(defaultFile, trimmedPassword, true);
+      setIsAuthenticated(isAuthenticatedUser);
+
+      if (isAuthenticatedUser) {
+        setLoginError("");
+      } else {
+        setLoginError("Password is wrong.");
+        setSelectFileInput("");
+      }
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
@@ -379,19 +391,22 @@ export default function AdminDashboard() {
    */
   if (!isAuthenticated) {
     return (
-      <AdminLoginCard
-        password={password}
-        showPassword={showPassword}
-        errorMessage={loginError}
-        onPasswordChange={(nextPassword) => {
-          setPassword(nextPassword);
-          if (loginError) {
-            setLoginError("");
-          }
-        }}
-        onToggleShowPassword={() => setShowPassword((prevValue) => !prevValue)}
-        onAuthenticate={handleAuthenticate}
-      />
+      <div className="admin-theme" style={adminThemeStyle}>
+        <AdminLoginCard
+          password={password}
+          showPassword={showPassword}
+          isAuthenticating={isAuthenticating}
+          errorMessage={loginError}
+          onPasswordChange={(nextPassword) => {
+            setPassword(nextPassword);
+            if (loginError) {
+              setLoginError("");
+            }
+          }}
+          onToggleShowPassword={() => setShowPassword((prevValue) => !prevValue)}
+          onAuthenticate={handleAuthenticate}
+        />
+      </div>
     );
   }
 
@@ -399,7 +414,7 @@ export default function AdminDashboard() {
    * DASHBOARD
    */
   return (
-    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
+    <div className="admin-theme min-h-screen overflow-x-hidden" style={adminThemeStyle}>
       <AdminSidebar
         selectFileInput={selectFileInput}
         selectedFile={selectedFile}
@@ -448,13 +463,13 @@ export default function AdminDashboard() {
 
             {/* LOAD */}
             {selectFileInput && !selectedFile && (
-              <div className="bg-white p-6 rounded-xl shadow-sm flex justify-between md:hidden">
+              <div className="admin-surface flex justify-between rounded-xl p-6 shadow-sm md:hidden">
                 <div>
                   <h3 className="font-semibold">Load file?</h3>
                 </div>
                 <button
                   onClick={handleLoad}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  className="admin-button-primary rounded-lg px-4 py-2"
                 >
                   Load
                 </button>
@@ -463,7 +478,7 @@ export default function AdminDashboard() {
 
             {/* ITEMS */}
             {selectedFile && (
-              <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="rounded-xl border border-[var(--admin-color-border)] bg-[var(--admin-color-surface)] shadow-sm">
                 <SelectedFileToolbar
                   title={selectedMetadata?.label || "Data"}
                   description={selectedMetadata?.description || "Update and save your content changes"}
@@ -480,7 +495,10 @@ export default function AdminDashboard() {
                 />
 
                 {isSiteConfigFile && (
-                  <div className="p-4 border-b bg-slate-50/70">
+                  <div
+                    className="border-b border-[var(--admin-color-border)] p-4"
+                    style={{ backgroundColor: "color-mix(in srgb, var(--admin-color-surface-muted) 70%, transparent)" }}
+                  >
                     <div className="grid grid-cols-1 gap-4">
                       <LanguageSettingsCard
                         isExpanded={isLanguageSettingsExpanded}

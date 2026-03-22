@@ -5,7 +5,8 @@ export default function SiteLoading() {
   return (
     <div
       aria-live="polite"
-      className="fixed inset-0 z-[80] grid place-items-center bg-black/30"
+      className="fixed inset-0 z-[80] grid place-items-center"
+      style={{ backgroundColor: "var(--site-color-overlay)" }}
       role="status"
     >
       <span className="sr-only">Loading page</span>

@@ -5,6 +5,74 @@
 /* Base resets and defaults */
 :root {
   --bg: #f8fafc;
+  --site-color-primary: #48a649;
+  --site-color-primary-hover: #3d8c3e;
+  --site-color-primary-foreground: #ffffff;
+  --site-color-secondary: #6fbf73;
+  --site-color-secondary-hover: #5ca960;
+  --site-color-secondary-foreground: #0f1f14;
+  --site-color-background: #ffffff;
+  --site-color-background-alt: #f6f8f4;
+  --site-color-foreground: #1a1a1a;
+  --site-color-muted: #f5f5f5;
+  --site-color-muted-foreground: #6b7280;
+  --site-color-accent: #e8f5e9;
+  --site-color-accent-foreground: #1f5133;
+  --site-color-border: #e5e7eb;
+  --site-color-surface: #ffffff;
+  --site-color-surface-muted: #edf2ee;
+  --site-color-surface-elevated: #ffffff;
+  --site-color-footer-background: #f4f6f4;
+  --site-color-hero-text: #ffffff;
+  --site-color-hero-muted-text: rgba(255, 255, 255, 0.85);
+  --site-color-overlay: rgba(0, 0, 0, 0.28);
+  --site-color-overlay-strong: rgba(0, 0, 0, 0.45);
+  --site-color-success: #16a34a;
+  --site-color-success-foreground: #ffffff;
+  --site-color-warning: #f59e0b;
+  --site-color-warning-foreground: #ffffff;
+  --site-color-danger: #dc2626;
+  --site-color-danger-foreground: #ffffff;
+  --site-color-info: #2563eb;
+  --site-color-info-foreground: #ffffff;
+  --site-color-whatsapp: #25d366;
+  --site-color-whatsapp-foreground: #ffffff;
+  --site-color-map-accent: #1a73e8;
+  --site-color-map-accent-foreground: #ffffff;
+  --site-font-body: 'Inter', sans-serif;
+  --site-font-heading: 'Montserrat', sans-serif;
+  --site-font-ui: 'Inter', sans-serif;
+  --site-effect-page-hero-gradient: linear-gradient(130deg, #173425 0%, #1e4a34 42%, #2a6848 100%), radial-gradient(circle at 15% 20%, rgba(255,255,255,0.16) 0 12%, transparent 13%), radial-gradient(circle at 82% 72%, rgba(255,255,255,0.12) 0 9%, transparent 10%);
+  --site-effect-hero-image-overlay: rgba(0, 0, 0, 0.45);
+  --site-effect-service-hero-image-overlay: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+  --admin-color-page-background: #f6f8f4;
+  --admin-color-surface: #ffffff;
+  --admin-color-surface-muted: #edf2ee;
+  --admin-color-surface-elevated: #ffffff;
+  --admin-color-foreground: #1a1a1a;
+  --admin-color-muted-foreground: #6b7280;
+  --admin-color-border: #e5e7eb;
+  --admin-color-primary: #48a649;
+  --admin-color-primary-hover: #3d8c3e;
+  --admin-color-primary-foreground: #ffffff;
+  --admin-color-secondary: #6fbf73;
+  --admin-color-secondary-hover: #5ca960;
+  --admin-color-secondary-foreground: #0f1f14;
+  --admin-color-accent: #e8f5e9;
+  --admin-color-accent-foreground: #1f5133;
+  --admin-color-success: #16a34a;
+  --admin-color-success-foreground: #ffffff;
+  --admin-color-warning: #f59e0b;
+  --admin-color-warning-foreground: #ffffff;
+  --admin-color-danger: #dc2626;
+  --admin-color-danger-foreground: #ffffff;
+  --admin-color-info: #2563eb;
+  --admin-color-info-foreground: #ffffff;
+  --admin-color-whatsapp: #25d366;
+  --admin-color-whatsapp-foreground: #ffffff;
+  --admin-font-body: 'Inter', sans-serif;
+  --admin-font-heading: 'Montserrat', sans-serif;
+  --admin-effect-login-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
 }
 
 html, body {
@@ -12,7 +80,10 @@ html, body {
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased font-sans;
+  background-color: var(--admin-color-page-background);
+  color: var(--admin-color-foreground);
+  font-family: var(--admin-font-body);
+  @apply antialiased;
 }
 
 .site-theme {
@@ -23,8 +94,148 @@ body {
   overflow-x: clip;
 }
 
+.site-ui {
+  font-family: var(--site-font-ui);
+}
+
 .site-heading {
   font-family: var(--site-font-heading);
+}
+
+.site-surface {
+  background-color: var(--site-color-surface);
+  color: var(--site-color-foreground);
+}
+
+.site-surface-muted {
+  background-color: var(--site-color-surface-muted);
+}
+
+.site-surface-elevated {
+  background-color: var(--site-color-surface-elevated);
+}
+
+.site-page-hero {
+  background-image: var(--site-effect-page-hero-gradient);
+  color: var(--site-color-hero-text);
+}
+
+.site-button-primary {
+  background-color: var(--site-color-primary);
+  color: var(--site-color-primary-foreground);
+}
+
+.site-button-primary:hover {
+  background-color: var(--site-color-primary-hover);
+}
+
+.site-button-secondary {
+  background-color: var(--site-color-secondary);
+  color: var(--site-color-secondary-foreground);
+}
+
+.site-button-secondary:hover {
+  background-color: var(--site-color-secondary-hover);
+}
+
+.site-whatsapp-badge {
+  background-color: var(--site-color-whatsapp);
+  color: var(--site-color-whatsapp-foreground);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--site-color-whatsapp) 45%, transparent);
+}
+
+.site-map-button {
+  border-color: color-mix(in srgb, var(--site-color-map-accent) 18%, white);
+  background-color: color-mix(in srgb, var(--site-color-surface) 95%, transparent);
+  color: var(--site-color-map-accent);
+}
+
+.site-map-button:hover {
+  background-color: color-mix(in srgb, var(--site-color-map-accent) 10%, var(--site-color-surface));
+}
+
+.admin-theme {
+  background-color: var(--admin-color-page-background);
+  color: var(--admin-color-foreground);
+  font-family: var(--admin-font-body);
+}
+
+.admin-heading {
+  font-family: var(--admin-font-heading);
+}
+
+.admin-surface {
+  background-color: var(--admin-color-surface);
+  color: var(--admin-color-foreground);
+  border: 1px solid var(--admin-color-border);
+}
+
+.admin-surface-muted {
+  background-color: var(--admin-color-surface-muted);
+}
+
+.admin-surface-elevated {
+  background-color: var(--admin-color-surface-elevated);
+}
+
+.admin-input {
+  border: 1px solid var(--admin-color-border);
+  background-color: var(--admin-color-surface);
+  color: var(--admin-color-foreground);
+}
+
+.admin-input::placeholder {
+  color: var(--admin-color-muted-foreground);
+}
+
+.admin-input:focus-visible {
+  outline: 2px solid var(--admin-color-primary);
+  outline-offset: 1px;
+}
+
+.admin-button-primary {
+  background-color: var(--admin-color-primary);
+  color: var(--admin-color-primary-foreground);
+}
+
+.admin-button-primary:hover {
+  background-color: var(--admin-color-primary-hover);
+}
+
+.admin-button-outline {
+  border: 1px solid var(--admin-color-border);
+  background-color: var(--admin-color-surface);
+  color: var(--admin-color-foreground);
+}
+
+.admin-button-outline:hover {
+  background-color: var(--admin-color-accent);
+  color: var(--admin-color-accent-foreground);
+}
+
+.admin-button-danger {
+  border: 1px solid color-mix(in srgb, var(--admin-color-danger) 20%, white);
+  background-color: color-mix(in srgb, var(--admin-color-danger) 8%, white);
+  color: var(--admin-color-danger);
+}
+
+.admin-button-danger:hover {
+  background-color: color-mix(in srgb, var(--admin-color-danger) 14%, white);
+}
+
+.admin-badge-warning {
+  background-color: color-mix(in srgb, var(--admin-color-warning) 16%, white);
+  color: color-mix(in srgb, var(--admin-color-warning) 82%, black);
+}
+
+.admin-badge-success {
+  background-color: color-mix(in srgb, var(--admin-color-success) 14%, white);
+  color: color-mix(in srgb, var(--admin-color-success) 82%, black);
+}
+
+.admin-badge-danger {
+  background-color: color-mix(in srgb, var(--admin-color-danger) 12%, white);
+  color: color-mix(in srgb, var(--admin-color-danger) 82%, black);
 }
 
 .site-logo-badge {

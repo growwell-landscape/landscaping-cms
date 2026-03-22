@@ -35,11 +35,11 @@ export function AdminHeader({
     !isLoading && stagedFileCount > 0 && !globalSaveBlockedByDrafts;
 
   return (
-    <header className="sticky top-0 z-20 bg-white border-b px-4 py-3 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+    <header className="sticky top-0 z-20 border-b border-[var(--admin-color-border)] bg-[var(--admin-color-surface)] px-4 py-3 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
       <div className="w-full flex items-start justify-between md:w-auto">
         <div>
-          <h1 className="font-semibold text-lg">Dashboard</h1>
-          <p className="text-sm text-gray-500">Manage content</p>
+          <h1 className="admin-heading text-lg font-semibold">Dashboard</h1>
+          <p className="text-sm text-[var(--admin-color-muted-foreground)]">Manage content</p>
         </div>
         <Button
           type="button"
@@ -57,7 +57,7 @@ export function AdminHeader({
         <Button
           onClick={onSaveAll}
           disabled={!canGlobalSave}
-          className="order-1 w-full rounded-[5px] bg-indigo-600 hover:bg-indigo-700 sm:order-4 sm:w-auto"
+          className="admin-button-primary order-1 w-full rounded-[5px] sm:order-4 sm:w-auto"
         >
           {isLoading ? <Loader className="animate-spin h-4 w-4" /> : <CloudUpload className="h-4 w-4" />}
           Global Save Changes ({stagedFileCount})
@@ -72,12 +72,12 @@ export function AdminHeader({
           Reset All Changes
         </Button>
 
-        <div className="order-2 flex items-center justify-between gap-2 border rounded-lg px-2 py-1 sm:order-1 sm:justify-start">
-          <span className="text-xs text-slate-500">Language</span>
+        <div className="order-2 flex items-center justify-between gap-2 rounded-lg border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-elevated)] px-2 py-1 sm:order-1 sm:justify-start">
+          <span className="text-xs text-[var(--admin-color-muted-foreground)]">Language</span>
           <select
             value={activeLanguageCode}
             onChange={(e) => onActiveLanguageChange(e.target.value)}
-            className="text-sm bg-transparent outline-none"
+            className="text-sm bg-transparent text-[var(--admin-color-foreground)] outline-none"
           >
             {editableLanguageCodes.map((languageCode) => (
               <option key={languageCode} value={languageCode}>
@@ -90,17 +90,17 @@ export function AdminHeader({
         {(draftFileCount > 0 || stagedFileCount > 0) && (
           <div className="order-3 flex items-center gap-2 sm:order-2">
             {draftFileCount > 0 && (
-              <span className="text-xs px-2 py-1 rounded bg-amber-100 text-amber-700">
+              <span className="admin-badge-warning text-xs px-2 py-1 rounded">
                 {draftFileCount} draft
               </span>
             )}
             {stagedFileCount > 0 && (
-              <span className="text-xs px-2 py-1 rounded bg-emerald-100 text-emerald-700">
+              <span className="admin-badge-success text-xs px-2 py-1 rounded">
                 {stagedFileCount} queued
               </span>
             )}
             {globalSaveBlockedByDrafts && stagedFileCount > 0 && (
-              <span className="text-xs px-2 py-1 rounded bg-rose-100 text-rose-700">
+              <span className="admin-badge-danger text-xs px-2 py-1 rounded">
                 Save or reset drafts before global save
               </span>
             )}

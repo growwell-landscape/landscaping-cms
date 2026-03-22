@@ -39,17 +39,17 @@ export function AdminFileNavList({
             onClick={() => onSelectFile(filePath)}
             className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
               selectFileInput === filePath || selectedFile === filePath
-                ? "bg-blue-50 text-blue-600"
-                : "hover:bg-gray-100"
+                ? "bg-[var(--admin-color-accent)] text-[var(--admin-color-primary)]"
+                : "text-[var(--admin-color-foreground)] hover:bg-[var(--admin-color-surface-muted)]"
             }`}
           >
             <Icon className="h-4 w-4 flex-shrink-0" />
             <span className="truncate">{metadata.label}</span>
             {dirtyFiles[filePath] && !stagedFiles[filePath] && (
-              <span className="ml-auto inline-block h-2.5 w-2.5 rounded-full bg-amber-500" />
+              <span className="ml-auto inline-block h-2.5 w-2.5 rounded-full bg-[var(--admin-color-warning)]" />
             )}
             {dirtyFiles[filePath] && stagedFiles[filePath] && (
-              <CheckCircle2 className="ml-auto h-4 w-4 text-emerald-600" />
+              <CheckCircle2 className="ml-auto h-4 w-4 text-[var(--admin-color-success)]" />
             )}
           </button>
         );
@@ -83,29 +83,36 @@ export function AdminFileCard({
       onClick={onClick}
       className={`text-left p-6 rounded-xl border transition-all ${
         selected
-          ? "border-blue-500 bg-blue-50 shadow-lg"
-          : "border-gray-200 bg-white hover:shadow-lg"
+          ? "border-[var(--admin-color-primary)] bg-[var(--admin-color-accent)] shadow-lg"
+          : "border-[var(--admin-color-border)] bg-[var(--admin-color-surface)] hover:shadow-lg"
       }`}
     >
       <div className="flex justify-between mb-3">
-        <div className={`p-2 rounded-lg ${selected ? "bg-blue-100" : "bg-gray-100"}`}>
-          <IconComponent className={`h-6 w-6 ${selected ? "text-blue-600" : "text-gray-600"}`} />
+        <div
+          className={`rounded-lg p-2 ${selected ? "" : "bg-[var(--admin-color-surface-muted)]"}`}
+          style={
+            selected
+              ? { backgroundColor: "color-mix(in srgb, var(--admin-color-primary) 10%, white)" }
+              : undefined
+          }
+        >
+          <IconComponent className={`h-6 w-6 ${selected ? "text-[var(--admin-color-primary)]" : "text-[var(--admin-color-muted-foreground)]"}`} />
         </div>
-        {selected && <ChevronRight className="h-5 w-5 text-blue-600" />}
+        {selected && <ChevronRight className="h-5 w-5 text-[var(--admin-color-primary)]" />}
       </div>
 
-      <h3 className="font-semibold text-gray-900">{metadata.label}</h3>
-      <p className="text-sm text-gray-600 mt-1">{metadata.description}</p>
+      <h3 className="admin-heading font-semibold text-[var(--admin-color-foreground)]">{metadata.label}</h3>
+      <p className="mt-1 text-sm text-[var(--admin-color-muted-foreground)]">{metadata.description}</p>
       {(hasDraftChanges || isQueued) && (
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {hasDraftChanges && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
+            <span className="admin-badge-warning inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] font-medium">
               <CircleDot className="h-3 w-3" />
               Draft
             </span>
           )}
           {isQueued && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-medium text-emerald-700">
+            <span className="admin-badge-success inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] font-medium">
               <CheckCircle2 className="h-3 w-3" />
               Queued
             </span>
@@ -113,7 +120,7 @@ export function AdminFileCard({
         </div>
       )}
 
-      <code className="text-xs mt-3 block text-gray-400 font-mono">{filePath}</code>
+      <code className="mt-3 block text-xs font-mono text-[var(--admin-color-muted-foreground)]">{filePath}</code>
     </button>
   );
 }

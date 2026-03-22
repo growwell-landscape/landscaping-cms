@@ -1,168 +1,233 @@
 [
   {
-    "id": "turfing-lawn-making",
-    "title": "Turfing (Lawn Making)",
-    "shortDescription": "Professional lawn installation and maintenance for lush, long-lasting green spaces.",
-    "description": "Transform your outdoor space with our expert turfing services. We specialize in creating beautiful, sustainable lawns using high-quality grass varieties suited to Chennai's climate. Our process includes soil preparation, proper grading, and installation of premium turf that establishes quickly and remains green year-round.",
-    "icon": "leaf",
-    "image": "/uploads/img-88c40f8643419a5e8e81d71f6db93859.jpg",
+    "id": "annual-maintenance-contract-amc",
+    "description": "An Annual Maintenance Contract (AMC) is a comprehensive service plan designed to ensure the continuous upkeep and optimal performance of assets such as landscaping, irrigation systems, green walls, ponds, or other facilities. Under an AMC, scheduled visits are carried out for inspection, preventive maintenance, repairs, and replacements (as per contract terms).\n\nThis service helps in identifying issues early, reducing unexpected breakdowns, and maintaining consistent quality. AMC plans are customizable based on the client’s needs, covering routine activities like cleaning, servicing, pruning, fertilization, and system checks. It offers convenience, cost savings, and peace of mind by ensuring professional care throughout the year.",
+    "enabled": true,
     "features": [
       {
-        "title": "Site preparation and soil treatment",
-        "title_tel": "స్థల సిద్ధీకరణ మరియు నేల శుద్ధి",
-        "title_ta": "இடம் தயாரித்தல் மற்றும் மண் சீரமைத்தல்"
+        "title": "Scheduled maintenance visits throughout the year"
       },
       {
-        "title": "Laying of fresh, healthy grass turf",
-        "title_tel": "తాజా, ఆరోగ్యకరమైన గడ్డి టర్ఫ్ అమరిక",
-        "title_ta": "புதிய, ஆரோக்கியமான புல் டர்ஃப் அமைத்தல்"
+        "title": "Preventive maintenance and regular inspections"
       },
       {
-        "title": "Efficient watering and fertilization",
-        "title_tel": "సమర్థవంతమైన నీటిపారుదల మరియు ఎరువుల వినియోగం",
-        "title_ta": "திறமையான நீர்ப்பாசனம் மற்றும் உரமிடல்"
+        "title": "Repair and replacement support (as per agreement)"
       },
       {
-        "title": "Lawn edging for a neat finish",
-        "title_tel": "శుభ్రమైన ముగింపుకు లాన్ ఎడ్జింగ్",
-        "title_ta": "சீரான நிறைவிற்கான புல்வெளி ஓரம் அமைத்தல்"
+        "title": "Covers multiple services (landscape, irrigation, etc.)"
       }
     ],
-    "gallery": [
-      "/uploads/img-1bdf0e01875a8ea1062c105e9b115f4b.jpg",
-      "/uploads/img-1f1315fe8a095d5054bf3eeb625d7795.jpg"
-    ],
-    "sortOrder": 1,
-    "enabled": true,
-    "title_tel": "టర్ఫింగ్ (లాన్ తయారీ)",
-    "shortDescription_tel": "పచ్చగా, దీర్ఘకాలం నిలిచే లాన్ కోసం ప్రొఫెషనల్ ఇన్‌స్టలేషన్ మరియు నిర్వహణ సేవలు.",
-    "description_tel": "మా నిపుణుల టర్ఫింగ్ సేవలతో మీ బహిరంగ ప్రదేశాన్ని మార్చుకోండి. చెన్నై వాతావరణానికి అనుకూలమైన అధిక నాణ్యత గల గడ్డి రకాలతో అందమైన, స్థిరమైన లాన్‌లను రూపొందించడంలో మేము ప్రత్యేకత కలిగి ఉన్నాము. మా ప్రక్రియలో నేల సిద్ధీకరణ, సరైన లెవెలింగ్, మరియు త్వరగా స్థిరపడే ప్రీమియం టర్ఫ్ అమరిక ఉంటాయి.",
-    "title_ta": "டர்ஃபிங் (புல்வெளி அமைப்பு)",
-    "shortDescription_ta": "பசுமையாக, நீண்டநாள் நீடிக்கும் புல்வெளிக்கான தொழில்முறை நிறுவல் மற்றும் பராமரிப்பு.",
-    "description_ta": "எங்கள் நிபுணத்துவ டர்ஃபிங் சேவைகளால் உங்கள் வெளிப்புற இடத்தை மாற்றுங்கள். சென்னை காலநிலைக்கு ஏற்ற உயர்தர புல் வகைகளை பயன்படுத்தி அழகான, நீடித்த புல்வெளிகளை உருவாக்குகிறோம். எங்கள் செயல்முறையில் மண் தயாரித்தல், சரியான நிலத்தடி சமநிலைப்படுத்தல் மற்றும் விரைவாக வளர்ந்து வருடம் முழுவதும் பசுமையாக இருக்கும் தரமான டர்ஃப் அமைத்தல் அடங்கும்."
+    "gallery": [],
+    "icon": "calander",
+    "image": "",
+    "shortDescription": "An Annual Maintenance Contract (AMC) is a service agreement that provides regular maintenance and support for systems, equipment, or landscapes over a fixed period, typically one year.",
+    "sortOrder": 9,
+    "title": "Annual Maintenance Contract (AMC)"
   },
   {
-    "id": "planting-and-landscaping",
-    "title": "Planting & Landscaping",
-    "shortDescription": "Comprehensive landscape design and planting services tailored to your space.",
-    "description": "Our planting and landscaping services bring your vision to life. We design and execute complete landscape transformations including flower beds, shrub borders, ornamental gardens, and themed plantings. Each project is customized to match your aesthetic preferences and site conditions.",
-    "icon": "flower",
-    "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
+    "id": "fish-pond-maintenance",
+    "description": "Fish pond maintenance focuses on keeping the pond ecosystem stable and healthy through routine cleaning, water quality management, and fish care. This includes removing debris, controlling algae growth, checking filtration systems, and maintaining proper oxygen levels in the water.\n\nRegular monitoring of pH levels, temperature, and nutrient balance is essential to prevent diseases and ensure the well-being of fish. The service may also include feeding guidance, inspection of pumps and aerators, and seasonal adjustments. Proper maintenance not only enhances the visual appeal of the pond but also supports a thriving aquatic life system.",
+    "enabled": true,
     "features": [
       {
-        "title": "Custom landscape design",
-        "title_tel": "అనుకూల ల్యాండ్‌స్కేప్ డిజైన్",
-        "title_ta": "தனிப்பயன் லேண்ட்ஸ்கேப் வடிவமைப்பு"
+        "title": "Water quality testing and management"
       },
       {
-        "title": "Selection of climate-appropriate plants",
-        "title_tel": "వాతావరణానికి అనుకూలమైన మొక్కల ఎంపిక",
-        "title_ta": "வானிலைக்கு ஏற்ற தாவரத் தேர்வு"
+        "title": "Removal of debris and sludge cleaning"
       },
       {
-        "title": "Installation of ornamental features",
-        "title_tel": "అలంకార అంశాల అమరిక",
-        "title_ta": "அலங்கார அம்சங்கள் நிறுவல்"
+        "title": "Algae control and prevention"
       },
       {
-        "title": "Ongoing maintenance support",
-        "title_tel": "నిరంతర నిర్వహణ మద్దతు",
-        "title_ta": "தொடர்ச்சியான பராமரிப்பு ஆதரவு"
+        "title": "Fish health monitoring and care guidance"
+      },
+      {
+        "title": "Monitoring of pH, temperature, and oxygen levels"
+      },
+      {
+        "title": "Regular inspection and maintenance schedules"
       }
     ],
-    "gallery": [
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
-    ],
-    "sortOrder": 2,
-    "enabled": true,
-    "title_tel": "మొక్కల నాటకం & ల్యాండ్‌స్కేపింగ్",
-    "shortDescription_tel": "మీ ప్రదేశానికి సరిపోయే సమగ్ర ల్యాండ్‌స్కేప్ డిజైన్ మరియు మొక్కల నాటకం సేవలు.",
-    "description_tel": "మా ప్లాంటింగ్ మరియు ల్యాండ్‌స్కేపింగ్ సేవలు మీ ఆలోచనలను నిజం చేస్తాయి. పూల బెడ్లు, పొదల సరిహద్దులు, అలంకార తోటలు, థీమ్ ఆధారిత మొక్కల అమరికలతో పూర్తిస్థాయి మార్పులు చేస్తాము. ప్రతి ప్రాజెక్ట్ మీ అభిరుచులు మరియు స్థల పరిస్థితులకు అనుగుణంగా రూపొందించబడుతుంది.",
-    "title_ta": "நடவு மற்றும் லேண்ட்ஸ்கேப்பிங்",
-    "shortDescription_ta": "உங்கள் இடத்திற்கு ஏற்ற முழுமையான லேண்ட்ஸ்கேப் வடிவமைப்பு மற்றும் நடவு சேவைகள்.",
-    "description_ta": "எங்கள் நடவு மற்றும் லேண்ட்ஸ்கேப்பிங் சேவைகள் உங்கள் கற்பனையை நனவாக்குகின்றன. மலர் படுக்கைகள், செடி எல்லைகள், அலங்கார தோட்டங்கள் மற்றும் தீம் அடிப்படையிலான நடவு வடிவமைப்புகள் உட்பட முழுமையான மாற்றங்களை நாங்கள் செய்கிறோம். ஒவ்வொரு திட்டமும் உங்கள் விருப்பங்களுக்கும் இடத்தின் நிலைக்கும் ஏற்ப தனிப்பயனாக்கப்படுகிறது."
+    "gallery": [],
+    "icon": "fish",
+    "image": "",
+    "shortDescription": "Fish pond maintenance involves regular care and management of ponds to ensure clean water, healthy fish, and a balanced aquatic environment.",
+    "sortOrder": 8,
+    "title": "Fish Pond Maintenance"
   },
   {
-    "id": "vertical-green-walls",
-    "title": "Vertical Green Walls",
-    "shortDescription": "Innovative vertical gardens for modern indoor and outdoor spaces.",
-    "description": "Maximize your green space with stunning vertical gardens. Our vertical green wall systems are perfect for urban environments where ground space is limited. These living walls not only look spectacular but also improve air quality, provide insulation, and create a calming atmosphere.",
-    "icon": "building",
-    "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
+    "id": "tree-plantation",
+    "description": "Tree plantation is the process of selecting, planting, and nurturing trees in residential, commercial, or public spaces. It includes site assessment, choosing suitable tree species based on soil, climate, and purpose (shade, fruit, ornamental), and proper planting techniques to ensure healthy growth.\n\nThe process also involves preparing the soil, digging pits, adding nutrients, and ensuring proper spacing between trees. After planting, initial care such as watering, mulching, and protection from pests and animals is essential for successful establishment. Tree plantation contributes to improved air quality, temperature regulation, biodiversity, and overall environmental sustainability.",
+    "enabled": true,
     "features": [
       {
-        "title": "Custom-designed vertical planters",
-        "title_tel": "అనుకూలంగా రూపొందించిన వర్టికల్ ప్లాంటర్లు",
-        "title_ta": "தனிப்பயன் வடிவமைக்கப்பட்ட செங்குத்து தாவரத் தொட்டிகள்"
+        "title": "Selection of suitable tree species"
       },
       {
-        "title": "Automated irrigation systems",
-        "title_tel": "ఆటోమేటెడ్ ఇరిగేషన్ వ్యవస్థలు",
-        "title_ta": "தானியங்கி பாசன அமைப்புகள்"
+        "title": "Proper pit digging and soil preparation"
       },
       {
-        "title": "Low-maintenance plant selection",
-        "title_tel": "తక్కువ నిర్వహణతో పెరిగే మొక్కల ఎంపిక",
-        "title_ta": "குறைந்த பராமரிப்பு தாவரத் தேர்வு"
+        "title": "Initial watering and care setup"
       },
       {
-        "title": "Indoor and outdoor installations",
-        "title_tel": "ఇండోర్ మరియు ఔట్‌డోర్ అమరికలు",
-        "title_ta": "உள்ளக மற்றும் வெளிப்புற நிறுவல்கள்"
+        "title": "Use of fertilizers and organic nutrients"
       }
     ],
-    "gallery": [
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
-    ],
-    "sortOrder": 3,
-    "enabled": true,
-    "title_tel": "వర్టికల్ గ్రీన్ వాల్స్",
-    "shortDescription_tel": "ఆధునిక ఇండోర్ మరియు ఔట్‌డోర్ ప్రదేశాల కోసం వినూత్న వర్టికల్ తోటలు.",
-    "description_tel": "అద్భుతమైన వర్టికల్ గార్డెన్‌లతో మీ గ్రీన్ స్పేస్‌ను గరిష్టం చేయండి. నేల విస్తీర్ణం తక్కువగా ఉండే పట్టణ ప్రాంతాలకు మా వర్టికల్ గ్రీన్ వాల్ సిస్టమ్‌లు అనువైనవి. ఇవి చూడటానికి అద్భుతంగా ఉండటమే కాకుండా గాలి నాణ్యతను మెరుగుపరుస్తాయి, ఇన్సులేషన్ ఇస్తాయి, ప్రశాంత వాతావరణాన్ని సృష్టిస్తాయి.",
-    "title_ta": "செங்குத்து பசுமை சுவர்கள்",
-    "shortDescription_ta": "நவீன உள்ளக மற்றும் வெளிப்புற இடங்களுக்கு புதுமையான செங்குத்து தோட்டங்கள்.",
-    "description_ta": "அற்புதமான செங்குத்து தோட்டங்களால் உங்கள் பசுமை இடத்தை அதிகப்படுத்துங்கள். தரை இடம் குறைவாக இருக்கும் நகரப்புற சூழல்களுக்கு எங்கள் செங்குத்து பசுமை சுவர் அமைப்புகள் சிறந்தவை. இவை காட்சியளிப்பதோடு மட்டும் அல்லாமல் காற்றுத் தரத்தை மேம்படுத்தி, வெப்பத் தடுப்பை வழங்கி, அமைதியான சூழலை உருவாக்குகின்றன."
+    "gallery": [],
+    "icon": "tree",
+    "image": "",
+    "shortDescription": "Tree plantation involves planting and establishing trees to enhance environmental quality, improve greenery, and support ecological balance.",
+    "sortOrder": 7,
+    "title": "Tree Plantation"
   },
   {
-    "id": "planting-trees",
-    "title": "Planting Trees",
-    "shortDescription": "Expert tree planting for healthy growth, shade, and long-term landscape value.",
-    "description": "Add shade, beauty, and value to your property with our tree planting services. We help you select the right tree species for your location, ensuring proper placement and planting techniques for healthy, long-lasting growth. Our trees are sourced from trusted nurseries and come with care guidance.",
-    "icon": "tree-deciduous",
-    "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
+    "id": "vertical-green-wall",
+    "description": "A vertical green wall, also known as a living wall, involves installing plants on specially designed vertical structures mounted on walls, both indoors and outdoors. These systems use soil-based or hydroponic setups with integrated irrigation to support plant growth in a vertical orientation.\n\nVertical green walls are ideal for urban spaces where horizontal space is limited. They not only add a modern and refreshing visual appeal but also help in reducing indoor temperatures, improving air quality, and providing sound insulation. The installation process includes structural setup, plant selection based on light conditions, irrigation system integration, and ongoing maintenance planning.",
+    "enabled": true,
     "features": [
       {
-        "title": "Expert species selection",
-        "title_tel": "నిపుణుల వృక్ష జాతుల ఎంపిక",
-        "title_ta": "நிபுணர் இனத் தேர்வு"
+        "title": "Space-efficient vertical planting solution"
       },
       {
-        "title": "Proper planting and staking",
-        "title_tel": "సరైన నాటకం మరియు మద్దతు కట్టడం",
-        "title_ta": "சரியான நடவு மற்றும் தாங்குக் குச்சி அமைத்தல்"
+        "title": "Suitable for indoor and outdoor walls"
       },
       {
-        "title": "Soil amendment and fertilization",
-        "title_tel": "నేల మెరుగుదల మరియు ఎరువుల వినియోగం",
-        "title_ta": "மண் மேம்பாடு மற்றும் உரமிடல்"
+        "title": "Integrated irrigation and drainage systems"
       },
       {
-        "title": "Post-planting care instructions",
-        "title_tel": "నాటిన తర్వాత సంరక్షణ సూచనలు",
-        "title_ta": "நடவு பிந்தைய பராமரிப்பு வழிமுறைகள்"
+        "title": "Variety of plant options based on environment"
       }
     ],
-    "gallery": [
-      "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
+    "gallery": [],
+    "icon": "",
+    "image": "",
+    "shortDescription": "A vertical green wall is a space-saving landscaping solution where plants are grown on vertically structured panels to enhance aesthetics and improve air quality.",
+    "sortOrder": 6,
+    "title": "Vertical Green Wall"
+  },
+  {
+    "id": "potted-plants-installation",
+    "description": "Potted plants installation focuses on beautifying spaces by strategically placing plants in decorative containers suitable for homes, offices, balconies, terraces, and commercial areas. The process includes selecting the right plants based on lighting conditions, space availability, and aesthetic preferences, along with choosing appropriate pots, soil mixtures, and drainage systems.\n\nThis service also considers plant combinations, color coordination, and placement patterns to create visually appealing arrangements. Proper installation ensures plant health, easy maintenance, and optimal growth. It’s an ideal solution for adding greenery in areas where traditional landscaping is not feasible.",
+    "enabled": true,
+    "features": [
+      {
+        "title": "Selection of suitable indoor and outdoor plants"
+      },
+      {
+        "title": "Decorative pot and container arrangements"
+      },
+      {
+        "title": "Placement based on sunlight and space conditions"
+      },
+      {
+        "title": "Aesthetic plant combinations and design layouts"
+      }
     ],
+    "gallery": [],
+    "icon": "tree",
+    "image": "",
+    "shortDescription": "Potted plants installation involves selecting, arranging, and placing plants in containers to enhance indoor and outdoor spaces with greenery.",
     "sortOrder": 4,
+    "title": "Potted Plants Installation"
+  },
+  {
+    "id": "drip-irrigation-services",
+    "description": "Drip irrigation services involve the design, installation, and maintenance of systems that deliver water slowly and precisely to the base of plants through a network of pipes, valves, tubing, and emitters. This method ensures that water reaches the root zone directly, reducing evaporation and runoff.\n\nIt is especially beneficial for gardens, lawns, agricultural fields, and landscaped areas where water conservation is important. Drip irrigation systems can be customized based on plant types, soil conditions, and terrain. These services also include system monitoring, clog prevention, and periodic maintenance to ensure optimal performance and longevity.",
     "enabled": true,
-    "title_tel": "చెట్లు నాటడం",
-    "shortDescription_tel": "ఆరోగ్యకరమైన పెరుగుదల, నీడ, దీర్ఘకాలిక ల్యాండ్‌స్కేప్ విలువ కోసం నిపుణుల చెట్ల నాటకం సేవలు.",
-    "description_tel": "మా చెట్ల నాటకం సేవలతో మీ ఆస్తికి నీడ, అందం మరియు విలువను జోడించండి. మీ స్థలానికి సరైన చెట్టు జాతులను ఎంపిక చేయడంలో మేము సహాయపడతాము; ఆరోగ్యకరమైన, దీర్ఘకాలిక పెరుగుదల కోసం సరైన స్థానం మరియు నాటకం పద్ధతులను నిర్ధారిస్తాము. మా చెట్లు విశ్వసనీయ నర్సరీల నుండి తెచ్చి సంరక్షణ మార్గదర్శకాలతో అందిస్తాము.",
-    "title_ta": "மர நடவு",
-    "shortDescription_ta": "ஆரோக்கியமான வளர்ச்சி, நிழல் மற்றும் நீண்டகால லேண்ட்ஸ்கேப் மதிப்புக்கான நிபுணர் மர நடவு சேவைகள்.",
-    "description_ta": "எங்கள் மர நடவு சேவைகளால் உங்கள் சொத்துக்கு நிழல், அழகு மற்றும் மதிப்பை சேருங்கள். உங்கள் இடத்திற்கு சரியான மர இனங்களை தேர்வு செய்ய உதவுகிறோம்; ஆரோக்கியமான, நீண்டநாள் வளர்ச்சிக்காக சரியான இடமிடல் மற்றும் நடவு முறைகளை உறுதி செய்கிறோம். எங்கள் மரங்கள் நம்பகமான நர்சரிகளில் இருந்து பெறப்பட்டு பராமரிப்பு வழிகாட்டுதலுடன் வழங்கப்படுகின்றன."
+    "features": [
+      {
+        "title": "Targeted water delivery to plant roots"
+      },
+      {
+        "title": "Reduces water wastage and evaporation"
+      },
+      {
+        "title": "Custom-designed irrigation layouts"
+      },
+      {
+        "title": "Installation of pipes, emitters, and control systems"
+      }
+    ],
+    "gallery": [],
+    "icon": "tree",
+    "image": "",
+    "shortDescription": "Drip irrigation services provide efficient water delivery directly to plant roots, minimizing water wastage and promoting healthy plant growth.",
+    "sortOrder": 3,
+    "title": "Drip Irrigation Services"
+  },
+  {
+    "id": "regular-plant-and-tree-maintenance-services",
+    "description": "Regular plant and tree maintenance involves ongoing care practices to keep greenery healthy, safe, and visually appealing. This includes watering, pruning, trimming, fertilizing, pest and disease management, and soil care. Proper maintenance helps plants grow stronger, improves flowering and fruiting, and prevents the spread of diseases.\n\nFor trees, services also include structural pruning, removal of dead or hazardous branches, and monitoring overall tree health to avoid risks. These services are tailored based on plant types, seasonal requirements, and environmental conditions. Regular upkeep not only enhances the beauty of the landscape but also ensures safety and sustainability over time.",
+    "enabled": true,
+    "features": [
+      {
+        "title": "Routine watering and irrigation management"
+      },
+      {
+        "title": "Pruning and trimming of plants and trees"
+      },
+      {
+        "title": "Fertilization for healthy growth and flowering"
+      },
+      {
+        "title": "Tree health inspection and risk assessment"
+      }
+    ],
+    "gallery": [],
+    "icon": "tree",
+    "image": "",
+    "shortDescription": "Regular plant and tree maintenance services ensure the healthy growth, appearance, and longevity of plants and trees through routine care and monitoring.",
+    "sortOrder": 2,
+    "title": "Regular Plant and Tree Maintenance Services"
+  },
+  {
+    "id": "landscape-planning-and-execution",
+    "description": "Landscape planning and execution involves creating a well-structured outdoor environment by combining natural elements like plants, lawns, water features, and hardscape elements such as pathways, patios, and walls. The planning phase includes site analysis, conceptual design, plant selection, and layout planning based on climate, soil conditions, and client preferences.\n\nExecution involves turning the design into reality through activities like land grading, planting, irrigation installation, construction of hardscapes, and lighting setup. The goal is to create a balanced, visually appealing, and functional outdoor space that aligns with both aesthetic goals and practical usage, whether for residential gardens, commercial spaces, or public landscapes.",
+    "enabled": true,
+    "features": [
+      {
+        "title": "Site analysis and customized landscape design"
+      },
+      {
+        "title": "Selection of plants, trees, and greenery"
+      },
+      {
+        "title": "Irrigation system setup"
+      },
+      {
+        "title": "End-to-end project execution and supervision"
+      }
+    ],
+    "gallery": [],
+    "icon": "tree",
+    "image": "",
+    "shortDescription": "Landscape planning and execution is the process of designing and implementing outdoor spaces to enhance aesthetics, functionality, and environmental sustainability.",
+    "sortOrder": 3,
+    "title": "Landscape planning and execution"
+  },
+  {
+    "id": "lawn-development-and-maintenance",
+    "description": "Lawn development and maintenance involves both establishing a new lawn and ensuring its continuous health and appearance through regular upkeep. The development phase includes soil preparation, leveling, selecting suitable grass varieties, fertilization, and either seeding or turf installation.\n\nOnce the lawn is established, maintenance services ensure it remains lush and vibrant. This includes regular mowing, watering, fertilization, weed control, aeration, and pest management. The service is customized based on climate conditions, soil type, and usage patterns to maintain durability and aesthetics.\n\nThe goal is to create a well-balanced lawn that not only enhances the visual appeal of the property but also provides a clean, usable outdoor space.",
+    "enabled": true,
+    "features": [
+      {
+        "title": "Complete lawn setup (soil prep, seeding, turfing)"
+      },
+      {
+        "title": "Regular mowing and trimming"
+      },
+      {
+        "title": "Efficient watering and irrigation management"
+      },
+      {
+        "title": "Fertilization and soil health improvement"
+      }
+    ],
+    "gallery": [],
+    "icon": "leaf",
+    "image": "",
+    "shortDescription": "Lawn development and maintenance is a complete service that covers the creation and ongoing care of healthy, green lawns for long-term beauty and sustainability.",
+    "sortOrder": 5,
+    "title": "Lawn Development and Maintenance"
   }
 ]

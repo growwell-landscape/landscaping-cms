@@ -56,22 +56,15 @@ export function ServicesCatalogPage({
   return (
     <>
       <section className="relative overflow-hidden pb-12 pt-32 md:pb-14 md:pt-36">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(130deg, #173425 0%, #1e4a34 42%, #2a6848 100%), radial-gradient(circle at 15% 20%, rgba(255,255,255,0.16) 0 12%, transparent 13%), radial-gradient(circle at 82% 72%, rgba(255,255,255,0.12) 0 9%, transparent 10%)",
-          }}
-        />
+        <div aria-hidden="true" className="site-page-hero absolute inset-0" />
         <SectionContainer className="relative text-center">
           <ScrollReveal>
-            <h1 className="site-heading text-4xl font-semibold text-white md:text-5xl">
+            <h1 className="site-heading text-4xl font-semibold md:text-5xl" style={{ color: "var(--site-color-hero-text)" }}>
               {title}
             </h1>
           </ScrollReveal>
           <ScrollReveal delayMs={80}>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-white/85 md:text-base">
+            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed md:text-base" style={{ color: "var(--site-color-hero-muted-text)" }}>
               {subtitle}
             </p>
           </ScrollReveal>
@@ -83,7 +76,7 @@ export function ServicesCatalogPage({
               <div className="relative">
                 <Search className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--site-color-muted-foreground)]" />
                 <input
-                  className="h-12 w-full rounded-[5px] border border-[var(--site-color-border)] bg-white pl-12 pr-4 text-sm text-[var(--site-color-foreground)] outline-none transition-colors focus:border-[var(--site-color-primary)]"
+                  className="site-surface h-12 w-full rounded-[5px] border border-[var(--site-color-border)] pl-12 pr-4 text-sm text-[var(--site-color-foreground)] outline-none transition-colors focus:border-[var(--site-color-primary)]"
                   id="services-search"
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder={searchPlaceholder}
@@ -96,7 +89,7 @@ export function ServicesCatalogPage({
         </SectionContainer>
       </section>
 
-      <section className="bg-white py-12 md:py-16">
+      <section className="site-surface py-12 md:py-16">
         <SectionContainer>
           {filteredServices.length > 0 ? (
             <div className="grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">

@@ -31,27 +31,34 @@ export function HeroSection({
         <SiteImage
           alt={`${title} hero background mobile`}
           className="absolute inset-0 md:hidden"
+          priority
+          sizes="100vw"
           src={imageMobile}
         />
         <SiteImage
           alt={`${title} hero background desktop`}
           className="absolute inset-0 hidden md:block"
+          priority
+          sizes="100vw"
           src={imageDesktop}
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: "var(--site-effect-hero-image-overlay)" }}
+        />
       </div>
 
       <SectionContainer className="relative flex min-h-[620px] items-center justify-center py-20 text-center md:min-h-[700px] md:py-24">
-        <div className="max-w-4xl text-white">
-          <p className="site-animate-fade-up text-base font-medium text-white/85" style={{ animationDelay: "80ms" }}>{subtitle}</p>
+        <div className="max-w-4xl" style={{ color: "var(--site-color-hero-text)" }}>
+          <p className="site-animate-fade-up text-base font-medium" style={{ animationDelay: "80ms", color: "var(--site-color-hero-muted-text)" }}>{subtitle}</p>
           <h1 className="site-heading site-animate-fade-up mt-4 text-4xl font-semibold tracking-tight md:text-6xl" style={{ animationDelay: "160ms" }}>
             {title}
           </h1>
-          <p className="site-animate-fade-up mt-6 text-lg text-white/90 md:text-2xl" style={{ animationDelay: "230ms" }}>{description}</p>
+          <p className="site-animate-fade-up mt-6 text-lg md:text-2xl" style={{ animationDelay: "230ms", color: "var(--site-color-hero-muted-text)" }}>{description}</p>
           <Link
-            className="site-animate-fade-up mt-10 inline-flex h-12 items-center justify-center rounded-[5px] border border-white/20 bg-[var(--site-color-primary)] px-8 text-base font-semibold text-white transition-all duration-300 hover:translate-y-[-2px] hover:bg-[var(--site-color-primary-hover)]"
+            className="site-button-primary site-animate-fade-up mt-10 inline-flex h-12 items-center justify-center rounded-[5px] border px-8 text-base font-semibold transition-all duration-300 hover:translate-y-[-2px]"
             href={ctaHref}
-            style={{ animationDelay: "300ms" }}
+            style={{ animationDelay: "300ms", borderColor: "color-mix(in srgb, var(--site-color-hero-text) 20%, transparent)" }}
           >
             {ctaLabel}
           </Link>

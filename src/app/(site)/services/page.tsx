@@ -10,6 +10,7 @@ import {
   resolveMetadataBase,
   toAbsoluteUrl,
 } from "@/lib/seo";
+import { createLocalizedPath } from "@/lib/site-i18n";
 import { getSiteCommonData, localizeSiteContent } from "@/lib/site-data";
 import type { Service } from "@/types/content";
 
@@ -69,9 +70,33 @@ export default async function ServicesPage() {
   const subtitle =
     servicesCopy.subtitle ||
     "Explore our wide range of professional landscaping and gardening services designed to transform your space.";
+  const metadataBase = resolveMetadataBase();
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    hasPart: services.map((service) => ({
+      "@type": "Service",
+      description: service.shortDescription || service.description,
+      name: service.title,
+      url: toAbsoluteUrl(
+        createLocalizedPath(
+          `${ROUTES.SERVICE_DETAIL}/${service.id}`,
+          siteData.language.currentLanguageCode,
+          siteData.language.languageCodes
+        ),
+        metadataBase
+      ),
+    })),
+    inLanguage: siteData.language.currentLanguageCode,
+    name: servicesCopy.title || "Our Services",
+  };
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <ServicesCatalogPage
         currentLanguageCode={siteData.language.currentLanguageCode}
         languageCodes={siteData.language.languageCodes}

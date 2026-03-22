@@ -28,10 +28,10 @@ export function AboutSection({
   title,
 }: AboutSectionProps) {
   return (
-    <section className="bg-[#edf2ee] py-20 md:py-24">
+    <section className="site-surface-muted py-20 md:py-24">
       <SectionContainer>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <ScrollReveal className="h-[300px] overflow-hidden rounded-[5px] bg-[var(--site-color-muted)] md:h-[400px]" variant="left">
+          <ScrollReveal className="h-[300px] overflow-hidden rounded-[5px] site-surface md:h-[400px]" variant="left">
             <SiteImage
               alt={`${title} section image`}
               className="h-full w-full"
@@ -55,7 +55,7 @@ export function AboutSection({
               ))}
             </ul>
             <Link
-              className="mt-8 inline-flex h-12 items-center justify-center rounded-[5px] bg-[var(--site-color-primary)] px-7 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[var(--site-color-primary-hover)]"
+              className="site-button-primary mt-8 inline-flex h-12 items-center justify-center rounded-[5px] px-7 text-sm font-semibold transition-colors duration-200"
               href={ctaHref}
             >
               {ctaLabel}

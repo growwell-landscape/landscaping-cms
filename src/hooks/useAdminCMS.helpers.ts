@@ -324,7 +324,10 @@ function resolveImageUploadFolder(_filePath: string, _fieldPath: (string | numbe
 function isProjectGalleryField(filePath: string, fieldPath: (string | number)[]): boolean {
   if (filePath !== CMS_FILES.PROJECTS) return false;
   const firstSegment = fieldPath[0];
-  return typeof firstSegment === "string" && firstSegment === "images";
+  return (
+    typeof firstSegment === "string" &&
+    (firstSegment === "images" || firstSegment === "gallery")
+  );
 }
 
 function isProjectGalleryVideoFile(file: File): boolean {

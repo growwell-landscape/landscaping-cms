@@ -19,10 +19,10 @@ export function ContactLocationMap({
   const [iframeKey, setIframeKey] = useState(0);
 
   return (
-    <div className="relative mt-6 overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
+    <div className="site-surface relative mt-6 overflow-hidden rounded-[5px] border border-[var(--site-color-border)]">
       <button
         aria-label={reloadButtonAriaLabel}
-        className="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d2e3fc] bg-white/95 text-[#1a73e8] shadow-sm transition-colors hover:bg-[#e8f0fe]"
+        className="site-map-button absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border shadow-sm transition-colors"
         onClick={() => setIframeKey((value) => value + 1)}
         title={reloadButtonTitle}
         type="button"
