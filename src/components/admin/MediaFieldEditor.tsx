@@ -40,7 +40,7 @@ export function MediaFieldEditor({
   const supportsVideoUpload =
     allowProjectGalleryVideo &&
     typeof rootPathSegment === "string" &&
-    rootPathSegment === "images";
+    (rootPathSegment === "images" || rootPathSegment === "gallery");
   const uploadInputId = createUploadInputId(fieldPath, uploadScopeId);
   const canPreview =
     currentValue.startsWith("/") ||

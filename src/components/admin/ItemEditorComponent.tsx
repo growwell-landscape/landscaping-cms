@@ -51,7 +51,7 @@ interface ItemEditorComponentProps {
   autoIdFromContent?: boolean;
   /** Whether component is disabled */
   disabled?: boolean;
-  /** Allow video upload support for project gallery (`images`) */
+  /** Allow video upload support for project gallery media arrays */
   allowProjectGalleryVideo?: boolean;
   /** Active language code used in editor */
   activeLanguageCode?: string;

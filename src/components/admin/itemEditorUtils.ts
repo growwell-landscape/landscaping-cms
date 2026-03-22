@@ -190,5 +190,8 @@ function pathLooksLikeImage(fieldPath: (string | number)[]): boolean {
     return true;
   }
 
-  return IMAGE_PARENT_KEYWORDS.some((keyword) => parentSegment.includes(keyword));
+  return IMAGE_PARENT_KEYWORDS.some(
+    (keyword) =>
+      leafSegment.includes(keyword) || parentSegment.includes(keyword)
+  );
 }
