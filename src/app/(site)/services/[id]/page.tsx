@@ -26,9 +26,9 @@ import { getSiteCommonData, localizeSiteContent } from "@/lib/site-data";
 import type { Service } from "@/types/content";
 
 interface ServiceDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 function resolveFeatureText(feature: string | { description?: string; title: string }): string {
@@ -41,12 +41,13 @@ function resolveFeatureText(feature: string | { description?: string; title: str
 export async function generateMetadata({
   params,
 }: ServiceDetailPageProps): Promise<Metadata> {
+  const { id } = await params;
   const [servicesRaw, siteData] = await Promise.all([
     getActiveServices(),
     getSiteCommonData(),
   ]);
   const services = localizeSiteContent(servicesRaw, siteData.language) as Service[];
-  const service = services.find((item) => item.id === params.id);
+  const service = services.find((item) => item.id === id);
   const metadataBase = resolveMetadataBase();
 
   if (!service) {
@@ -108,13 +109,14 @@ export async function generateMetadata({
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+  const { id } = await params;
   const [servicesRaw, siteData] = await Promise.all([
     getActiveServices(),
     getSiteCommonData(),
   ]);
   const services = localizeSiteContent(servicesRaw, siteData.language) as Service[];
-  const sourceService = servicesRaw.find((item) => item.id === params.id);
-  const service = services.find((item) => item.id === params.id);
+  const sourceService = servicesRaw.find((item) => item.id === id);
+  const service = services.find((item) => item.id === id);
 
   if (!service || !sourceService) {
     notFound();

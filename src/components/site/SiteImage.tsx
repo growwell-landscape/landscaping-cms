@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useMemo, useState, type CSSProperties } from "react";
 import { Leaf } from "lucide-react";
 
+import { resolveMediaUrl } from "@/lib/media-url";
 import { cn } from "@/lib/utils";
 
 interface SiteImageProps {
@@ -19,7 +20,7 @@ interface SiteImageProps {
 
 function normalizeImageSource(src?: string | null): string {
   if (!src) return "";
-  return src.trim();
+  return resolveMediaUrl(src.trim());
 }
 
 function isRemoteImageSource(src: string): boolean {

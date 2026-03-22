@@ -3,6 +3,7 @@
 import { AlertCircle, CheckCircle2, RefreshCw, Upload, X } from "lucide-react";
 
 import { stringifyValue } from "@/lib/cms-utils";
+import { resolveMediaUrl } from "@/lib/media-url";
 import type { MediaUploadFieldState } from "@/types/cms";
 import { createUploadInputId, isVideoPath, toLabel } from "@/components/admin/itemEditorUtils";
 
@@ -32,6 +33,7 @@ export function MediaFieldEditor({
   value,
 }: Readonly<MediaFieldEditorProps>): JSX.Element {
   const currentValue = stringifyValue(value).trim();
+  const resolvedPreviewUrl = resolveMediaUrl(currentValue);
   const hasMedia = currentValue.length > 0;
   const isVideoMedia = isVideoPath(currentValue);
   const rootPathSegment = fieldPath[0];
@@ -98,12 +100,12 @@ export function MediaFieldEditor({
               <video
                 className="h-32 w-full rounded object-cover bg-black"
                 controls
-                src={currentValue}
+                src={resolvedPreviewUrl}
               />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={currentValue}
+                src={resolvedPreviewUrl}
                 alt={toLabel(fieldName)}
                 className="h-32 w-full rounded object-cover"
               />

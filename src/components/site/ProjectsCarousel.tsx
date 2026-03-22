@@ -18,6 +18,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { resolveMediaUrl } from "@/lib/media-url";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/content";
 
@@ -190,6 +191,7 @@ export function ProjectsCarousel({
         : [],
     [activeProject]
   );
+  const hasOverflow = slideCount > 1;
 
   const moveGallery = (direction: 1 | -1) => {
     if (activeGalleryImages.length <= 1) return;
@@ -227,7 +229,7 @@ export function ProjectsCarousel({
   }, [activeGalleryImages.length, activeGalleryIndex]);
 
   useEffect(() => {
-    if (!api || projects.length <= 1) return;
+    if (!api || !hasOverflow) return;
 
     const intervalId = window.setInterval(() => {
       if (isAutoplayPaused || !isAutoplayEnabled || activeProjectId) return;
@@ -237,7 +239,7 @@ export function ProjectsCarousel({
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [activeProjectId, api, isAutoplayEnabled, isAutoplayPaused, projects.length]);
+  }, [activeProjectId, api, hasOverflow, isAutoplayEnabled, isAutoplayPaused]);
 
   return (
     <>
@@ -269,35 +271,41 @@ export function ProjectsCarousel({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
-          <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
+          {hasOverflow ? (
+            <>
+              <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
+              <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
+            </>
+          ) : null}
         </Carousel>
-        <div className="mt-6 flex items-center justify-center gap-2 md:hidden">
-          {Array.from({ length: slideCount }).map((_, index) => (
-            <button
-              aria-label={`Go to project slide ${index + 1}`}
-              aria-current={index === currentSlideIndex ? "true" : undefined}
-              className={cn(
-                "h-2.5 w-2.5 rounded-[5px] border transition-colors duration-200",
-                index === currentSlideIndex
-                  ? "border-[var(--site-color-primary)] bg-[var(--site-color-primary)]"
-                  : "border-[var(--site-color-border)] bg-transparent"
-              )}
-              key={`project-dot-${index}`}
-              onClick={() => api?.scrollTo(index)}
-              type="button"
-            />
-          ))}
-        </div>
-        {projects.length > 1 ? (
+        {hasOverflow ? (
+          <div className="mt-6 flex items-center justify-center gap-2 md:hidden">
+            {Array.from({ length: slideCount }).map((_, index) => (
+              <button
+                aria-label={`Go to project slide ${index + 1}`}
+                aria-current={index === currentSlideIndex ? "true" : undefined}
+                className={cn(
+                  "h-2.5 w-2.5 rounded-[5px] border transition-colors duration-200",
+                  index === currentSlideIndex
+                    ? "border-[var(--site-color-primary)] bg-[var(--site-color-primary)]"
+                    : "border-[var(--site-color-border)] bg-transparent"
+                )}
+                key={`project-dot-${index}`}
+                onClick={() => api?.scrollTo(index)}
+                type="button"
+              />
+            ))}
+          </div>
+        ) : null}
+        {hasOverflow ? (
           <div className="mt-5 flex items-center justify-center">
             <button
-              aria-label={isAutoplayEnabled ? "Pause carousel autoplay" : "Resume carousel autoplay"}
+              aria-label={isAutoplayEnabled ? "Pause project auto-scroll" : "Resume project auto-scroll"}
               className="inline-flex h-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-surface)] px-3 text-xs font-semibold text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
               onClick={() => setIsAutoplayEnabled((previousValue) => !previousValue)}
               type="button"
             >
-              {isAutoplayEnabled ? "Pause autoplay" : "Resume autoplay"}
+              {isAutoplayEnabled ? "Pause auto-scroll" : "Resume auto-scroll"}
             </button>
           </div>
         ) : null}
@@ -335,7 +343,7 @@ export function ProjectsCarousel({
                     className="h-[52vh] w-full bg-black object-contain"
                     controls
                     title={`${activeProject?.title || "Project"} video`}
-                    src={activeGalleryImages[activeGalleryIndex]}
+                    src={resolveMediaUrl(activeGalleryImages[activeGalleryIndex])}
                   />
                 ) : (
                   <SiteImage
@@ -399,7 +407,7 @@ export function ProjectsCarousel({
                           aria-hidden="true"
                           className="h-14 w-full bg-black object-cover"
                           muted
-                          src={image}
+                          src={resolveMediaUrl(image)}
                         />
                       ) : (
                         <SiteImage
