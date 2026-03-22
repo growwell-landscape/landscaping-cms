@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { getServiceIcon } from "@/lib/service-icons";
 import { cn } from "@/lib/utils";
 import type { Service } from "@/types/content";
 
@@ -14,6 +15,8 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ className, href, service, viewDetailsLabel }: Readonly<ServiceCardProps>) {
+  const Icon = getServiceIcon(service);
+
   return (
     <Link
       className={cn(
@@ -23,13 +26,16 @@ export function ServiceCard({ className, href, service, viewDetailsLabel }: Read
       href={href}
     >
       <div className="site-surface-elevated flex h-full flex-col">
-        <div className="h-36 shrink-0 bg-[var(--site-color-muted)] md:h-40">
+        <div className="relative h-36 shrink-0 bg-[var(--site-color-muted)] md:h-40">
           <SiteImage
             alt={`${service.title} service image`}
             className="h-full w-full"
             imgClassName="transition-[transform,filter] duration-500 group-hover:scale-105 group-hover:brightness-110"
             src={service.image}
           />
+          <span className="absolute left-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-[5px] border border-white/60 bg-white/90 text-[var(--site-color-primary)] shadow-sm backdrop-blur-sm">
+            <Icon className="h-5 w-5" />
+          </span>
         </div>
         <div className="flex-1 p-3.5">
           <h2 className="site-heading line-clamp-2 text-lg font-semibold leading-tight text-[var(--site-color-foreground)]">

@@ -1,19 +1,8 @@
 import Link from "next/link";
 import {
-  Building2,
   Check,
   ChevronRight,
-  Droplets,
-  Fish,
-  Flower2,
-  Leaf,
-  Scissors,
-  Shovel,
-  Sprout,
-  TreeDeciduous,
-  WavesLadder,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -25,6 +14,7 @@ import { ServiceQuoteButton } from "@/components/site/ServiceQuoteButton";
 import { getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
 import { getContactCollections } from "@/lib/contact-utils";
+import { getServiceIcon } from "@/lib/service-icons";
 import {
   buildPageAlternates,
   parseKeywords,
@@ -39,28 +29,6 @@ interface ServiceDetailPageProps {
   params: {
     id: string;
   };
-}
-
-const serviceIconMap: Record<string, LucideIcon> = {
-  building: Building2,
-  droplets: Droplets,
-  fish: Fish,
-  flower: Flower2,
-  leaf: Leaf,
-  scissors: Scissors,
-  shovel: Shovel,
-  sprout: Sprout,
-  "tree-deciduous": TreeDeciduous,
-  "waves-ladder": WavesLadder,
-};
-
-function normalizeIconName(iconName: string): string {
-  return iconName.trim().toLowerCase().replace(/[_\s]+/g, "-");
-}
-
-function getServiceIcon(iconName: string): LucideIcon {
-  const normalized = normalizeIconName(iconName);
-  return serviceIconMap[normalized] || Leaf;
 }
 
 function resolveFeatureText(feature: string | { description?: string; title: string }): string {
@@ -155,7 +123,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   const navCopy = siteData.translations.nav || {};
   const contactCopy = siteData.translations.contact || {};
   const detailCopy = siteData.translations.serviceDetail || {};
-  const Icon = getServiceIcon(service.icon);
+  const Icon = getServiceIcon(service);
   const floatingContact = siteData.adminConfig.contact.floatingContact;
   const otherServices = services.filter((item) => item.id !== service.id).slice(0, 5);
   const galleryItems = service.gallery.length > 0 ? service.gallery : [service.image];
