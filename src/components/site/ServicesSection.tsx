@@ -45,9 +45,14 @@ export function ServicesSection({
         <ScrollReveal>
           <SectionHeading subtitle={subtitle} title={title} />
         </ScrollReveal>
-        <div className="mt-12 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mx-auto mt-12 grid max-w-[1120px] items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibleServices.map((service, index) => (
-            <ScrollReveal className="h-full" delayMs={index * 70} key={service.id} variant="zoom">
+            <ScrollReveal
+              className={index === 3 ? "h-full lg:hidden xl:block" : "h-full"}
+              delayMs={index * 70}
+              key={service.id}
+              variant="zoom"
+            >
               <ServiceCard
                 href={createLocalizedPath(
                   `${ROUTES.SERVICE_DETAIL}/${service.id}`,
