@@ -6,10 +6,10 @@
       "services": "Services",
       "projects": "Projects",
       "about": "About",
-      "contact": "Contact Us"
+      "contact": "Contact"
     },
     "hero": {
-      "viewServices": "View Services"
+      "viewServices": "Explore Services"
     },
     "services": {
       "title": "Our Services",
@@ -25,23 +25,23 @@
       "subtitle": "Browse our portfolio of successful landscaping projects"
     },
     "contact": {
-      "title": "Get in Touch",
-      "subtitle": "Let's build your dream garden! Reach out to us for quick consultations, or any queries.",
-      "callUs": "Call Us",
-      "emailUs": "Email Us",
+      "title": "Let's Talk About Your Space",
+      "subtitle": "Planning a terrace garden, lawn, or landscape upgrade? Share your requirement and we will help you move forward with the right solution.",
+      "callUs": "Call Our Team",
+      "emailUs": "Send an Email",
       "chatOnWhatsApp": "Chat on WhatsApp",
-      "startConversation": "Start Conversation",
-      "visitUs": "Visit Us",
-      "getInTouchSectionTitle": "Get in Touch",
-      "mapAction": "Go to location",
+      "startConversation": "Start a Chat",
+      "visitUs": "Our Location",
+      "getInTouchSectionTitle": "Connect With Us",
+      "mapAction": "Open in Maps",
       "followUs": "Follow Us on Instagram",
-      "timingsTitle": "Business Hours",
-      "businessHours": "Business Hours"
+      "timingsTitle": "Working Hours",
+      "businessHours": "Working Hours"
     },
     "footer": {
-      "contactTitle": "Contact",
+      "contactTitle": "Reach Us",
       "copyright": "(c) 2026 GrowWell Landscape Pvt Ltd. All rights reserved.",
-      "followUsTitle": "Follow Us",
+      "followUsTitle": "Stay Connected",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
     },

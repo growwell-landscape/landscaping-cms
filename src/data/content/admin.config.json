@@ -2,8 +2,8 @@
   "site": {
     "name": "GrowWell Landscapes",
     "companyName": "GrowWell Landscapes PVT Ltd",
-    "tagline": "Professional landscaping services",
-    "description": "Transforming outdoor spaces into living works of art. Chennai's trusted experts in terraces, gardens, and sustainable landscaping.",
+    "tagline": "Thoughtful landscape design and garden care",
+    "description": "GrowWell Landscapes designs, builds, and maintains inviting outdoor spaces, from terrace gardens and lawns to complete landscape transformations.",
     "logo": {
       "displayMode": "image-only",
       "type": "image",
@@ -29,9 +29,9 @@
     ]
   },
   "seo": {
-    "title": "GrowWell Landscapes - Professional Landscaping Services in Chennai",
-    "description": "Transform your outdoor spaces with GrowWell Landscapes. Expert terracing, lawn design, vertical gardens & maintenance services in Chennai since 2010.",
-    "keywords": "landscaping Chennai, landscape contractor Chennai, terrace garden Chennai, rooftop garden Chennai, garden design Chennai, lawn maintenance Chennai, vertical garden Chennai, villa landscaping Chennai, balcony garden Chennai, irrigation system Chennai, landscaping services Chennai, garden maintenance Chennai",
+    "title": "GrowWell Landscapes - Professional Landscaping Services",
+    "description": "Elevate your outdoor spaces with GrowWell Landscapes. We create terrace gardens, lawns, planting concepts, and practical landscape solutions for homes and commercial properties.",
+    "keywords": "landscaping services, landscape contractor, terrace garden, rooftop garden, garden design, lawn maintenance, vertical garden, villa landscaping, balcony garden, irrigation system, landscape design, garden maintenance",
     "favicon": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png",
     "ogImage": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png"
   },
@@ -95,7 +95,7 @@
     },
     "whatsapp": {
       "number": "919384747150",
-      "defaultMessage": "Hi, I'm interested in your landscaping services. Can you help me?"
+      "defaultMessage": "Hi, I am looking for landscaping support for my space. Could you help me with the next steps?"
     },
     "floatingContact": {
       "enabled": true,
@@ -134,9 +134,9 @@
   ],
   "hero": {
     "title": "Welcome to GrowWell Landscapes",
-    "subtitle": "Professional landscaping services",
-    "description": "Transforming Chennai's outdoors into living sanctuaries.",
-    "ctaText": "View Services",
+    "subtitle": "Landscape design, execution, and care",
+    "description": "From terrace gardens and lawns to elegant green corners, we create outdoor spaces that feel fresh, functional, and built to last.",
+    "ctaText": "Explore Services",
     "ctaLink": "/services",
     "images": {
       "desktop": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
@@ -145,27 +145,27 @@
   },
   "about": {
     "ctaLink": "/contact",
-    "ctaText": "Get in Touch",
+    "ctaText": "Talk to Our Team",
     "features": [
       {
-        "title": "Expert Landscape Design",
-        "description": "Professional design consultation and planning"
+        "title": "Site-Specific Design",
+        "description": "Layouts shaped around your space, style, and practical needs"
       },
       {
-        "title": "Sustainable Practices",
-        "description": "Eco-friendly solutions for lasting beauty"
+        "title": "Balanced Plant Selection",
+        "description": "Planting choices made for climate, upkeep, and visual appeal"
       },
       {
-        "title": "Premium Quality Plants",
-        "description": "Carefully selected plants for optimal growth"
+        "title": "Neat Professional Execution",
+        "description": "Clean installation with attention to finish, flow, and durability"
       },
       {
-        "title": "Dedicated Maintenance Team",
-        "description": "Regular care to keep your garden thriving"
+        "title": "Ongoing Garden Support",
+        "description": "Maintenance guidance and care that keeps landscapes looking their best"
       }
     ],
     "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
-    "title": "Transforming Chennai's Terraces and Landscapes Since 2010",
-    "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life."
+    "title": "Landscaping with Clarity, Care, and Lasting Appeal",
+    "description": "We approach every outdoor space with a simple goal: make it look better, work better, and feel easier to enjoy. Our team combines design thinking, practical planning, and hands-on execution to shape gardens and landscapes that suit the property and the people using it."
   }
 }
