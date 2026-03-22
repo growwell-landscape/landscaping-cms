@@ -1,4 +1,9 @@
-import type { ThemeConfig } from "@/types/config";
+import type {
+  ThemeColors,
+  ThemeConfig,
+  ThemeEffects,
+  ThemeFonts,
+} from "@/types/config";
 
 const DEFAULT_THEME_CONFIG: ThemeConfig = {
   colors: {
@@ -56,21 +61,22 @@ function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function mergeObjects<T extends Record<string, unknown>>(
+function mergeObjects<T extends object>(
   base: T,
   override: unknown
 ): T {
   if (!isObject(override)) {
-    return { ...base };
+    return { ...base } as T;
   }
 
-  const merged = { ...base };
-  Object.entries(override).forEach(([key, value]) => {
+  const merged = { ...base } as T;
+  const typedOverride = override as Partial<Record<keyof T, unknown>>;
+  Object.entries(typedOverride).forEach(([key, value]) => {
     if (typeof value === "string" && value.trim().length > 0) {
       merged[key as keyof T] = value as T[keyof T];
     }
   });
-  return merged;
+  return merged as T;
 }
 
 export function normalizeThemeConfig(theme: unknown): ThemeConfig {
@@ -79,9 +85,9 @@ export function normalizeThemeConfig(theme: unknown): ThemeConfig {
   }
 
   return {
-    colors: mergeObjects(DEFAULT_THEME_CONFIG.colors, theme.colors),
-    fonts: mergeObjects(DEFAULT_THEME_CONFIG.fonts, theme.fonts),
-    effects: mergeObjects(DEFAULT_THEME_CONFIG.effects, theme.effects),
+    colors: mergeObjects<ThemeColors>(DEFAULT_THEME_CONFIG.colors, theme.colors),
+    fonts: mergeObjects<ThemeFonts>(DEFAULT_THEME_CONFIG.fonts, theme.fonts),
+    effects: mergeObjects<ThemeEffects>(DEFAULT_THEME_CONFIG.effects, theme.effects),
     customCss:
       typeof theme.customCss === "string"
         ? theme.customCss
