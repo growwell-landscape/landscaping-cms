@@ -11,7 +11,7 @@
       "text": "GW",
       "showText": false,
       "imageObjectFit": "cover",
-      "imageBlendMode": "normal",
+      "imageBlendMode": "multiply",
       "imageWidth": "400",
       "imageHeight": "70",
       "imageMobileWidth": "220",
