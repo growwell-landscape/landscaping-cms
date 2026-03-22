@@ -316,7 +316,12 @@ function findManagedUploadPathByHash(
   return null;
 }
 
-function resolveImageUploadFolder(_filePath: string, _fieldPath: (string | number)[]): string {
+function resolveImageUploadFolder(
+  filePath?: string,
+  fieldPath?: (string | number)[]
+): string {
+  void filePath;
+  void fieldPath;
   // Keep all uploads under one root path: /public/uploads/
   return "";
 }

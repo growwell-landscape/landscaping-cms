@@ -96,7 +96,6 @@ export function MediaFieldEditor({
         <div className="rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-2">
           {canPreview ? (
             isVideoMedia ? (
-              // eslint-disable-next-line jsx-a11y/media-has-caption
               <video
                 className="h-32 w-full rounded object-cover bg-black"
                 controls

@@ -32,12 +32,20 @@ function getContentType(pathname: string): string {
   return MIME_TYPE_BY_EXTENSION[getFileExtension(pathname)] || "application/octet-stream";
 }
 
-async function tryReadLocalUpload(uploadPath: string): Promise<Buffer | null> {
+function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
+  return bytes.buffer.slice(
+    bytes.byteOffset,
+    bytes.byteOffset + bytes.byteLength
+  ) as ArrayBuffer;
+}
+
+async function tryReadLocalUpload(uploadPath: string): Promise<ArrayBuffer | null> {
   const fullPath = join(process.cwd(), "public", uploadPath.replace(/^\/uploads\//, "uploads/"));
 
   try {
     await access(fullPath, fsConstants.F_OK);
-    return await readFile(fullPath);
+    const fileBuffer = await readFile(fullPath);
+    return toArrayBuffer(new Uint8Array(fileBuffer));
   } catch {
     return null;
   }
@@ -78,7 +86,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const mediaBuffer = Buffer.from(fileData.content, "base64");
-    return new NextResponse(mediaBuffer, {
+    return new NextResponse(toArrayBuffer(new Uint8Array(mediaBuffer)), {
       status: 200,
       headers: {
         "Cache-Control": "no-store",

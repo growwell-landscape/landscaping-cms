@@ -337,7 +337,6 @@ export function ProjectsCarousel({
             <div className="space-y-3">
               <div className="relative overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
                 {isVideoMediaPath(activeGalleryImages[activeGalleryIndex]) ? (
-                  // eslint-disable-next-line jsx-a11y/media-has-caption
                   <video
                     aria-label={`${activeProject?.title || "Project"} gallery video ${activeGalleryIndex + 1}`}
                     className="h-[52vh] w-full bg-black object-contain"
@@ -402,7 +401,6 @@ export function ProjectsCarousel({
                       type="button"
                     >
                       {isVideoMediaPath(image) ? (
-                        // eslint-disable-next-line jsx-a11y/media-has-caption
                         <video
                           aria-hidden="true"
                           className="h-14 w-full bg-black object-cover"

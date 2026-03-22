@@ -30,11 +30,110 @@ interface CachedLanguageRoutingState {
 
 let cachedLanguageRoutingState: CachedLanguageRoutingState | null = null;
 
+function parseOptionalNumber(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number(value.trim());
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+
+  return undefined;
+}
+
+function normalizeSiteConfigValue(value: unknown): SiteConfig | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const source = value as Record<string, unknown>;
+  const sourceLogo =
+    source.logo && typeof source.logo === "object"
+      ? (source.logo as Record<string, unknown>)
+      : {};
+  const defaultLanguage =
+    typeof source.defaultLanguage === "string" && source.defaultLanguage.trim()
+      ? source.defaultLanguage.trim().toLowerCase()
+      : "en";
+  const languages = Array.isArray(source.languages)
+    ? source.languages
+        .filter(
+          (entry): entry is Record<string, unknown> =>
+            Boolean(entry) && typeof entry === "object"
+        )
+        .map((entry) => {
+          const code =
+            typeof entry.code === "string" && entry.code.trim()
+              ? entry.code.trim().toLowerCase()
+              : defaultLanguage;
+          const name =
+            typeof entry.name === "string" && entry.name.trim()
+              ? entry.name.trim()
+              : code.toUpperCase();
+
+          return { code, name };
+        })
+    : [{ code: defaultLanguage, name: defaultLanguage === "en" ? "English" : defaultLanguage.toUpperCase() }];
+  const availableLanguages = Array.isArray(source.availableLanguages)
+    ? source.availableLanguages
+        .filter((entry): entry is string => typeof entry === "string")
+        .map((entry) => entry.trim().toLowerCase())
+        .filter(Boolean)
+    : [defaultLanguage];
+
+  return {
+    name: typeof source.name === "string" ? source.name : "Site",
+    companyName: typeof source.companyName === "string" ? source.companyName : "Site",
+    tagline: typeof source.tagline === "string" ? source.tagline : "",
+    description: typeof source.description === "string" ? source.description : "",
+    logo: {
+      type: sourceLogo.type === "image" ? "image" : "text",
+      displayMode:
+        sourceLogo.displayMode === "generated-with-name" ||
+        sourceLogo.displayMode === "image-with-name" ||
+        sourceLogo.displayMode === "image-only"
+          ? sourceLogo.displayMode
+          : undefined,
+      imageUrl: typeof sourceLogo.imageUrl === "string" ? sourceLogo.imageUrl : undefined,
+      text: typeof sourceLogo.text === "string" ? sourceLogo.text : undefined,
+      showText: typeof sourceLogo.showText === "boolean" ? sourceLogo.showText : undefined,
+      imageObjectFit:
+        sourceLogo.imageObjectFit === "cover" || sourceLogo.imageObjectFit === "contain"
+          ? sourceLogo.imageObjectFit
+          : undefined,
+      imageBlendMode:
+        sourceLogo.imageBlendMode === "normal" ||
+        sourceLogo.imageBlendMode === "multiply" ||
+        sourceLogo.imageBlendMode === "screen" ||
+        sourceLogo.imageBlendMode === "overlay" ||
+        sourceLogo.imageBlendMode === "darken" ||
+        sourceLogo.imageBlendMode === "lighten" ||
+        sourceLogo.imageBlendMode === "color" ||
+        sourceLogo.imageBlendMode === "luminosity"
+          ? sourceLogo.imageBlendMode
+          : undefined,
+      imageWidth: parseOptionalNumber(sourceLogo.imageWidth),
+      imageHeight: parseOptionalNumber(sourceLogo.imageHeight),
+      imageMobileWidth: parseOptionalNumber(sourceLogo.imageMobileWidth),
+      imageMobileHeight: parseOptionalNumber(sourceLogo.imageMobileHeight),
+    },
+    defaultLanguage,
+    languages,
+    availableLanguages:
+      availableLanguages.length > 0
+        ? Array.from(new Set(availableLanguages))
+        : [defaultLanguage],
+  };
+}
+
 function createFallbackSiteConfig(): SiteConfig {
   const bundledSiteConfig = bundledAdminConfig?.site;
+  const normalizedBundledSiteConfig = normalizeSiteConfigValue(bundledSiteConfig);
 
-  if (bundledSiteConfig && typeof bundledSiteConfig === "object") {
-    return bundledSiteConfig as SiteConfig;
+  if (normalizedBundledSiteConfig) {
+    return normalizedBundledSiteConfig;
   }
 
   return {
@@ -124,7 +223,10 @@ async function loadSiteConfigFromGitHub(): Promise<SiteConfig | null> {
       continue;
     }
 
-    return parsed.site as SiteConfig;
+    const normalizedSiteConfig = normalizeSiteConfigValue(parsed.site);
+    if (normalizedSiteConfig) {
+      return normalizedSiteConfig;
+    }
   }
 
   return null;

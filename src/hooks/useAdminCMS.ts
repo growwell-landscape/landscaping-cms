@@ -891,7 +891,8 @@ export function useAdminCMS() {
    * @param password - Admin password
    */
   const deleteItem = useCallback(
-    async (localItemId: string, _password: string) => {
+    async (localItemId: string, password?: string) => {
+      void password;
       if (!selectedFile) return;
 
       const item = items.find((i: DataItem) => i[LOCAL_ITEM_ID_KEY] === localItemId);
@@ -930,9 +931,10 @@ export function useAdminCMS() {
       localItemId: string,
       fieldPath: (string | number)[],
       file: File,
-      _password: string,
+      password: string,
       previousImagePath?: string
     ) => {
+      void password;
       if (!selectedFile) {
         toast.error("Select a file before uploading an image");
         return;
