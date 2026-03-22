@@ -22,38 +22,18 @@
       {
         "code": "en",
         "name": "English"
-      },
-      {
-        "code": "te",
-        "name": "తెలుగు"
-      },
-      {
-        "code": "ta",
-        "name": "தமிழ்"
       }
     ],
     "availableLanguages": [
-      "en",
-      "te",
-      "ta"
-    ],
-    "companyName_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ PVT లిమిటెడ్",
-    "companyName_ta": "க்ரோவெல் லேண்ட்ஸ்கேப்ஸ் பிரைவேட் லிமிடெட்",
-    "tagline_te": "వృత్తిపరమైన తోటపని సేవలు",
-    "tagline_ta": "தொழில்முறை இயற்கையை ரசித்தல் சேவைகள்",
-    "description_te": "బయటి ప్రదేశాలను జీవన కళాఖండాలుగా మార్చడం. టెర్రస్‌లు, గార్డెన్‌లు మరియు స్థిరమైన ల్యాండ్‌స్కేపింగ్‌లో చెన్నై యొక్క విశ్వసనీయ నిపుణులు.",
-    "description_ta": "வெளிப்புற இடங்களை வாழும் கலைப் படைப்புகளாக மாற்றுதல். மொட்டை மாடிகள், தோட்டங்கள் மற்றும் நிலையான இயற்கையை ரசித்தல் ஆகியவற்றில் சென்னையின் நம்பகமான நிபுணர்கள்."
+      "en"
+    ]
   },
   "seo": {
     "title": "GrowWell Landscapes - Professional Landscaping Services in Chennai",
     "description": "Transform your outdoor spaces with GrowWell Landscapes. Expert terracing, lawn design, vertical gardens & maintenance services in Chennai since 2010.",
     "keywords": "landscaping Chennai, landscape contractor Chennai, terrace garden Chennai, rooftop garden Chennai, garden design Chennai, lawn maintenance Chennai, vertical garden Chennai, villa landscaping Chennai, balcony garden Chennai, irrigation system Chennai, landscaping services Chennai, garden maintenance Chennai",
     "favicon": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png",
-    "ogImage": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png",
-    "title_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ - చెన్నైలో ప్రొఫెషనల్ ల్యాండ్‌స్కేపింగ్ సేవలు",
-    "title_ta": "க்ரோவெல் லேண்ட்ஸ்கேப்ஸ் - சென்னையில் உள்ள தொழில்முறை இயற்கையை ரசித்தல் சேவைகள்",
-    "description_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్‌లతో మీ బహిరంగ ప్రదేశాలను మార్చండి. 2010 నుండి చెన్నైలో నిపుణులైన టెర్రేసింగ్, లాన్ డిజైన్, వర్టికల్ గార్డెన్స్ & నిర్వహణ సేవలు.",
-    "description_ta": "GrowWell நிலப்பரப்புகளுடன் உங்கள் வெளிப்புற இடங்களை மாற்றவும். 2010 முதல் சென்னையில் நிபுணத்துவம் வாய்ந்த மொட்டை மாடி, புல்வெளி வடிவமைப்பு, செங்குத்து தோட்டங்கள் & பராமரிப்பு சேவைகள்."
+    "ogImage": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png"
   },
   "theme": {
     "colors": {
@@ -111,15 +91,11 @@
     "address": "Chennai, Tamil Nadu",
     "location": {
       "name": "GrowWell Landscapes - Landscape Contractor",
-      "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA",
-      "name_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ - ల్యాండ్‌స్కేప్ కాంట్రాక్టర్",
-      "name_ta": "க்ரோவெல் லேண்ட்ஸ்கேப்ஸ் - லேண்ட்ஸ்கேப் ஒப்பந்ததாரர்"
+      "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA"
     },
     "whatsapp": {
       "number": "919384747150",
-      "defaultMessage": "Hi, I'm interested in your landscaping services. Can you help me?",
-      "defaultMessage_te": "హాయ్, మీ ల్యాండ్‌స్కేపింగ్ సేవలపై నాకు ఆసక్తి ఉంది. మీరు నాకు సహాయం చేయగలరా?",
-      "defaultMessage_ta": "வணக்கம், உங்கள் இயற்கையை ரசித்தல் சேவைகளில் நான் ஆர்வமாக உள்ளேன். நீங்கள் எனக்கு உதவ முடியுமா?"
+      "defaultMessage": "Hi, I'm interested in your landscaping services. Can you help me?"
     },
     "floatingContact": {
       "enabled": true,
@@ -143,13 +119,9 @@
     "locations": [
       {
         "name": "GrowWell Landscapes - Landscape Contractor",
-        "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA",
-        "name_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ - ల్యాండ్‌స్కేప్ కాంట్రాక్టర్",
-        "name_ta": "க்ரோவெல் லேண்ட்ஸ்கேப்ஸ் - லேண்ட்ஸ்கேப் ஒப்பந்ததாரர்"
+        "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA"
       }
-    ],
-    "address_te": "చెన్నై, తమిళనాడు",
-    "address_ta": "சென்னை, தமிழ்நாடு"
+    ]
   },
   "socialMedia": [
     {
@@ -169,17 +141,7 @@
     "images": {
       "desktop": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
       "mobile": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
-    },
-    "title_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్‌లకు స్వాగతం",
-    "subtitle_te": "వృత్తిపరమైన తోటపని సేవలు",
-    "description_te": "చెన్నై యొక్క అవుట్‌డోర్లను జీవన అభయారణ్యాలుగా మార్చడం.",
-    "ctaText_te": "సేవలను వీక్షించండి",
-    "ctaLink_te": "/ సేవలు",
-    "title_ta": "GrowWell இயற்கைக்காட்சிகளுக்கு வரவேற்கிறோம்",
-    "subtitle_ta": "தொழில்முறை இயற்கையை ரசித்தல் சேவைகள்",
-    "description_ta": "சென்னையின் வெளிப்புறங்களை வாழும் சரணாலயங்களாக மாற்றுதல்.",
-    "ctaText_ta": "சேவைகளைப் பார்க்கவும்",
-    "ctaLink_ta": "/ சேவைகள்"
+    }
   },
   "about": {
     "ctaLink": "/contact",
@@ -187,47 +149,23 @@
     "features": [
       {
         "title": "Expert Landscape Design",
-        "description": "Professional design consultation and planning",
-        "title_te": "నిపుణుడు ల్యాండ్‌స్కేప్ డిజైన్",
-        "description_te": "వృత్తిపరమైన డిజైన్ సంప్రదింపులు మరియు ప్రణాళిక",
-        "title_ta": "நிபுணர் இயற்கை வடிவமைப்பு",
-        "description_ta": "தொழில்முறை வடிவமைப்பு ஆலோசனை மற்றும் திட்டமிடல்"
+        "description": "Professional design consultation and planning"
       },
       {
         "title": "Sustainable Practices",
-        "description": "Eco-friendly solutions for lasting beauty",
-        "title_te": "సస్టైనబుల్ ప్రాక్టీసెస్",
-        "description_te": "శాశ్వత సౌందర్యం కోసం పర్యావరణ అనుకూల పరిష్కారాలు",
-        "title_ta": "நிலையான நடைமுறைகள்",
-        "description_ta": "நீடித்த அழகுக்கான சூழல் நட்பு தீர்வுகள்"
+        "description": "Eco-friendly solutions for lasting beauty"
       },
       {
         "title": "Premium Quality Plants",
-        "description": "Carefully selected plants for optimal growth",
-        "title_te": "ప్రీమియం నాణ్యమైన మొక్కలు",
-        "description_te": "సరైన పెరుగుదల కోసం జాగ్రత్తగా ఎంపిక చేయబడిన మొక్కలు",
-        "title_ta": "பிரீமியம் தரமான தாவரங்கள்",
-        "description_ta": "உகந்த வளர்ச்சிக்கு கவனமாக தேர்ந்தெடுக்கப்பட்ட தாவரங்கள்"
+        "description": "Carefully selected plants for optimal growth"
       },
       {
         "title": "Dedicated Maintenance Team",
-        "description": "Regular care to keep your garden thriving",
-        "title_te": "అంకితమైన నిర్వహణ బృందం",
-        "description_te": "మీ తోట అభివృద్ధి చెందడానికి రెగ్యులర్ సంరక్షణ",
-        "title_ta": "அர்ப்பணிக்கப்பட்ட பராமரிப்பு குழு",
-        "description_ta": "உங்கள் தோட்டம் செழிப்பாக இருக்க வழக்கமான பராமரிப்பு"
+        "description": "Regular care to keep your garden thriving"
       }
     ],
     "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
     "title": "Transforming Chennai's Terraces and Landscapes Since 2010",
-    "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life.",
-    "ctaLink_te": "/ సంప్రదించండి",
-    "ctaText_te": "సన్నిహితంగా ఉండండి",
-    "title_te": "2010 నుండి చెన్నై టెర్రస్‌లు మరియు ల్యాండ్‌స్కేప్‌లను మారుస్తోంది",
-    "description_te": "బయటి ప్రదేశాలు ఇండోర్ నివసించే ప్రాంతాల వలె సౌకర్యవంతంగా మరియు అందంగా ఉండాలని మేము నమ్ముతున్నాము. మీ ఆస్తి విలువను మరియు జీవన నాణ్యతను పెంచే స్థిరమైన, అద్భుతమైన ప్రకృతి దృశ్యాలను రూపొందించడానికి మా నైపుణ్యం కలిగిన తోటపని నిపుణులు, డిజైనర్లు మరియు నిర్వహణ నిపుణుల బృందం కలిసి పని చేస్తుంది.",
-    "ctaLink_ta": "/தொடர்புக்கு",
-    "ctaText_ta": "தொடர்பு கொள்ளுங்கள்",
-    "title_ta": "2010 முதல் சென்னையின் மொட்டை மாடிகள் மற்றும் நிலப்பரப்புகளை மாற்றுகிறது",
-    "description_ta": "வெளிப்புற இடங்கள் உட்புற வாழ்க்கைப் பகுதிகளைப் போலவே வசதியாகவும் அழகாகவும் இருக்க வேண்டும் என்று நாங்கள் நம்புகிறோம். எங்களின் திறமையான தோட்டக்கலை நிபுணர்கள், வடிவமைப்பாளர்கள் மற்றும் பராமரிப்பு நிபுணர்கள் இணைந்து உங்களின் சொத்து மதிப்பு மற்றும் வாழ்க்கைத் தரத்தை மேம்படுத்தும் வகையில் நிலையான, பிரமிக்க வைக்கும் நிலப்பரப்புகளை உருவாக்குகின்றனர்."
+    "description": "We believe outdoor spaces should be as comfortable and beautiful as indoor living areas. Our skilled team of horticulturists, designers, and maintenance experts work together to create sustainable, stunning landscapes that enhance your property value and quality of life."
   }
 }

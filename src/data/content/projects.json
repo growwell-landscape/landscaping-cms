@@ -13,15 +13,7 @@
     "location": "Chennai, Tamil Nadu",
     "sortOrder": 1,
     "title": "Turfing",
-    "showGallery": false,
-    "category_te": "టర్ఫింగ్",
-    "description_te": "టర్ఫింగ్",
-    "location_te": "చెన్నై, తమిళనాడు",
-    "title_te": "టర్ఫింగ్",
-    "category_ta": "புல்தரை",
-    "description_ta": "புல்தரை",
-    "location_ta": "சென்னை, தமிழ்நாடு",
-    "title_ta": "டர்ஃபிங்"
+    "showGallery": false
   },
   {
     "id": "residential-terrace-garden",
@@ -37,15 +29,7 @@
     "completedDate": "2025",
     "sortOrder": 1,
     "enabled": true,
-    "showGallery": true,
-    "title_te": "రెసిడెన్షియల్ టెర్రేస్ గార్డెన్",
-    "description_te": "పచ్చిక ప్రాంతం మరియు క్యూరేటెడ్ ప్లాంటింగ్‌తో పచ్చని ఒయాసిస్‌గా రెసిడెన్షియల్ టెర్రస్‌ని అద్భుతమైన రూపాంతరం.",
-    "location_te": "చెన్నై, తమిళనాడు",
-    "category_te": "నివాసస్థలం",
-    "title_ta": "குடியிருப்பு மாடித் தோட்டம்",
-    "description_ta": "புல்வெளிப் பகுதி மற்றும் க்யூரேட்டட் நடவுகளுடன் கூடிய பசுமையான சோலையாக, குடியிருப்பு மொட்டை மாடியின் அற்புதமான மாற்றம்.",
-    "location_ta": "சென்னை, தமிழ்நாடு",
-    "category_ta": "குடியிருப்பு"
+    "showGallery": true
   },
   {
     "id": "commercial-corporate-vertical-wall",
@@ -60,15 +44,7 @@
     "completedDate": "2025",
     "sortOrder": 2,
     "enabled": true,
-    "showGallery": false,
-    "title_te": "కార్పొరేట్ వర్టికల్ వాల్",
-    "description_te": "కార్పోరేట్ కార్యాలయం కోసం వర్టికల్ వాల్ ఇన్‌స్టాలేషన్, ఆధునిక వర్క్‌స్పేస్ సౌందర్యంతో పచ్చదనాన్ని మిళితం చేస్తుంది.",
-    "location_te": "చెన్నై, తమిళనాడు",
-    "category_te": "వాణిజ్యపరమైన",
-    "title_ta": "கார்ப்பரேட் செங்குத்து சுவர்",
-    "description_ta": "கார்ப்பரேட் அலுவலகத்திற்கான செங்குத்து சுவர் நிறுவல், நவீன பணியிட அழகியலுடன் பசுமையை கலத்தல்.",
-    "location_ta": "சென்னை, தமிழ்நாடு",
-    "category_ta": "வணிகம்"
+    "showGallery": false
   },
   {
     "id": "residential-villa-landscape-design",
@@ -81,14 +57,6 @@
     "completedDate": "2025",
     "sortOrder": 3,
     "enabled": false,
-    "showGallery": false,
-    "title_te": "విల్లా ల్యాండ్‌స్కేప్ డిజైన్",
-    "description_te": "స్ట్రక్చర్డ్ ప్లాంటింగ్ మరియు ఓపెన్ లాన్ ట్రాన్సిషన్‌లను కలిగి ఉన్న ప్రీమియం విల్లా కోసం ల్యాండ్‌స్కేప్ డెవలప్‌మెంట్.",
-    "location_te": "చెన్నై, తమిళనాడు",
-    "category_te": "నివాసస్థలం",
-    "title_ta": "வில்லா இயற்கை வடிவமைப்பு",
-    "description_ta": "கட்டமைக்கப்பட்ட நடவு மற்றும் திறந்த புல்வெளி மாற்றங்களைக் கொண்ட பிரீமியம் வில்லாவிற்கான நிலப்பரப்பு மேம்பாடு.",
-    "location_ta": "சென்னை, தமிழ்நாடு",
-    "category_ta": "குடியிருப்பு"
+    "showGallery": false
   }
 ]
