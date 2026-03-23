@@ -4,6 +4,7 @@
  */
 
 import type { GitHubFileResponse } from "@/types/cms";
+import { getGitHubRuntimeConfig } from "@/lib/runtime-env";
 
 /**
  * Configuration for GitHub API
@@ -38,6 +39,11 @@ interface GitHubGitBlobResponse {
 
 interface GitHubGitTreeResponse {
   sha: string;
+}
+
+interface GitHubErrorResponse {
+  documentation_url?: string;
+  message?: string;
 }
 
 /**
@@ -80,6 +86,47 @@ export class GitHubAPI {
       Accept: "application/vnd.github.v3+json",
       "Content-Type": "application/json",
     };
+  }
+
+  private async buildGitHubError(
+    response: Response,
+    operation: string
+  ): Promise<GitHubAPIError> {
+    let details: GitHubErrorResponse | null = null;
+
+    try {
+      details = (await response.json()) as GitHubErrorResponse;
+    } catch {
+      details = null;
+    }
+
+    const githubMessage = details?.message?.trim();
+    const errorMessage = githubMessage
+      ? `${this.getFriendlyStatusMessage(response.status)} GitHub says: ${githubMessage}`
+      : this.getFriendlyStatusMessage(response.status);
+
+    return new GitHubAPIError(errorMessage, {
+      branch: this.config.branch,
+      operation,
+      owner: this.config.owner,
+      repo: this.config.repo,
+      status: response.status,
+    });
+  }
+
+  private getFriendlyStatusMessage(status: number): string {
+    switch (status) {
+      case 401:
+        return "GitHub authentication failed. Check GITHUB_TOKEN permissions and expiration.";
+      case 403:
+        return "GitHub access was forbidden or rate-limited.";
+      case 404:
+        return "GitHub resource was not found. Verify GITHUB_OWNER, GITHUB_REPO, path, and branch.";
+      case 409:
+        return "GitHub rejected the change because the branch is out of date or in conflict.";
+      default:
+        return `GitHub API request failed with status ${status}.`;
+    }
   }
 
   /**
@@ -168,16 +215,29 @@ export class GitHubAPI {
         }
 
         if (response.status !== 404) {
-          throw new Error(
-            `GitHub API error: ${response.status} ${response.statusText}`
-          );
+          throw await this.buildGitHubError(response, "getFile");
         }
       }
 
-      throw new Error(`File not found: ${filePath}`);
+      throw new GitHubAPIError(`File not found: ${filePath}`, {
+        branch: this.config.branch,
+        operation: "getFile",
+        owner: this.config.owner,
+        repo: this.config.repo,
+        status: 404,
+      });
     } catch (error) {
+      if (error instanceof GitHubAPIError) {
+        throw error;
+      }
       if (error instanceof Error) {
-        throw new Error(`Failed to fetch file from GitHub: ${error.message}`);
+        throw new GitHubAPIError(`Failed to fetch file from GitHub: ${error.message}`, {
+          branch: this.config.branch,
+          operation: "getFile",
+          owner: this.config.owner,
+          repo: this.config.repo,
+          status: 500,
+        });
       }
       throw error;
     }
@@ -223,9 +283,7 @@ export class GitHubAPI {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `GitHub API error: ${response.status} ${response.statusText}`
-        );
+        throw await this.buildGitHubError(response, "putFile");
       }
 
       const data = (await response.json()) as { content: GitHubFileResponse };
@@ -236,8 +294,17 @@ export class GitHubAPI {
       }
       return data.content;
     } catch (error) {
+      if (error instanceof GitHubAPIError) {
+        throw error;
+      }
       if (error instanceof Error) {
-        throw new Error(`Failed to update file in GitHub: ${error.message}`);
+        throw new GitHubAPIError(`Failed to update file in GitHub: ${error.message}`, {
+          branch: this.config.branch,
+          operation: "putFile",
+          owner: this.config.owner,
+          repo: this.config.repo,
+          status: 500,
+        });
       }
       throw error;
     }
@@ -274,17 +341,24 @@ export class GitHubAPI {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `GitHub API error: ${response.status} ${response.statusText}`
-        );
+        throw await this.buildGitHubError(response, "deleteFile");
       }
 
       const data = (await response.json()) as { content: GitHubFileResponse };
       this.rememberResolvedPath(filePath, resolvedPath);
       return data.content;
     } catch (error) {
+      if (error instanceof GitHubAPIError) {
+        throw error;
+      }
       if (error instanceof Error) {
-        throw new Error(`Failed to delete file from GitHub: ${error.message}`);
+        throw new GitHubAPIError(`Failed to delete file from GitHub: ${error.message}`, {
+          branch: this.config.branch,
+          operation: "deleteFile",
+          owner: this.config.owner,
+          repo: this.config.repo,
+          status: 500,
+        });
       }
       throw error;
     }
@@ -318,9 +392,7 @@ export class GitHubAPI {
       cache: "no-store",
     });
     if (!refResponse.ok) {
-      throw new Error(
-        `GitHub API error: ${refResponse.status} ${refResponse.statusText}`
-      );
+      throw await this.buildGitHubError(refResponse, "putFilesBatch:getRef");
     }
     const refData = (await refResponse.json()) as GitHubGitRefResponse;
     const parentCommitSha = refData.object.sha;
@@ -331,9 +403,7 @@ export class GitHubAPI {
       cache: "no-store",
     });
     if (!commitResponse.ok) {
-      throw new Error(
-        `GitHub API error: ${commitResponse.status} ${commitResponse.statusText}`
-      );
+      throw await this.buildGitHubError(commitResponse, "putFilesBatch:getCommit");
     }
     const commitData = (await commitResponse.json()) as GitHubGitCommitResponse;
     const baseTreeSha = commitData.tree.sha;
@@ -390,9 +460,7 @@ export class GitHubAPI {
         }),
       });
       if (!blobResponse.ok) {
-        throw new Error(
-          `GitHub API error: ${blobResponse.status} ${blobResponse.statusText}`
-        );
+        throw await this.buildGitHubError(blobResponse, "putFilesBatch:createBlob");
       }
       const blobData = (await blobResponse.json()) as GitHubGitBlobResponse;
 
@@ -421,9 +489,7 @@ export class GitHubAPI {
       }),
     });
     if (!treeResponse.ok) {
-      throw new Error(
-        `GitHub API error: ${treeResponse.status} ${treeResponse.statusText}`
-      );
+      throw await this.buildGitHubError(treeResponse, "putFilesBatch:createTree");
     }
     const treeData = (await treeResponse.json()) as GitHubGitTreeResponse;
 
@@ -439,9 +505,7 @@ export class GitHubAPI {
       }),
     });
     if (!newCommitResponse.ok) {
-      throw new Error(
-        `GitHub API error: ${newCommitResponse.status} ${newCommitResponse.statusText}`
-      );
+      throw await this.buildGitHubError(newCommitResponse, "putFilesBatch:createCommit");
     }
     const newCommitData = (await newCommitResponse.json()) as GitHubGitCommitResponse;
 
@@ -458,9 +522,7 @@ export class GitHubAPI {
       }),
     });
     if (!updateRefResponse.ok) {
-      throw new Error(
-        `GitHub API error: ${updateRefResponse.status} ${updateRefResponse.statusText}`
-      );
+      throw await this.buildGitHubError(updateRefResponse, "putFilesBatch:updateRef");
     }
 
     return {
@@ -470,22 +532,38 @@ export class GitHubAPI {
   }
 }
 
+export class GitHubAPIError extends Error {
+  readonly branch: string;
+  readonly operation: string;
+  readonly owner: string;
+  readonly repo: string;
+  readonly status: number;
+
+  constructor(
+    message: string,
+    details: {
+      branch: string;
+      operation: string;
+      owner: string;
+      repo: string;
+      status: number;
+    }
+  ) {
+    super(message);
+    this.name = "GitHubAPIError";
+    this.branch = details.branch;
+    this.operation = details.operation;
+    this.owner = details.owner;
+    this.repo = details.repo;
+    this.status = details.status;
+  }
+}
+
 /**
  * Create GitHub API instance with environment variables
  * @returns GitHubAPI instance
  * @throws Error if required environment variables are missing
  */
 export function createGitHubAPI(): GitHubAPI {
-  const token = process.env.GITHUB_TOKEN;
-  const owner = process.env.GITHUB_OWNER;
-  const repo = process.env.GITHUB_REPO;
-  const branch = process.env.GITHUB_BRANCH || "main";
-
-  if (!token || !owner || !repo) {
-    throw new Error(
-      "Missing required GitHub environment variables: GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO"
-    );
-  }
-
-  return new GitHubAPI({ token, owner, repo, branch });
+  return new GitHubAPI(getGitHubRuntimeConfig());
 }

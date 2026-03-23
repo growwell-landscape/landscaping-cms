@@ -6,26 +6,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { createErrorResponse, createGitHubErrorResponse } from "@/lib/api-response";
 import { createGitHubAPI } from "@/lib/github-api";
 import { CMS_FILES } from "@/lib/cms-utils";
+import { validateAdminPassword } from "@/lib/runtime-env";
 import type { APIResponse } from "@/types/cms";
 
 const ADMIN_PASSWORD_HEADER = "x-admin-password";
 const ALLOWED_FILE_PATHS = new Set<string>(Object.values(CMS_FILES));
-
-/**
- * Validate admin password
- * @param password - Password to validate
- * @returns True if password is correct
- */
-function validatePassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  if (!adminPassword) {
-    console.error("ADMIN_PASSWORD environment variable not set");
-    return false;
-  }
-  return password === adminPassword;
-}
 
 /**
  * Handle GET request to fetch JSON
@@ -37,36 +25,18 @@ function validatePassword(password: string): boolean {
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const providedPassword = request.headers.get(ADMIN_PASSWORD_HEADER) || "";
-    if (!validatePassword(providedPassword)) {
-      const response: APIResponse = {
-        success: false,
-        error: "Invalid password",
-        status: 401,
-      };
-      return NextResponse.json(response, {
-        status: 401,
-        headers: { "Cache-Control": "no-store" },
-      });
+    if (!validateAdminPassword(providedPassword)) {
+      return createErrorResponse(401, "Invalid password", "no-store");
     }
 
     // Get filePath from query parameters
     const filePath = request.nextUrl.searchParams.get("filePath");
 
     if (!filePath) {
-      const response: APIResponse = {
-        success: false,
-        error: "filePath query parameter is required",
-        status: 400,
-      };
-      return NextResponse.json(response, { status: 400 });
+      return createErrorResponse(400, "filePath query parameter is required");
     }
     if (!ALLOWED_FILE_PATHS.has(filePath)) {
-      const response: APIResponse = {
-        success: false,
-        error: "Invalid file path",
-        status: 400,
-      };
-      return NextResponse.json(response, { status: 400 });
+      return createErrorResponse(400, "Invalid file path");
     }
 
     let jsonData: unknown;
@@ -83,12 +53,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       } catch (error) {
         const errorMsg =
           error instanceof Error ? error.message : "Failed to read file";
-        const response: APIResponse = {
-          success: false,
-          error: `Failed to read local file: ${errorMsg}`,
-          status: 404,
-        };
-        return NextResponse.json(response, { status: 404 });
+        return createErrorResponse(404, `Failed to read local file: ${errorMsg}`);
       }
     } else {
       // In production, fetch from GitHub
@@ -97,12 +62,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         const fileData = await github.getFile(filePath);
 
         if (!fileData.content) {
-          const response: APIResponse = {
-            success: false,
-            error: "File content not found",
-            status: 404,
-          };
-          return NextResponse.json(response, { status: 404 });
+          return createErrorResponse(404, "File content not found");
         }
 
         const decodedContent = Buffer.from(
@@ -112,14 +72,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         jsonData = JSON.parse(decodedContent);
         sha = fileData.sha || "";
       } catch (error) {
-        const errorMsg =
-          error instanceof Error ? error.message : "GitHub API error";
-        const response: APIResponse = {
-          success: false,
-          error: `Failed to fetch from GitHub: ${errorMsg}`,
-          status: 500,
-        };
-        return NextResponse.json(response, { status: 500 });
+        return createGitHubErrorResponse(
+          "get-json",
+          error,
+          "Failed to fetch from GitHub"
+        );
       }
     }
 
@@ -136,18 +93,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Internal server error";
-
-    const response: APIResponse = {
-      success: false,
-      error: errorMessage,
-      status: 500,
-    };
-
-    return NextResponse.json(response, {
-      status: 500,
-      headers: { "Cache-Control": "no-store" },
-    });
+    return createErrorResponse(
+      500,
+      error instanceof Error ? error.message : "Internal server error",
+      "no-store"
+    );
   }
 }

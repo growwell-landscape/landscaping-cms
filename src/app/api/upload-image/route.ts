@@ -6,22 +6,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mkdir, writeFile } from "fs/promises";
 import { dirname, join } from "path";
+import { createErrorResponse, createGitHubErrorResponse } from "@/lib/api-response";
 import { createGitHubAPI } from "@/lib/github-api";
+import { validateAdminPassword } from "@/lib/runtime-env";
 import type { APIResponse, ImageUploadPayload } from "@/types/cms";
-
-/**
- * Validate admin password
- * @param password - Password to validate
- * @returns True if password is correct
- */
-function validatePassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  if (!adminPassword) {
-    console.error("ADMIN_PASSWORD environment variable not set");
-    return false;
-  }
-  return password === adminPassword;
-}
 
 /**
  * Validate upload file name
@@ -59,52 +47,32 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
       payload = (await request.json()) as ImageUploadPayload;
     } catch {
-      const response: APIResponse = {
-        success: false,
-        error: "Invalid request body",
-        status: 400,
-      };
-      return NextResponse.json(response, { status: 400 });
+      return createErrorResponse(400, "Invalid request body");
     }
 
     // Validate required fields
     if (!payload.fileName || !payload.base64Content || !payload.password) {
-      const response: APIResponse = {
-        success: false,
-        error: "Missing required fields: fileName, base64Content, password",
-        status: 400,
-      };
-      return NextResponse.json(response, { status: 400 });
+      return createErrorResponse(
+        400,
+        "Missing required fields: fileName, base64Content, password"
+      );
     }
 
     // Validate password
-    if (!validatePassword(payload.password)) {
-      const response: APIResponse = {
-        success: false,
-        error: "Invalid password",
-        status: 401,
-      };
-      return NextResponse.json(response, { status: 401 });
+    if (!validateAdminPassword(payload.password)) {
+      return createErrorResponse(401, "Invalid password");
     }
 
     // Validate file name
     if (!validateFileName(payload.fileName)) {
-      const response: APIResponse = {
-        success: false,
-        error:
-          "Invalid file name. Only alphanumeric, dash, underscore allowed. Must end with .jpg, .jpeg, .png, .webp, .mp4, .webm, .ogg, or .mov",
-        status: 400,
-      };
-      return NextResponse.json(response, { status: 400 });
+      return createErrorResponse(
+        400,
+        "Invalid file name. Only alphanumeric, dash, underscore allowed. Must end with .jpg, .jpeg, .png, .webp, .mp4, .webm, .ogg, or .mov"
+      );
     }
 
     if (payload.folder && !validateFolder(payload.folder)) {
-      const response: APIResponse = {
-        success: false,
-        error: "Invalid folder path",
-        status: 400,
-      };
-      return NextResponse.json(response, { status: 400 });
+      return createErrorResponse(400, "Invalid folder path");
     }
 
     const folderSegment = payload.folder ? `/${payload.folder}` : "";
@@ -161,15 +129,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     return NextResponse.json(successResponse);
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Internal server error";
-
-    const response: APIResponse = {
-      success: false,
-      error: errorMessage,
-      status: 500,
-    };
-
-    return NextResponse.json(response, { status: 500 });
+    return createGitHubErrorResponse(
+      "upload-image",
+      error,
+      "Internal server error"
+    );
   }
 }

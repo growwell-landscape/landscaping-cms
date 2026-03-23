@@ -1,0 +1,76 @@
+name: Vercel Prod Redeploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-prod-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  TARGET_BRANCH: main
+  TARGET_ENVIRONMENT: production
+  REPOSITORY_OWNER: ${{ github.repository_owner }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+
+jobs:
+  redeploy:
+    if: github.ref_name == env.TARGET_BRANCH
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch and secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${VERCEL_PROD_DEPLOY_HOOK_URL:-}" ]]; then
+            echo "Missing VERCEL_PROD_DEPLOY_HOOK_URL secret."
+            exit 1
+          fi
+          if [[ "${GITHUB_REF_NAME}" != "${TARGET_BRANCH}" ]]; then
+            echo "Skipping because branch '${GITHUB_REF_NAME}' is not '${TARGET_BRANCH}'."
+            exit 0
+          fi
+          echo "Redeploying ${TARGET_ENVIRONMENT} for ${REPOSITORY_OWNER}/${REPOSITORY_NAME} on branch ${GITHUB_REF_NAME}."
+
+      - name: Evaluate deploy eligibility
+        id: eligibility
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          if [[ "${HEAD_COMMIT_MESSAGE}" =~ ^(Upload\ media:|Delete\ image:|Delete\ unused\ media:) ]]; then
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping media-only redeploy for commit: ${HEAD_COMMIT_MESSAGE}"
+          else
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger Vercel deploy hook
+        if: github.event_name != 'push' || steps.eligibility.outputs.should_deploy == 'true'
+        shell: bash
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}
+        run: |
+          set -euo pipefail
+          response_file="$(mktemp)"
+          status_code="$(
+            curl --silent --show-error \
+              --output "${response_file}" \
+              --write-out "%{http_code}" \
+              --request POST \
+              "${DEPLOY_HOOK_URL}"
+          )"
+          if [[ "${status_code}" -lt 200 || "${status_code}" -ge 300 ]]; then
+            echo "Vercel deploy hook failed with HTTP ${status_code}."
+            cat "${response_file}"
+            exit 1
+          fi
+          echo "Vercel deploy hook accepted with HTTP ${status_code}."
