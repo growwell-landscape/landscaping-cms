@@ -1,3 +1,5 @@
+import { resolveDefaultAppBaseUrl } from "@/lib/app-url";
+
 /**
  * Application constants
  * Centralized place for all constant values used throughout the application
@@ -155,7 +157,7 @@ export const ENV = {
   /** CORS origins */
   CORS_ORIGINS: process.env.CORS_ORIGINS || "*",
   /** API base URL */
-  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "",
+  NEXT_PUBLIC_API_URL: resolveDefaultAppBaseUrl(),
 } as const;
 
 /**
