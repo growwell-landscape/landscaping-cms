@@ -1,0 +1,41 @@
+name: Vercel Prod Redeploy
+run-name: Vercel prod redeploy (${{ github.event_name == 'workflow_dispatch' && 'manual' || github.ref_name }})
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-prod-redeploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  redeploy-production:
+    name: Redeploy production site
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' &&
+      !startsWith(github.event.head_commit.message, 'Upload media:') &&
+      !startsWith(github.event.head_commit.message, 'Delete image:') &&
+      !startsWith(github.event.head_commit.message, 'Delete unused media:'))
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+    steps:
+      - name: Show deployment target
+        run: echo "Triggering Vercel production deploy for branch main"
+
+      - name: Trigger Vercel Production Redeploy
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "Missing secret: VERCEL_DEPLOY_HOOK_URL"
+            exit 1
+          fi
+
+          curl --fail --silent --show-error \
+            --request POST \
+            "$DEPLOY_HOOK_URL"
