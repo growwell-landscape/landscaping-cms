@@ -6,11 +6,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readFile, unlink } from "fs/promises";
 import { join } from "path";
-import { createErrorResponse, createGitHubErrorResponse, logRouteEvent } from "@/lib/api-response";
 import { createGitHubAPI } from "@/lib/github-api";
 import { CMS_FILES } from "@/lib/cms-utils";
-import { validateAdminPassword } from "@/lib/runtime-env";
 import type { APIResponse, ImageDeletePayload } from "@/types/cms";
+
+/**
+ * Validate admin password
+ * @param password - Password to validate
+ * @returns True if password is correct
+ */
+function validatePassword(password: string): boolean {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    console.error("ADMIN_PASSWORD environment variable not set");
+    return false;
+  }
+  return password === adminPassword;
+}
 
 function normalizeImagePath(filePath: string): string | null {
   const sanitizedInput = filePath.trim().replace(/\\/g, "/");
@@ -84,10 +96,7 @@ async function countUploadReferencesAcrossCMS(publicPath: string): Promise<numbe
     }
     return totalReferences;
   } catch (error) {
-    logRouteEvent(
-      "delete-image",
-      error instanceof Error ? error.message : "Failed to inspect upload references"
-    );
+    console.error("Failed to inspect upload references:", error);
     return null;
   }
 }
@@ -104,22 +113,42 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     try {
       payload = (await request.json()) as ImageDeletePayload;
     } catch {
-      return createErrorResponse(400, "Invalid request body");
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid request body",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
     // Validate required fields
     if (!payload.filePath || !payload.password) {
-      return createErrorResponse(400, "Missing required fields: filePath, password");
+      const response: APIResponse = {
+        success: false,
+        error: "Missing required fields: filePath, password",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
     // Validate password
-    if (!validateAdminPassword(payload.password)) {
-      return createErrorResponse(401, "Invalid password");
+    if (!validatePassword(payload.password)) {
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid password",
+        status: 401,
+      };
+      return NextResponse.json(response, { status: 401 });
     }
 
     const normalizedPath = normalizeImagePath(payload.filePath);
     if (!normalizedPath) {
-      return createErrorResponse(400, "Invalid image path");
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid image path",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
     const publicPath = toPublicUploadPath(normalizedPath);
     const referenceCount = await countUploadReferencesAcrossCMS(publicPath);
@@ -183,7 +212,12 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     try {
       fileData = await github.getFile(normalizedPath);
     } catch {
-      return createErrorResponse(404, `File not found: ${normalizedPath}`);
+      const response: APIResponse = {
+        success: false,
+        error: `File not found: ${normalizedPath}`,
+        status: 404,
+      };
+      return NextResponse.json(response, { status: 404 });
     }
 
     // Delete file
@@ -204,10 +238,15 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 
     return NextResponse.json(successResponse);
   } catch (error) {
-    return createGitHubErrorResponse(
-      "delete-image",
-      error,
-      "Internal server error"
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Internal server error";
+
+    const response: APIResponse = {
+      success: false,
+      error: errorMessage,
+      status: 500,
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 }

@@ -3,7 +3,6 @@ import { constants as fsConstants } from "fs";
 import { join } from "path";
 import { NextRequest, NextResponse } from "next/server";
 
-import { logRouteEvent } from "@/lib/api-response";
 import { createGitHubAPI } from "@/lib/github-api";
 
 const MIME_TYPE_BY_EXTENSION: Record<string, string> = {
@@ -95,10 +94,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     });
   } catch (error) {
-    logRouteEvent(
-      "media",
-      error instanceof Error ? error.message : "Failed to load media preview"
-    );
+    console.error("Failed to load media preview:", error);
     return new NextResponse("Media not found", {
       status: 404,
       headers: { "Cache-Control": "no-store" },

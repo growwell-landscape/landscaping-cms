@@ -6,10 +6,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { join } from "path";
-import { createErrorResponse, createGitHubErrorResponse } from "@/lib/api-response";
 import { createGitHubAPI } from "@/lib/github-api";
-import { validateAdminPassword } from "@/lib/runtime-env";
 import type { APIResponse, JSONUpdatePayload } from "@/types/cms";
+
+/**
+ * Validate admin password
+ * @param password - Password to validate
+ * @returns True if password is correct
+ */
+function validatePassword(password: string): boolean {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    console.error("ADMIN_PASSWORD environment variable not set");
+    return false;
+  }
+  return password === adminPassword;
+}
 
 /**
  * Handle POST request to update JSON
@@ -25,27 +37,44 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
       payload = (await request.json()) as JSONUpdatePayload;
     } catch {
-      return createErrorResponse(400, "Invalid request body");
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid request body",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
     // Validate required fields
     if (!payload.filePath || !payload.content || !payload.password) {
-      return createErrorResponse(
-        400,
-        "Missing required fields: filePath, content, password"
-      );
+      const response: APIResponse = {
+        success: false,
+        error: "Missing required fields: filePath, content, password",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
     // Validate password
-    if (!validateAdminPassword(payload.password)) {
-      return createErrorResponse(401, "Invalid password");
+    if (!validatePassword(payload.password)) {
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid password",
+        status: 401,
+      };
+      return NextResponse.json(response, { status: 401 });
     }
 
     // Validate JSON content
     try {
       JSON.parse(payload.content);
     } catch {
-      return createErrorResponse(400, "Invalid JSON content");
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid JSON content",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
     // In development, write to local filesystem
@@ -67,8 +96,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
         return NextResponse.json(successResponse);
       } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : "Failed to write file";
-        return createErrorResponse(500, `Failed to write local file: ${errorMsg}`);
+        const errorMsg =
+          error instanceof Error ? error.message : "Failed to write file";
+        const response: APIResponse = {
+          success: false,
+          error: `Failed to write local file: ${errorMsg}`,
+          status: 500,
+        };
+        return NextResponse.json(response, { status: 500 });
       }
     } else {
       // In production, update via GitHub
@@ -98,17 +133,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
         return NextResponse.json(successResponse);
       } catch (error) {
-        return createGitHubErrorResponse(
-          "update-json",
-          error,
-          "Failed to update via GitHub"
-        );
+        const errorMsg =
+          error instanceof Error ? error.message : "GitHub API error";
+        const response: APIResponse = {
+          success: false,
+          error: `Failed to update via GitHub: ${errorMsg}`,
+          status: 500,
+        };
+        return NextResponse.json(response, { status: 500 });
       }
     }
   } catch (error) {
-    return createErrorResponse(
-      500,
-      error instanceof Error ? error.message : "Internal server error"
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Internal server error";
+
+    const response: APIResponse = {
+      success: false,
+      error: errorMessage,
+      status: 500,
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 }

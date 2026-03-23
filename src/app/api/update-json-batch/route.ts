@@ -7,14 +7,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { mkdir, unlink, writeFile } from "fs/promises";
 import { dirname, join } from "path";
 
-import { createErrorResponse, createGitHubErrorResponse } from "@/lib/api-response";
 import { CMS_FILES } from "@/lib/cms-utils";
 import { createGitHubAPI } from "@/lib/github-api";
-import { validateAdminPassword } from "@/lib/runtime-env";
 import type { APIResponse, JSONBatchUpdatePayload } from "@/types/cms";
 
 const ALLOWED_FILE_PATHS = new Set<string>(Object.values(CMS_FILES));
 const MEDIA_PATH_PATTERN = /^public\/uploads\/[a-zA-Z0-9/_-]+\.(jpg|jpeg|png|webp|mp4|webm|ogg|mov)$/i;
+
+function validatePassword(password: string): boolean {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    console.error("ADMIN_PASSWORD environment variable not set");
+    return false;
+  }
+  return password === adminPassword;
+}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -22,7 +29,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
       payload = (await request.json()) as JSONBatchUpdatePayload;
     } catch {
-      return createErrorResponse(400, "Invalid request body");
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid request body",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
     const fileUpdates = Array.isArray(payload.files) ? payload.files : [];
@@ -34,18 +46,33 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       : [];
 
     if (!payload.password) {
-      return createErrorResponse(400, "Missing required field: password");
+      const response: APIResponse = {
+        success: false,
+        error: "Missing required field: password",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
     if (
       fileUpdates.length === 0 &&
       mediaUploads.length === 0 &&
       mediaDeletes.length === 0
     ) {
-      return createErrorResponse(400, "Nothing to publish");
+      const response: APIResponse = {
+        success: false,
+        error: "Nothing to publish",
+        status: 400,
+      };
+      return NextResponse.json(response, { status: 400 });
     }
 
-    if (!validateAdminPassword(payload.password)) {
-      return createErrorResponse(401, "Invalid password");
+    if (!validatePassword(payload.password)) {
+      const response: APIResponse = {
+        success: false,
+        error: "Invalid password",
+        status: 401,
+      };
+      return NextResponse.json(response, { status: 401 });
     }
 
     const normalizedUpdates = fileUpdates.map((file) => {
@@ -149,10 +176,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     };
     return NextResponse.json(successResponse);
   } catch (error) {
-    return createGitHubErrorResponse(
-      "update-json-batch",
-      error,
-      "Internal server error"
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Internal server error";
+
+    const response: APIResponse = {
+      success: false,
+      error: errorMessage,
+      status: 500,
+    };
+    return NextResponse.json(response, { status: 500 });
   }
 }
