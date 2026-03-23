@@ -3,14 +3,14 @@ name: Vercel Deploy (Dev & Prod)
 on:
   push:
     branches:
-      - dev
       - main
+      - dev
   workflow_dispatch:
     inputs:
       target:
         description: "Deployment target"
         required: true
-        default: development
+        default: production
         type: choice
         options:
           - development
