@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { resolveBaseUrlFromEnv } from "@/lib/app-url";
 import { createLocalizedPath } from "@/lib/site-i18n";
 
 const BASE_URL_ENV_KEYS = [
@@ -15,18 +16,6 @@ const HREFLANG_LANGUAGE_MAP: Record<string, string> = {
   // "tel" is commonly used in app config for Telugu; search engines expect "te".
   tel: "te",
 };
-
-function normalizeBaseUrl(value: string): string {
-  const trimmed = value.trim();
-
-  if (!trimmed) return "";
-
-  if (/^https?:\/\//i.test(trimmed)) {
-    return trimmed;
-  }
-
-  return `https://${trimmed}`;
-}
 
 function normalizeLanguageCode(value: string): string {
   return value.trim().toLowerCase();
@@ -49,24 +38,7 @@ function readBooleanEnv(value: string | undefined): boolean | null {
  * Resolves the metadata base URL from environment variables with safe fallback.
  */
 export function resolveMetadataBase(): URL {
-  for (const envKey of BASE_URL_ENV_KEYS) {
-    const rawValue = process.env[envKey];
-
-    if (!rawValue) continue;
-
-    const candidate = normalizeBaseUrl(rawValue);
-
-    if (!candidate) continue;
-
-    try {
-      const url = new URL(candidate);
-      return new URL(`${url.protocol}//${url.host}`);
-    } catch {
-      continue;
-    }
-  }
-
-  return new URL("http://localhost:3000");
+  return new URL(resolveBaseUrlFromEnv(BASE_URL_ENV_KEYS));
 }
 
 /**

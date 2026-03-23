@@ -18,7 +18,6 @@ import type {
 import type { Project, Service, Translations } from "@/types/content";
 import { createGitHubAPI, type GitHubAPI } from "@/lib/github-api";
 import { normalizeThemeConfig } from "@/lib/theme";
-import { canUseGitHubContentSource } from "@/lib/runtime-env";
 
 function normalizeLanguageCode(code: string): string {
   return code.trim().toLowerCase();
@@ -215,7 +214,11 @@ class ConfigLoader {
   }
 
   private canUseGitHubContentSource(): boolean {
-    return canUseGitHubContentSource();
+    return Boolean(
+      process.env.GITHUB_TOKEN &&
+        process.env.GITHUB_OWNER &&
+        process.env.GITHUB_REPO
+    );
   }
 
   private getGitHubAPI(): GitHubAPI {

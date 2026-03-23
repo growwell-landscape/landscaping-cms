@@ -1,90 +1,62 @@
 name: Vercel Branch Redeploy
 
 on:
+  push:
+    branches:
+      - main
+      - dev
   workflow_dispatch:
     inputs:
-      target_environment:
-        description: Select which Vercel project to redeploy
+      target:
+        description: "Deployment target"
         required: true
+        default: development
         type: choice
         options:
-          - dev
-          - prod
+          - development
+          - production
 
-permissions:
-  contents: read
-
-env:
-  REPOSITORY_OWNER: ${{ github.repository_owner }}
-  REPOSITORY_NAME: ${{ github.event.repository.name }}
+concurrency:
+  group: vercel-redeploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  redeploy:
+  redeploy-production:
+    if: >-
+      (github.event_name == 'push' &&
+      github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'production')
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve target
-        id: resolve
-        shell: bash
-        run: |
-          set -euo pipefail
-          case "${{ inputs.target_environment }}" in
-            dev)
-              echo "target_branch=dev" >> "$GITHUB_OUTPUT"
-              echo "target_label=development" >> "$GITHUB_OUTPUT"
-              ;;
-            prod)
-              echo "target_branch=main" >> "$GITHUB_OUTPUT"
-              echo "target_label=production" >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              echo "Unsupported target environment."
-              exit 1
-              ;;
-          esac
-
-      - name: Validate branch alignment
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "Manual redeploy requested for ${REPOSITORY_OWNER}/${REPOSITORY_NAME}."
-          echo "Expected branch: ${{ steps.resolve.outputs.target_branch }}"
-          echo "Current ref: ${GITHUB_REF_NAME}"
-          if [[ "${GITHUB_REF_NAME}" != "${{ steps.resolve.outputs.target_branch }}" ]]; then
-            echo "Manual redeploy must be run from branch '${{ steps.resolve.outputs.target_branch }}'."
-            exit 1
-          fi
-
-      - name: Trigger selected Vercel deploy hook
-        shell: bash
+      - name: Trigger Vercel Production Redeploy
         env:
-          DEV_HOOK_URL: ${{ secrets.VERCEL_DEV_DEPLOY_HOOK_URL }}
-          PROD_HOOK_URL: ${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}
         run: |
-          set -euo pipefail
-          case "${{ inputs.target_environment }}" in
-            dev)
-              deploy_hook_url="${DEV_HOOK_URL:-}"
-              ;;
-            prod)
-              deploy_hook_url="${PROD_HOOK_URL:-}"
-              ;;
-          esac
-          if [[ -z "${deploy_hook_url}" ]]; then
-            echo "The selected deploy hook secret is missing."
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "Missing secret: VERCEL_PROD_DEPLOY_HOOK_URL"
             exit 1
           fi
-          response_file="$(mktemp)"
-          status_code="$(
-            curl --silent --show-error \
-              --output "${response_file}" \
-              --write-out "%{http_code}" \
-              --request POST \
-              "${deploy_hook_url}"
-          )"
-          if [[ "${status_code}" -lt 200 || "${status_code}" -ge 300 ]]; then
-            echo "Vercel deploy hook failed with HTTP ${status_code}."
-            cat "${response_file}"
-            exit 1
-          fi
-          echo "Vercel deploy hook accepted with HTTP ${status_code} for ${{ steps.resolve.outputs.target_label }}."
 
+          curl --fail --silent --show-error \
+            --request POST \
+            "$DEPLOY_HOOK_URL"
+
+  redeploy-development:
+    if: >-
+      (github.event_name == 'push' &&
+      github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'development')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Development Redeploy
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEV_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "Missing secret: VERCEL_DEV_DEPLOY_HOOK_URL"
+            exit 1
+          fi
+
+          curl --fail --silent --show-error \
+            --request POST \
+            "$DEPLOY_HOOK_URL"
