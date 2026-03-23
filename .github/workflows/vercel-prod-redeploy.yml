@@ -1,5 +1,4 @@
 name: Vercel Prod Redeploy
-run-name: Vercel prod redeploy (${{ github.event_name == 'workflow_dispatch' && 'manual' || github.ref_name }})
 
 on:
   push:
@@ -7,35 +6,71 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
-  group: vercel-prod-redeploy-${{ github.ref }}
+  group: vercel-prod-${{ github.ref_name }}
   cancel-in-progress: true
 
-jobs:
-  redeploy-production:
-    name: Redeploy production site
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' &&
-      !startsWith(github.event.head_commit.message, 'Upload media:') &&
-      !startsWith(github.event.head_commit.message, 'Delete image:') &&
-      !startsWith(github.event.head_commit.message, 'Delete unused media:'))
-    runs-on: ubuntu-latest
-    environment: production
-    timeout-minutes: 10
-    steps:
-      - name: Show deployment target
-        run: echo "Triggering Vercel production deploy for branch main"
+env:
+  TARGET_BRANCH: main
+  TARGET_ENVIRONMENT: production
+  REPOSITORY_OWNER: ${{ github.repository_owner }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
 
-      - name: Trigger Vercel Production Redeploy
-        env:
-          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+jobs:
+  redeploy:
+    if: github.ref_name == env.TARGET_BRANCH
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch and secret
+        shell: bash
         run: |
-          if [ -z "$DEPLOY_HOOK_URL" ]; then
-            echo "Missing secret: VERCEL_DEPLOY_HOOK_URL"
+          set -euo pipefail
+          if [[ -z "${VERCEL_PROD_DEPLOY_HOOK_URL:-}" ]]; then
+            echo "Missing VERCEL_PROD_DEPLOY_HOOK_URL secret."
             exit 1
           fi
+          if [[ "${GITHUB_REF_NAME}" != "${TARGET_BRANCH}" ]]; then
+            echo "Skipping because branch '${GITHUB_REF_NAME}' is not '${TARGET_BRANCH}'."
+            exit 0
+          fi
+          echo "Redeploying ${TARGET_ENVIRONMENT} for ${REPOSITORY_OWNER}/${REPOSITORY_NAME} on branch ${GITHUB_REF_NAME}."
 
-          curl --fail --silent --show-error \
-            --request POST \
-            "$DEPLOY_HOOK_URL"
+      - name: Evaluate deploy eligibility
+        id: eligibility
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          if [[ "${HEAD_COMMIT_MESSAGE}" =~ ^(Upload\ media:|Delete\ image:|Delete\ unused\ media:) ]]; then
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping media-only redeploy for commit: ${HEAD_COMMIT_MESSAGE}"
+          else
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger Vercel deploy hook
+        if: github.event_name != 'push' || steps.eligibility.outputs.should_deploy == 'true'
+        shell: bash
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}
+        run: |
+          set -euo pipefail
+          response_file="$(mktemp)"
+          status_code="$(
+            curl --silent --show-error \
+              --output "${response_file}" \
+              --write-out "%{http_code}" \
+              --request POST \
+              "${DEPLOY_HOOK_URL}"
+          )"
+          if [[ "${status_code}" -lt 200 || "${status_code}" -ge 300 ]]; then
+            echo "Vercel deploy hook failed with HTTP ${status_code}."
+            cat "${response_file}"
+            exit 1
+          fi
+          echo "Vercel deploy hook accepted with HTTP ${status_code}."

@@ -2,11 +2,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import bundledAdminConfig from "@/data/content/admin.config.json";
+import { logRouteEvent } from "@/lib/api-response";
 import {
   normalizeLanguageCode,
   resolveSiteLanguage,
   type SiteLanguageState,
 } from "@/lib/site-i18n";
+import { getGitHubRuntimeConfig } from "@/lib/runtime-env";
 import type { SiteConfig } from "@/types/config";
 
 const SITE_LANGUAGE_HEADER = "x-site-lang";
@@ -183,23 +185,25 @@ function buildKnownLanguageCodes(
 }
 
 async function loadSiteConfigFromGitHub(): Promise<SiteConfig | null> {
-  const token = process.env.GITHUB_TOKEN;
-  const owner = process.env.GITHUB_OWNER;
-  const repo = process.env.GITHUB_REPO;
-  const branch = process.env.GITHUB_BRANCH || "main";
-
-  if (!token || !owner || !repo) {
+  let runtimeConfig;
+  try {
+    runtimeConfig = getGitHubRuntimeConfig();
+  } catch (error) {
+    logRouteEvent(
+      "middleware",
+      error instanceof Error ? error.message : "GitHub runtime config is invalid"
+    );
     return null;
   }
 
   for (const adminConfigPath of ADMIN_CONFIG_PATH_CANDIDATES) {
     const apiUrl =
-      `${GITHUB_CONTENTS_BASE_URL}/${owner}/${repo}/contents/` +
-      `${adminConfigPath}?ref=${encodeURIComponent(branch)}`;
+      `${GITHUB_CONTENTS_BASE_URL}/${runtimeConfig.owner}/${runtimeConfig.repo}/contents/` +
+      `${adminConfigPath}?ref=${encodeURIComponent(runtimeConfig.branch)}`;
     const response = await fetch(apiUrl, {
       headers: {
         Accept: "application/vnd.github.v3+json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${runtimeConfig.token}`,
       },
       cache: "no-store",
     });

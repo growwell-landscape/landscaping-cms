@@ -136,7 +136,8 @@ The full template lives in [`.env.example`](C:/Users/dines/Documents/GitHub/land
 - `GITHUB_TOKEN`: GitHub Personal Access Token with repo write access
 - `GITHUB_OWNER`: repo owner or organization
 - `GITHUB_REPO`: repo name
-- `GITHUB_BRANCH`: branch the CMS should publish to, usually `main` or `dev`
+- `GITHUB_BRANCH`: branch the CMS should publish to, must be `dev` or `main`
+- `DEPLOY_TARGET`: recommended Vercel runtime guard, set to `dev` on `landscaping-cms-dev` and `prod` on `landscaping-cms-prod`
 - `ADMIN_PASSWORD`: required for admin access and writes
 
 ### Optional
@@ -245,6 +246,7 @@ GITHUB_TOKEN=...
 GITHUB_OWNER=...
 GITHUB_REPO=...
 GITHUB_BRANCH=main
+DEPLOY_TARGET=prod
 ADMIN_PASSWORD=...
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
@@ -319,22 +321,47 @@ Deployment behavior is intentionally controlled.
 ```json
 {
   "git": {
-    "deploymentEnabled": false
+    "deploymentEnabled": {
+      "*": false,
+      "main": true,
+      "dev": true
+    }
   }
 }
 ```
 
-So Vercel Git auto-deploy is disabled by config.
+So Vercel Git auto-deploy is disabled for every branch except `main` and `dev`.
+
+### Strict two-project mapping
+
+Use exactly two Vercel projects:
+
+- `landscaping-cms-dev`
+  Set `GITHUB_BRANCH=dev`
+  Set `DEPLOY_TARGET=dev`
+  Configure the Ignored Build Step as `pnpm vercel:ignored-build dev`
+- `landscaping-cms-prod`
+  Set `GITHUB_BRANCH=main`
+  Set `DEPLOY_TARGET=prod`
+  Configure the Ignored Build Step as `pnpm vercel:ignored-build main`
 
 ### GitHub Actions redeploy flow
 
-[.github/workflows/vercel-branch-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-branch-redeploy.yml) triggers deploy hooks:
+[.github/workflows/vercel-dev-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-dev-redeploy.yml) triggers the dev hook only for `dev`.
+
+[.github/workflows/vercel-prod-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-prod-redeploy.yml) triggers the prod hook only for `main`.
+
+[.github/workflows/vercel-branch-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-branch-redeploy.yml) supports manual redeploys with branch validation.
+
+The automated workflows enforce:
 
 - push to `main` -> production redeploy
 - push to `dev` -> development redeploy
-- workflow can also be triggered manually
+- no other branches trigger deployment hooks
+- hook failures surface the returned HTTP status
+- logs include repo, branch, and environment context without printing secrets
 
-The workflow ignores commits whose messages start with:
+The push workflows skip media-only commits whose messages start with:
 
 - `Upload media:`
 - `Delete image:`
@@ -349,6 +376,28 @@ Add these repository secrets:
 - `VERCEL_PROD_DEPLOY_HOOK_URL`
 - `VERCEL_DEV_DEPLOY_HOOK_URL`
 
+### Required Vercel project environment variables
+
+In `landscaping-cms-dev`:
+
+- `NODE_ENV=production`
+- `GITHUB_OWNER=<your owner or org>`
+- `GITHUB_REPO=<your repo>`
+- `GITHUB_BRANCH=dev`
+- `DEPLOY_TARGET=dev`
+- `ADMIN_PASSWORD=<dev admin password>`
+- `GITHUB_TOKEN=<token with repo access>`
+
+In `landscaping-cms-prod`:
+
+- `NODE_ENV=production`
+- `GITHUB_OWNER=<your owner or org>`
+- `GITHUB_REPO=<your repo>`
+- `GITHUB_BRANCH=main`
+- `DEPLOY_TARGET=prod`
+- `ADMIN_PASSWORD=<prod admin password>`
+- `GITHUB_TOKEN=<token with repo access>`
+
 ### Important branch alignment rule
 
 These must point to the same repo/branch strategy:
@@ -357,6 +406,7 @@ These must point to the same repo/branch strategy:
 - `GITHUB_OWNER`
 - `GITHUB_REPO`
 - `GITHUB_BRANCH`
+- `DEPLOY_TARGET`
 
 If they do not line up, the CMS may publish successfully but the deployed site may not show the expected content.
 
@@ -373,6 +423,13 @@ Important API routes:
 - [src/app/api/delete-image/route.ts](C:/Users/dines/Documents/GitHub/landscaping-cms/src/app/api/delete-image/route.ts)
 
 The admin UI does not replace backend protection. The password is still checked server-side before writes happen.
+
+For deployed environments, password comparison now uses a timing-safe server-side check and GitHub failures are mapped to clearer HTTP responses:
+
+- `401`: invalid or expired GitHub authentication
+- `403`: forbidden or rate-limited
+- `404`: repo, branch, or file not found
+- `409`: branch update conflict
 
 ## Localization and translation
 
@@ -401,8 +458,26 @@ Check:
 
 1. `GITHUB_OWNER`, `GITHUB_REPO`, and `GITHUB_BRANCH`
 2. Vercel project branch alignment
-3. the latest GitHub commit exists
-4. `CONTENT_CACHE_TTL_SECONDS` is not masking a recent change temporarily
+3. `DEPLOY_TARGET` matches the Vercel project
+4. the latest GitHub commit exists on the same branch
+5. `CONTENT_CACHE_TTL_SECONDS` is not masking a recent change temporarily
+
+## Deployment checklist
+
+Before going live, verify all of the following:
+
+1. `dev` is connected only to `landscaping-cms-dev`.
+2. `main` is connected only to `landscaping-cms-prod`.
+3. No other branches are enabled in [vercel.json](C:/Users/dines/Documents/GitHub/landscaping-cms/vercel.json).
+4. `landscaping-cms-dev` uses Ignored Build Step `pnpm vercel:ignored-build dev`.
+5. `landscaping-cms-prod` uses Ignored Build Step `pnpm vercel:ignored-build main`.
+6. Dev and prod Vercel projects have different `ADMIN_PASSWORD` values.
+7. Dev and prod Vercel projects each set the correct `GITHUB_BRANCH` and `DEPLOY_TARGET`.
+8. GitHub repository secrets include both deploy hook URLs.
+9. A push to `dev` triggers only [.github/workflows/vercel-dev-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-dev-redeploy.yml).
+10. A push to `main` triggers only [.github/workflows/vercel-prod-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-prod-redeploy.yml).
+11. A CMS publish from the dev site writes to `dev`, and a CMS publish from the prod site writes to `main`.
+12. Manual redeploys are run through [.github/workflows/vercel-branch-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-branch-redeploy.yml) from the matching branch only.
 
 ### Local CMS save does not create a GitHub commit
 
