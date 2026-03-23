@@ -45,9 +45,14 @@ export function ServicesSection({
         <ScrollReveal>
           <SectionHeading subtitle={subtitle} title={title} />
         </ScrollReveal>
-        <div className="mt-12 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mx-auto mt-12 grid max-w-[1120px] items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibleServices.map((service, index) => (
-            <ScrollReveal className="h-full" delayMs={index * 70} key={service.id} variant="zoom">
+            <ScrollReveal
+              className={index === 3 ? "h-full lg:hidden xl:block" : "h-full"}
+              delayMs={index * 70}
+              key={service.id}
+              variant="zoom"
+            >
               <ServiceCard
                 href={createLocalizedPath(
                   `${ROUTES.SERVICE_DETAIL}/${service.id}`,
@@ -62,7 +67,7 @@ export function ServicesSection({
         </div>
         <ScrollReveal className="mt-10 text-center" delayMs={120}>
           <Link
-            className="inline-flex h-11 items-center gap-2 rounded-[5px] border border-[var(--site-color-border)] bg-white px-8 text-sm font-semibold text-[var(--site-color-primary)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:bg-[var(--site-color-accent)]"
+            className="site-surface inline-flex h-11 items-center gap-2 rounded-[5px] border border-[var(--site-color-border)] px-8 text-sm font-semibold text-[var(--site-color-primary)] transition-colors duration-200 hover:border-[var(--site-color-primary)] hover:bg-[var(--site-color-accent)]"
             href={servicesPageHref}
           >
             {viewAllLabel}

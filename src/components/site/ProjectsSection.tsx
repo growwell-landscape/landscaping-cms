@@ -25,7 +25,7 @@ export function ProjectsSection({
   if (visibleProjects.length === 0) return null;
 
   return (
-    <section className="bg-white py-20 md:py-24">
+    <section className="site-surface py-20 md:py-24">
       <SectionContainer>
         <ScrollReveal>
           <SectionHeading alignment="left" className="max-w-none" title={title} />

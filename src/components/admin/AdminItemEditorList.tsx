@@ -94,10 +94,10 @@ export function AdminItemEditorList({
 }: AdminItemEditorListProps) {
   if (items.length === 0) {
     return (
-      <div className="border border-dashed border-slate-300 rounded-lg p-8 text-center bg-slate-50">
-        <p className="text-sm text-slate-600 mb-4">No records found for this file yet.</p>
+      <div className="rounded-lg border border-dashed border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-8 text-center">
+        <p className="mb-4 text-sm text-[var(--admin-color-muted-foreground)]">No records found for this file yet.</p>
         {canAddTopLevelItems && (
-          <Button onClick={onAddItem} disabled={isLoading}>
+          <Button onClick={onAddItem} disabled={isLoading} className="admin-button-primary">
             <Plus className="h-4 w-4" />
             Create First Item
           </Button>
@@ -110,7 +110,7 @@ export function AdminItemEditorList({
     return (
       <>
         {siteConfigSections.map((section) => (
-          <div key={`${siteConfigLocalId}-${section.key}`} className="border p-3 rounded-md bg-gray-50">
+          <div key={`${siteConfigLocalId}-${section.key}`} className="rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-3">
             <ItemEditorComponent
               item={siteConfigItem}
               fields={fields}
@@ -155,7 +155,7 @@ export function AdminItemEditorList({
         const localItemId = resolveLocalItemId(item);
 
         return (
-          <div key={localItemId} className="border p-3 rounded-md bg-gray-50">
+          <div key={localItemId} className="rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-3">
             <ItemEditorComponent
               item={item}
               fields={fields}

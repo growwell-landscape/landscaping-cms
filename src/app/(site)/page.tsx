@@ -80,9 +80,56 @@ export default async function HomePage() {
     language.currentLanguageCode,
     language.languageCodes
   );
+  const metadataBase = resolveMetadataBase();
+  const homeUrl = toAbsoluteUrl(
+    createLocalizedPath(ROUTES.HOME, language.currentLanguageCode, language.languageCodes),
+    metadataBase
+  );
+  const contactUrl = toAbsoluteUrl(
+    createLocalizedPath(ROUTES.CONTACT, language.currentLanguageCode, language.languageCodes),
+    metadataBase
+  );
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      description: adminConfig.site.description || adminConfig.seo.description,
+      inLanguage: language.currentLanguageCode,
+      name: adminConfig.seo.title,
+      url: homeUrl,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: services.slice(0, 10).map((service, index) => ({
+        "@type": "ListItem",
+        name: service.title,
+        position: index + 1,
+        url: toAbsoluteUrl(
+          createLocalizedPath(
+            `${ROUTES.SERVICE_DETAIL}/${service.id}`,
+            language.currentLanguageCode,
+            language.languageCodes
+          ),
+          metadataBase
+        ),
+      })),
+      name: servicesCopy.title || "Our Services",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: contactCopy.title || "Contact Us",
+      url: contactUrl,
+    },
+  ];
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <HeroSection
         ctaHref={localizedHeroCtaHref}
         ctaLabel={heroCtaLabel}

@@ -17,6 +17,7 @@ import type {
 } from "@/types/config";
 import type { Project, Service, Translations } from "@/types/content";
 import { createGitHubAPI, type GitHubAPI } from "@/lib/github-api";
+import { normalizeThemeConfig } from "@/lib/theme";
 
 function normalizeLanguageCode(code: string): string {
   return code.trim().toLowerCase();
@@ -123,6 +124,7 @@ function normalizeAdminConfig(config: AdminConfig): AdminConfig {
   return {
     ...config,
     site: normalizeSiteConfig(config.site),
+    theme: normalizeThemeConfig(config.theme),
   };
 }
 
@@ -253,8 +255,8 @@ class ConfigLoader {
       }
     }
 
-    const module = await importer();
-    return module.default as T;
+    const importedModule = await importer();
+    return importedModule.default as T;
   }
 
   /**

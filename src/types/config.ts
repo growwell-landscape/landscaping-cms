@@ -95,10 +95,18 @@ export interface ThemeColors {
   primary: string;
   /** Primary color on hover state */
   primaryHover: string;
+  /** Text/icon color displayed on primary surfaces */
+  primaryForeground: string;
   /** Secondary brand color */
   secondary: string;
+  /** Secondary color on hover state */
+  secondaryHover: string;
+  /** Text/icon color displayed on secondary surfaces */
+  secondaryForeground: string;
   /** Background color */
   background: string;
+  /** Alternate page background color */
+  backgroundAlt: string;
   /** Primary text/foreground color */
   foreground: string;
   /** Muted/disabled background color */
@@ -107,8 +115,50 @@ export interface ThemeColors {
   mutedForeground: string;
   /** Accent/highlight color */
   accent: string;
+  /** Text/icon color displayed on accent surfaces */
+  accentForeground: string;
   /** Border color */
   border: string;
+  /** Default surface/card color */
+  surface: string;
+  /** Soft surface/card color */
+  surfaceMuted: string;
+  /** Elevated surface/card color */
+  surfaceElevated: string;
+  /** Footer-specific background color */
+  footerBackground: string;
+  /** Text color used on dark hero sections */
+  heroText: string;
+  /** Muted text color used on dark hero sections */
+  heroMutedText: string;
+  /** Light overlay tint */
+  overlay: string;
+  /** Strong overlay tint */
+  overlayStrong: string;
+  /** Success state color */
+  success: string;
+  /** Success text color */
+  successForeground: string;
+  /** Warning state color */
+  warning: string;
+  /** Warning text color */
+  warningForeground: string;
+  /** Danger state color */
+  danger: string;
+  /** Danger text color */
+  dangerForeground: string;
+  /** Informational state color */
+  info: string;
+  /** Informational text color */
+  infoForeground: string;
+  /** WhatsApp action color */
+  whatsapp: string;
+  /** Text/icon color on WhatsApp surfaces */
+  whatsappForeground: string;
+  /** Accent color for map actions */
+  mapAccent: string;
+  /** Text/icon color on map accent surfaces */
+  mapAccentForeground: string;
 }
 
 /**
@@ -119,6 +169,22 @@ export interface ThemeFonts {
   heading: string;
   /** Font family for body text */
   body: string;
+  /** Font family for admin/forms/buttons */
+  ui: string;
+}
+
+/**
+ * Theme effect tokens
+ */
+export interface ThemeEffects {
+  /** Gradient used for top hero sections on content pages */
+  pageHeroGradient: string;
+  /** Overlay used on the homepage hero image */
+  heroImageOverlay: string;
+  /** Overlay used on service detail hero images */
+  serviceHeroImageOverlay: string;
+  /** Gradient used on admin login */
+  adminLoginGradient: string;
 }
 
 /**
@@ -129,6 +195,8 @@ export interface ThemeConfig {
   colors: ThemeColors;
   /** Font families */
   fonts: ThemeFonts;
+  /** Decorative gradients and overlays */
+  effects: ThemeEffects;
   /** Custom CSS override */
   customCss?: string;
 }

@@ -18,6 +18,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { resolveMediaUrl } from "@/lib/media-url";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/content";
 
@@ -125,20 +126,31 @@ function ProjectCard({
         imgClassName="transition-transform duration-500 group-hover:scale-105"
         src={imagePath}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
-      <div className="absolute bottom-4 left-4 right-4 space-y-2 text-white">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to top, color-mix(in srgb, var(--site-color-overlay-strong) 100%, black) 0%, color-mix(in srgb, var(--site-color-overlay) 70%, transparent) 45%, transparent 100%)",
+        }}
+      />
+      <div className="absolute bottom-4 left-4 right-4 space-y-2" style={{ color: "var(--site-color-hero-text)" }}>
         <h3 className="site-heading text-xl font-semibold leading-tight">{title}</h3>
         {description ? (
-          <p className="line-clamp-2 text-sm text-white/90">{description}</p>
+          <p className="line-clamp-2 text-sm" style={{ color: "var(--site-color-hero-muted-text)" }}>{description}</p>
         ) : null}
         {completedDate ? (
-          <p className="text-xs font-medium uppercase tracking-wide text-white/80">
+          <p className="text-xs font-medium uppercase tracking-wide" style={{ color: "color-mix(in srgb, var(--site-color-hero-text) 80%, transparent)" }}>
             {completedDate}
           </p>
         ) : null}
         {showGalleryAction ? (
           <button
-            className="mt-2 inline-flex items-center gap-2 rounded-[5px] border border-white/40 bg-black/45 px-3 py-2 text-xs font-semibold text-white transition-colors hover:border-white hover:bg-black/60"
+            className="mt-2 inline-flex items-center gap-2 rounded-[5px] border px-3 py-2 text-xs font-semibold transition-colors"
+            style={{
+              borderColor: "color-mix(in srgb, var(--site-color-hero-text) 40%, transparent)",
+              backgroundColor: "var(--site-color-overlay-strong)",
+              color: "var(--site-color-hero-text)",
+            }}
             onClick={onOpenGallery}
             type="button"
           >
@@ -179,6 +191,7 @@ export function ProjectsCarousel({
         : [],
     [activeProject]
   );
+  const hasOverflow = slideCount > 1;
 
   const moveGallery = (direction: 1 | -1) => {
     if (activeGalleryImages.length <= 1) return;
@@ -216,7 +229,7 @@ export function ProjectsCarousel({
   }, [activeGalleryImages.length, activeGalleryIndex]);
 
   useEffect(() => {
-    if (!api || projects.length <= 1) return;
+    if (!api || !hasOverflow) return;
 
     const intervalId = window.setInterval(() => {
       if (isAutoplayPaused || !isAutoplayEnabled || activeProjectId) return;
@@ -226,7 +239,7 @@ export function ProjectsCarousel({
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [activeProjectId, api, isAutoplayEnabled, isAutoplayPaused, projects.length]);
+  }, [activeProjectId, api, hasOverflow, isAutoplayEnabled, isAutoplayPaused]);
 
   return (
     <>
@@ -258,35 +271,41 @@ export function ProjectsCarousel({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
-          <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-white text-[var(--site-color-primary)] md:inline-flex" />
+          {hasOverflow ? (
+            <>
+              <CarouselPrevious className="left-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
+              <CarouselNext className="right-1 hidden h-10 w-10 rounded-[5px] border-[var(--site-color-border)] bg-[var(--site-color-surface)] text-[var(--site-color-primary)] md:inline-flex" />
+            </>
+          ) : null}
         </Carousel>
-        <div className="mt-6 flex items-center justify-center gap-2 md:hidden">
-          {Array.from({ length: slideCount }).map((_, index) => (
-            <button
-              aria-label={`Go to project slide ${index + 1}`}
-              aria-current={index === currentSlideIndex ? "true" : undefined}
-              className={cn(
-                "h-2.5 w-2.5 rounded-[5px] border transition-colors duration-200",
-                index === currentSlideIndex
-                  ? "border-[var(--site-color-primary)] bg-[var(--site-color-primary)]"
-                  : "border-[var(--site-color-border)] bg-transparent"
-              )}
-              key={`project-dot-${index}`}
-              onClick={() => api?.scrollTo(index)}
-              type="button"
-            />
-          ))}
-        </div>
-        {projects.length > 1 ? (
+        {hasOverflow ? (
+          <div className="mt-6 flex items-center justify-center gap-2 md:hidden">
+            {Array.from({ length: slideCount }).map((_, index) => (
+              <button
+                aria-label={`Go to project slide ${index + 1}`}
+                aria-current={index === currentSlideIndex ? "true" : undefined}
+                className={cn(
+                  "h-2.5 w-2.5 rounded-[5px] border transition-colors duration-200",
+                  index === currentSlideIndex
+                    ? "border-[var(--site-color-primary)] bg-[var(--site-color-primary)]"
+                    : "border-[var(--site-color-border)] bg-transparent"
+                )}
+                key={`project-dot-${index}`}
+                onClick={() => api?.scrollTo(index)}
+                type="button"
+              />
+            ))}
+          </div>
+        ) : null}
+        {hasOverflow ? (
           <div className="mt-5 flex items-center justify-center">
             <button
-              aria-label={isAutoplayEnabled ? "Pause carousel autoplay" : "Resume carousel autoplay"}
-              className="inline-flex h-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] bg-white px-3 text-xs font-semibold text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
+              aria-label={isAutoplayEnabled ? "Pause project auto-scroll" : "Resume project auto-scroll"}
+              className="inline-flex h-9 items-center justify-center rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-surface)] px-3 text-xs font-semibold text-[var(--site-color-foreground)] transition-colors hover:border-[var(--site-color-primary)] hover:text-[var(--site-color-primary)]"
               onClick={() => setIsAutoplayEnabled((previousValue) => !previousValue)}
               type="button"
             >
-              {isAutoplayEnabled ? "Pause autoplay" : "Resume autoplay"}
+              {isAutoplayEnabled ? "Pause auto-scroll" : "Resume auto-scroll"}
             </button>
           </div>
         ) : null}
@@ -304,7 +323,7 @@ export function ProjectsCarousel({
           }
         }}
       >
-        <DialogContent className="max-w-[96vw] border-[var(--site-color-border)] bg-white p-4 sm:max-w-4xl" showCloseButton>
+        <DialogContent className="max-w-[96vw] border-[var(--site-color-border)] bg-[var(--site-color-surface)] p-4 sm:max-w-4xl" showCloseButton>
           <DialogHeader>
             <DialogTitle className="site-heading text-xl text-[var(--site-color-foreground)]">
               {activeProject?.title} {galleryTitleLabel}
@@ -318,13 +337,12 @@ export function ProjectsCarousel({
             <div className="space-y-3">
               <div className="relative overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-muted)]">
                 {isVideoMediaPath(activeGalleryImages[activeGalleryIndex]) ? (
-                  // eslint-disable-next-line jsx-a11y/media-has-caption
                   <video
                     aria-label={`${activeProject?.title || "Project"} gallery video ${activeGalleryIndex + 1}`}
                     className="h-[52vh] w-full bg-black object-contain"
                     controls
                     title={`${activeProject?.title || "Project"} video`}
-                    src={activeGalleryImages[activeGalleryIndex]}
+                    src={resolveMediaUrl(activeGalleryImages[activeGalleryIndex])}
                   />
                 ) : (
                   <SiteImage
@@ -338,7 +356,12 @@ export function ProjectsCarousel({
                   <>
                     <button
                       aria-label="Previous image"
-                      className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white transition-colors hover:bg-black/70"
+                      className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border transition-colors"
+                      style={{
+                        borderColor: "color-mix(in srgb, var(--site-color-hero-text) 30%, transparent)",
+                        backgroundColor: "var(--site-color-overlay-strong)",
+                        color: "var(--site-color-hero-text)",
+                      }}
                       onClick={() => moveGallery(-1)}
                       type="button"
                     >
@@ -346,7 +369,12 @@ export function ProjectsCarousel({
                     </button>
                     <button
                       aria-label="Next image"
-                      className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white transition-colors hover:bg-black/70"
+                      className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border transition-colors"
+                      style={{
+                        borderColor: "color-mix(in srgb, var(--site-color-hero-text) 30%, transparent)",
+                        backgroundColor: "var(--site-color-overlay-strong)",
+                        color: "var(--site-color-hero-text)",
+                      }}
                       onClick={() => moveGallery(1)}
                       type="button"
                     >
@@ -373,12 +401,11 @@ export function ProjectsCarousel({
                       type="button"
                     >
                       {isVideoMediaPath(image) ? (
-                        // eslint-disable-next-line jsx-a11y/media-has-caption
                         <video
                           aria-hidden="true"
                           className="h-14 w-full bg-black object-cover"
                           muted
-                          src={image}
+                          src={resolveMediaUrl(image)}
                         />
                       ) : (
                         <SiteImage

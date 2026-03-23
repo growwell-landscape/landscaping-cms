@@ -51,7 +51,7 @@ interface ItemEditorComponentProps {
   autoIdFromContent?: boolean;
   /** Whether component is disabled */
   disabled?: boolean;
-  /** Allow video upload support for project gallery (`images`) */
+  /** Allow video upload support for project gallery media arrays */
   allowProjectGalleryVideo?: boolean;
   /** Active language code used in editor */
   activeLanguageCode?: string;
@@ -256,7 +256,7 @@ export function ItemEditorComponent({
           value={Number.isFinite(value) ? value : 0}
           onChange={(e) => onFieldChange(fieldPath, Number(e.target.value))}
           disabled={disabled}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          className="admin-input w-full rounded-lg px-3 py-2 disabled:opacity-50"
         />
       );
     }
@@ -274,7 +274,7 @@ export function ItemEditorComponent({
             value={value}
             onChange={(e) => onFieldChange(fieldPath, e.target.value)}
             disabled={disabled}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            className="admin-input w-full rounded-lg px-3 py-2 disabled:opacity-50"
           >
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -293,7 +293,7 @@ export function ItemEditorComponent({
           onChange={(e) => onFieldChange(fieldPath, e.target.value)}
           disabled={disabled}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 resize-y"
+          className="admin-input w-full resize-y rounded-lg px-3 py-2 disabled:opacity-50"
         />
       );
     }
@@ -304,7 +304,7 @@ export function ItemEditorComponent({
         value={stringifyValue(value)}
         onChange={(e) => onFieldChange(fieldPath, e.target.value)}
         disabled={disabled}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+        className="admin-input w-full rounded-lg px-3 py-2 disabled:opacity-50"
       />
     );
   };
@@ -341,15 +341,15 @@ export function ItemEditorComponent({
       return (
         <div
           key={fieldPath.join(".")}
-          className="space-y-3 p-3 rounded-lg border border-slate-200 bg-slate-50"
+          className="space-y-3 rounded-lg border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-3"
         >
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-slate-800">{toLabel(fieldName)}</h4>
+            <h4 className="admin-heading text-sm font-semibold text-[var(--admin-color-foreground)]">{toLabel(fieldName)}</h4>
             <button
               type="button"
               disabled={disabled}
               onClick={() => handleArrayAdd(resolvedFieldPath, fieldName, resolvedValue)}
-              className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              className="admin-button-primary inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs disabled:opacity-50"
             >
               <Plus className="h-3.5 w-3.5" />
               Add
@@ -357,24 +357,24 @@ export function ItemEditorComponent({
           </div>
 
           {resolvedValue.length === 0 ? (
-            <p className="text-xs text-slate-500">No items yet.</p>
+            <p className="text-xs text-[var(--admin-color-muted-foreground)]">No items yet.</p>
           ) : (
             resolvedValue.map((entry, index) => {
               const itemPath = [...resolvedFieldPath, index];
               return (
                 <div
                   key={`${fieldPath.join(".")}-${index}`}
-                  className="rounded-md border border-slate-200 bg-white p-3 space-y-3"
+                  className="space-y-3 rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-elevated)] p-3"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-medium text-slate-600">
+                    <p className="text-xs font-medium text-[var(--admin-color-muted-foreground)]">
                       {toLabel(fieldName)} #{index + 1}
                     </p>
                     <button
                       type="button"
                       disabled={disabled}
                       onClick={() => handleArrayRemove(resolvedFieldPath, resolvedValue, index)}
-                      className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-md bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-50"
+                      className="admin-button-danger inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs disabled:opacity-50"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                       Remove
@@ -395,7 +395,7 @@ export function ItemEditorComponent({
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <label className="block text-xs font-medium text-gray-700">
+                      <label className="block text-xs font-medium text-[var(--admin-color-muted-foreground)]">
                         Value
                       </label>
                       {renderScalarField(fieldName, entry, itemPath)}
@@ -413,11 +413,11 @@ export function ItemEditorComponent({
       return (
         <div
           key={fieldPath.join(".")}
-          className={`space-y-3 p-3 rounded-lg border border-slate-200 ${
-            depth === 0 ? "bg-slate-50" : "bg-white"
+          className={`space-y-3 rounded-lg border border-[var(--admin-color-border)] p-3 ${
+            depth === 0 ? "bg-[var(--admin-color-surface-muted)]" : "bg-[var(--admin-color-surface-elevated)]"
           }`}
         >
-          <h4 className="text-sm font-semibold text-slate-800">{toLabel(fieldName)}</h4>
+          <h4 className="admin-heading text-sm font-semibold text-[var(--admin-color-foreground)]">{toLabel(fieldName)}</h4>
           <div className="space-y-3">
             {Object.entries(resolvedValue).map(([childKey, childValue]) =>
               renderField(
@@ -435,7 +435,7 @@ export function ItemEditorComponent({
 
     return (
       <div key={fieldPath.join(".")} className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">{toLabel(fieldName)}</label>
+        <label className="block text-sm font-medium text-[var(--admin-color-muted-foreground)]">{toLabel(fieldName)}</label>
         {renderScalarField(fieldName, resolvedValue, resolvedFieldPath)}
       </div>
     );
@@ -445,21 +445,21 @@ export function ItemEditorComponent({
   const expandedTitle = titleOverride || (hasSavedIdentity ? displayTitle || String(item.id) : "Editing draft");
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg">
+    <div className="rounded-lg border border-[var(--admin-color-border)] bg-[var(--admin-color-surface)]">
       {!expanded ? (
         <div className="flex items-center justify-between p-3">
           <div className="min-w-0">
             {collapsedTitle ? (
-              <div className="text-sm font-medium text-gray-900 truncate">
+              <div className="truncate text-sm font-medium text-[var(--admin-color-foreground)]">
                 {collapsedTitle}
               </div>
             ) : (
-              <div className="text-xs font-medium text-amber-600 uppercase tracking-wide">
+              <div className="text-xs font-medium uppercase tracking-wide text-[var(--admin-color-warning)]">
                 Draft item
               </div>
             )}
             {previewEntries.length > 0 && (
-              <div className="text-xs text-gray-500 mt-1 flex gap-2">
+              <div className="mt-1 flex gap-2 text-xs text-[var(--admin-color-muted-foreground)]">
                 {previewEntries.map(([key, value]) => (
                   <div key={key} className="truncate">
                     <span className="font-medium">{toLabel(key)}:</span>{" "}
@@ -473,7 +473,7 @@ export function ItemEditorComponent({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setExpanded(true)}
-              className="text-sm text-blue-600 px-3 py-2 rounded hover:bg-blue-50"
+              className="rounded px-3 py-2 text-sm text-[var(--admin-color-primary)] hover:bg-[var(--admin-color-accent)]"
             >
               Edit
             </button>
@@ -481,7 +481,7 @@ export function ItemEditorComponent({
               <button
                 onClick={onDelete}
                 disabled={disabled}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded hover:bg-red-100 disabled:opacity-50"
+                className="admin-button-danger inline-flex items-center gap-2 rounded px-3 py-2 disabled:opacity-50"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -490,14 +490,14 @@ export function ItemEditorComponent({
         </div>
       ) : (
         <div className="p-4 space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b">
-            <h3 className="text-sm font-semibold text-gray-900">
+          <div className="flex items-center justify-between border-b border-[var(--admin-color-border)] pb-2">
+            <h3 className="admin-heading text-sm font-semibold text-[var(--admin-color-foreground)]">
               {expandedTitle}
             </h3>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setExpanded(false)}
-                className="text-sm text-gray-600 px-2 py-1 rounded hover:bg-gray-100"
+                className="rounded px-2 py-1 text-sm text-[var(--admin-color-muted-foreground)] hover:bg-[var(--admin-color-surface-muted)]"
               >
                 Collapse
               </button>
@@ -505,7 +505,7 @@ export function ItemEditorComponent({
                 <button
                   onClick={onDelete}
                   disabled={disabled}
-                  className="inline-flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded hover:bg-red-100 disabled:opacity-50"
+                  className="admin-button-danger inline-flex items-center gap-2 rounded px-3 py-2 disabled:opacity-50"
                 >
                   <Trash2 className="h-4 w-4" />
                   Delete

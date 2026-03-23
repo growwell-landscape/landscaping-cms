@@ -79,9 +79,9 @@ function mapNavigationItems(
   ];
 }
 
-function getRequestedLanguageFromHeaders(): string {
+async function getRequestedLanguageFromHeaders(): Promise<string> {
   try {
-    const languageFromHeader = headers().get("x-site-lang");
+    const languageFromHeader = (await headers()).get("x-site-lang");
     return normalizeLanguageCode(languageFromHeader || "");
   } catch {
     return "";
@@ -137,9 +137,11 @@ export async function getSiteCommonData(
   requestedLanguageCode?: string
 ): Promise<SiteCommonData> {
   const adminConfigRaw = await configLoader.loadAdminConfig();
+  const resolvedRequestedLanguageCode =
+    requestedLanguageCode || (await getRequestedLanguageFromHeaders());
   const language = resolveSiteLanguage(
     adminConfigRaw.site,
-    requestedLanguageCode || getRequestedLanguageFromHeaders()
+    resolvedRequestedLanguageCode
   );
   const adminConfig = localizeSiteContent(adminConfigRaw, language) as AdminConfig;
   const translations = await configLoader.loadLanguageTranslations(
