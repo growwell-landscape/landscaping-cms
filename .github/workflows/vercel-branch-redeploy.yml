@@ -1,10 +1,10 @@
-name: Vercel Branch Redeploy
+name: Vercel Deploy (Dev & Prod)
 
 on:
   push:
     branches:
-      - main
       - dev
+      - main
   workflow_dispatch:
     inputs:
       target:
@@ -17,46 +17,45 @@ on:
           - production
 
 concurrency:
-  group: vercel-redeploy-${{ github.ref }}
+  group: vercel-deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  redeploy-production:
-    if: >-
-      (github.event_name == 'push' &&
-      github.ref == 'refs/heads/main') ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'production')
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Trigger Vercel Production Redeploy
-        env:
-          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}
+      - name: Decide Deployment Target
+        id: target
         run: |
-          if [ -z "$DEPLOY_HOOK_URL" ]; then
-            echo "Missing secret: VERCEL_PROD_DEPLOY_HOOK_URL"
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              echo "env=production" >> $GITHUB_OUTPUT
+              echo "hook=${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}" >> $GITHUB_OUTPUT
+            elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+              echo "env=development" >> $GITHUB_OUTPUT
+              echo "hook=${{ secrets.VERCEL_DEV_DEPLOY_HOOK_URL }}" >> $GITHUB_OUTPUT
+            fi
+          else
+            if [[ "${{ github.event.inputs.target }}" == "production" ]]; then
+              echo "env=production" >> $GITHUB_OUTPUT
+              echo "hook=${{ secrets.VERCEL_PROD_DEPLOY_HOOK_URL }}" >> $GITHUB_OUTPUT
+            else
+              echo "env=development" >> $GITHUB_OUTPUT
+              echo "hook=${{ secrets.VERCEL_DEV_DEPLOY_HOOK_URL }}" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Validate Deploy Hook
+        run: |
+          if [ -z "${{ steps.target.outputs.hook }}" ]; then
+            echo "Deploy hook is missing!"
             exit 1
           fi
 
-          curl --fail --silent --show-error \
-            --request POST \
-            "$DEPLOY_HOOK_URL"
-
-  redeploy-development:
-    if: >-
-      (github.event_name == 'push' &&
-      github.ref == 'refs/heads/dev') ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'development')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Vercel Development Redeploy
-        env:
-          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEV_DEPLOY_HOOK_URL }}
+      - name: Trigger Vercel Deploy
         run: |
-          if [ -z "$DEPLOY_HOOK_URL" ]; then
-            echo "Missing secret: VERCEL_DEV_DEPLOY_HOOK_URL"
-            exit 1
-          fi
-
+          echo "Deploying to ${{ steps.target.outputs.env }}"
           curl --fail --silent --show-error \
             --request POST \
-            "$DEPLOY_HOOK_URL"
+            "${{ steps.target.outputs.hook }}"

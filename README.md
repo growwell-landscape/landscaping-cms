@@ -319,20 +319,22 @@ Deployment behavior is intentionally controlled.
 ```json
 {
   "git": {
-    "deploymentEnabled": false
+    "deploymentEnabled": {
+      "dev": false
+    }
   }
 }
 ```
 
-So Vercel Git auto-deploy is disabled by config.
+So Vercel Git auto-deploy stays enabled for `main`, while `dev` is intentionally blocked from auto-deploying.
 
 ### GitHub Actions redeploy flow
 
 [.github/workflows/vercel-branch-redeploy.yml](C:/Users/dines/Documents/GitHub/landscaping-cms/.github/workflows/vercel-branch-redeploy.yml) triggers deploy hooks:
 
-- push to `main` -> production redeploy
 - push to `dev` -> development redeploy
-- workflow can also be triggered manually
+- manual run with `production` -> production redeploy
+- manual run with `development` -> development redeploy
 
 The workflow ignores commits whose messages start with:
 
