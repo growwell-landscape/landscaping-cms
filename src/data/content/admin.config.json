@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "GrowWell Landscapes",
+    "name": "GrowWell Landscapes and Constructions",
     "companyName": "GrowWell Landscapes PVT Ltd",
     "tagline": "Thoughtful landscape design and garden care",
     "description": "GrowWell Landscapes designs, builds, and maintains inviting outdoor spaces, from terrace gardens and lawns to complete landscape transformations.",
@@ -11,7 +11,7 @@
       "text": "GW",
       "showText": false,
       "imageObjectFit": "cover",
-      "imageBlendMode": "multiply",
+      "imageBlendMode": "normal",
       "imageWidth": "400",
       "imageHeight": "70",
       "imageMobileWidth": "220",
@@ -31,7 +31,7 @@
   "seo": {
     "title": "GrowWell Landscapes - Professional Landscaping Services",
     "description": "Elevate your outdoor spaces with GrowWell Landscapes. We create terrace gardens, lawns, planting concepts, and practical landscape solutions for homes and commercial properties.",
-    "keywords": "landscaping services, landscape contractor, terrace garden, rooftop garden, garden design, lawn maintenance, vertical garden, villa landscaping, balcony garden, irrigation system, landscape design, garden maintenance",
+    "keywords": "landscaping services, landscape contractor, terrace garden, rooftop garden, garden design, lawn maintenance, vertical garden, villa landscaping, balcony garden, irrigation system, landscape design, garden maintenance, landscaping services, landscape company, garden design services, garden landscaping, professional landscaping, landscape contractors, outdoor landscaping services, garden maintenance services, landscape design company, landscaping services in Chennai, landscaping services in Bangalore, landscaping services in Hyderabad, landscaping services in Andhra Pradesh, landscaping services in AP, landscaping services in Tamil Nadu, landscaping services in TN, landscaping services in Telangana, landscaping services in TS, landscaping services in TG, garden maintenance in Chennai, garden maintenance in Bangalore, garden maintenance in Hyderabad, garden maintenance in Andhra Pradesh, garden maintenance in AP, garden maintenance in Tamil Nadu, garden maintenance in TN, garden maintenance in Telangana, garden maintenance in TS, garden maintenance in TG, landscape company near me, best landscaping company in Chennai, best landscaping company in Bangalore, best landscaping company in Hyderabad, best landscaping company in Andhra Pradesh, best landscaping company in Tamil Nadu, best landscaping company in Telangana, garden design services in Chennai, garden design services in Bangalore, garden design services in Hyderabad, landscape contractors in Chennai, landscape contractors in Bangalore, landscape contractors in Hyderabad, outdoor landscaping services in Chennai, outdoor landscaping services in Bangalore, outdoor landscaping services in Hyderabad, drip irrigation services, plant maintenance services, tree maintenance services, landscape planning and execution, garden setup services, potted plant installation, lawn care services, garden cleaning services, irrigation system installation, affordable landscaping services in Chennai, affordable landscaping services in Bangalore, affordable landscaping services in Hyderabad, best garden maintenance company near me, low cost landscaping services, residential landscaping services, commercial landscaping services, modern garden design ideas, small garden landscaping services, home garden setup services, hire landscaper near me, garden maintenance cost in Chennai, garden maintenance cost in Bangalore, garden maintenance cost in Hyderabad, landscaping company contact, book landscaping service, garden design consultation, growwell, growwell landscapes",
     "favicon": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png",
     "ogImage": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png"
   },
