@@ -475,7 +475,7 @@ export function ItemEditorComponent({
                 >
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-medium text-[var(--admin-color-muted-foreground)]">
-                      {toLabel(fieldName)} #{index + 1}
+                      {toLabel(fieldName)} #{resolvedValue.length - index}
                     </p>
                     <button
                       type="button"
