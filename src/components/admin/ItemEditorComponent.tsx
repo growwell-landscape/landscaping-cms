@@ -314,7 +314,7 @@ export function ItemEditorComponent({
       newValue = "";
     }
 
-    onFieldChange(fieldPath, [...currentArray, newValue]);
+    onFieldChange(fieldPath, [newValue, ...currentArray]);
   };
 
   const handleArrayRemove = (
