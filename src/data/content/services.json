@@ -19,7 +19,7 @@
     ],
     "gallery": [],
     "icon": "calander",
-    "image": "",
+    "image": "/uploads/img-8b50fc5d3c0cf56c4c343f48e5dc7b57.jpeg",
     "shortDescription": "An Annual Maintenance Contract (AMC) is a service agreement that provides regular maintenance and support for systems, equipment, or landscapes over a fixed period, typically one year.",
     "sortOrder": 9,
     "title": "Annual Maintenance Contract (AMC)"
@@ -48,9 +48,11 @@
         "title": "Regular inspection and maintenance schedules"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-062cf2073f81dfacb2327f39298b6fb2.jpeg"
+    ],
     "icon": "fish",
-    "image": "",
+    "image": "/uploads/img-b1e15686e376a771d73ba58992ce7793.jpeg",
     "shortDescription": "Fish pond maintenance involves regular care and management of ponds to ensure clean water, healthy fish, and a balanced aquatic environment.",
     "sortOrder": 8,
     "title": "Fish Pond Maintenance"
@@ -73,9 +75,15 @@
         "title": "Use of fertilizers and organic nutrients"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-5b74f61c88330b80d8b00003be6642b7.jpeg",
+      "/uploads/img-07971092993f9dcabd976181ff36703c.jpeg",
+      "/uploads/img-abb8e526ff888fd436a033cacace8f12.jpeg",
+      "/uploads/img-fc84a85779df68aad376c40b0d024c34.jpeg",
+      "/uploads/img-62e56cf482949b74c199765fb840f62e.jpeg"
+    ],
     "icon": "tree",
-    "image": "",
+    "image": "/uploads/img-1b2f962406d06d86aa216e6ef4c2f59d.jpeg",
     "shortDescription": "Tree plantation involves planting and establishing trees to enhance environmental quality, improve greenery, and support ecological balance.",
     "sortOrder": 7,
     "title": "Tree Plantation"
@@ -98,9 +106,11 @@
         "title": "Variety of plant options based on environment"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-097b5ff91996be7e17a6deaded45723b.jpeg"
+    ],
     "icon": "",
-    "image": "",
+    "image": "/uploads/img-4c42fb9ed78834b6a5b3fa5ccd4b25f7.jpeg",
     "shortDescription": "A vertical green wall is a space-saving landscaping solution where plants are grown on vertically structured panels to enhance aesthetics and improve air quality.",
     "sortOrder": 6,
     "title": "Vertical Green Wall"
@@ -123,9 +133,14 @@
         "title": "Aesthetic plant combinations and design layouts"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-0f3d4c952255b48c0ce8898af34dc786.jpeg",
+      "/uploads/img-85a6172bffe5314befc5bd0d8997f9a7.jpeg",
+      "/uploads/img-918506cdb4385181e3edf26cf2a376b6.jpeg",
+      "/uploads/img-414d5a443082e26b12db8998e1f2433e.jpeg"
+    ],
     "icon": "tree",
-    "image": "",
+    "image": "/uploads/img-cdfdf04278f7ca4383a44ef190fc176e.jpeg",
     "shortDescription": "Potted plants installation involves selecting, arranging, and placing plants in containers to enhance indoor and outdoor spaces with greenery.",
     "sortOrder": 4,
     "title": "Potted Plants Installation"
@@ -148,9 +163,11 @@
         "title": "Installation of pipes, emitters, and control systems"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-70b2295288911bc836ca45642f861f17.jpeg"
+    ],
     "icon": "tree",
-    "image": "",
+    "image": "/uploads/img-d4f49fa042e7c625b10fac342fec5382.jpeg",
     "shortDescription": "Drip irrigation services provide efficient water delivery directly to plant roots, minimizing water wastage and promoting healthy plant growth.",
     "sortOrder": 3,
     "title": "Drip Irrigation Services"
@@ -173,9 +190,16 @@
         "title": "Tree health inspection and risk assessment"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-4e03167317fea3c034255036189efaf9.jpeg",
+      "/uploads/img-97d4f114ceea9b1c406f9528dd586a7c.jpeg",
+      "/uploads/img-28e2f2f99f53cd2f3ed0bfef4d20bce0.jpeg",
+      "/uploads/img-f2a80f83962b81fd5a3bdd81b986141b.jpeg",
+      "/uploads/img-e611b5e2f93811814f7778c8f4402846.jpeg",
+      "/uploads/img-55d1c5c7416c00771b3a173ccc1df275.jpeg"
+    ],
     "icon": "tree",
-    "image": "",
+    "image": "/uploads/img-a9a350c87838b6e9fc675dd6342ef867.jpeg",
     "shortDescription": "Regular plant and tree maintenance services ensure the healthy growth, appearance, and longevity of plants and trees through routine care and monitoring.",
     "sortOrder": 2,
     "title": "Regular Plant and Tree Maintenance Services"
@@ -198,9 +222,14 @@
         "title": "End-to-end project execution and supervision"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-21f5c1b60bc85d00fd78423e3c9874c7.jpeg",
+      "/uploads/img-a57c631fc32f35a3d008745535a4cabe.jpeg",
+      "/uploads/img-bbcfcb664b7dd37bc695a18955a20bf4.jpeg",
+      "/uploads/img-e2660e254a151cabf009aafc48b998f6.jpeg"
+    ],
     "icon": "tree",
-    "image": "",
+    "image": "/uploads/img-e20671d3b9ffb97144e0945e30e600d7.jpeg",
     "shortDescription": "Landscape planning and execution is the process of designing and implementing outdoor spaces to enhance aesthetics, functionality, and environmental sustainability.",
     "sortOrder": 3,
     "title": "Landscape planning and execution"
@@ -223,9 +252,16 @@
         "title": "Fertilization and soil health improvement"
       }
     ],
-    "gallery": [],
+    "gallery": [
+      "/uploads/img-3b1383b9a1f656da9c7037b620910ad4.jpeg",
+      "/uploads/img-e6c54c278b9c0f4101e0cc5681dfda2a.jpeg",
+      "/uploads/img-fccdacb33416635c3a0dc7ff0173749a.jpeg",
+      "/uploads/img-b40b3ee611184945cf9f601eb446d445.jpeg",
+      "/uploads/img-67950de964517b9fcba6287daded2c3c.jpeg",
+      "/uploads/img-8a211560881dde6091a30de11ba263c6.jpeg"
+    ],
     "icon": "leaf",
-    "image": "",
+    "image": "/uploads/img-4ffa4fab8982cf25dd947afa847fa359.jpeg",
     "shortDescription": "Lawn development and maintenance is a complete service that covers the creation and ongoing care of healthy, green lawns for long-term beauty and sustainability.",
     "sortOrder": 5,
     "title": "Lawn Development and Maintenance"
