@@ -144,6 +144,23 @@ body {
   box-shadow: 0 10px 24px color-mix(in srgb, var(--site-color-whatsapp) 45%, transparent);
 }
 
+.site-whatsapp-float {
+  animation: site-whatsapp-float 3.2s ease-in-out infinite;
+}
+
+@keyframes site-whatsapp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--site-color-whatsapp) 45%, transparent);
+  }
+
+  50% {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 30px color-mix(in srgb, var(--site-color-whatsapp) 40%, transparent);
+  }
+}
+
 .site-map-button {
   border-color: color-mix(in srgb, var(--site-color-map-accent) 18%, white);
   background-color: color-mix(in srgb, var(--site-color-surface) 95%, transparent);
@@ -333,6 +350,10 @@ button:disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .site-animate-fade-up {
+    animation: none;
+  }
+
+  .site-whatsapp-float {
     animation: none;
   }
 
