@@ -1,3 +1,6 @@
+import { CMS_FILES } from "@/lib/cms-utils";
+import { getServiceIconOptions } from "@/lib/service-icons";
+
 export interface SelectOption {
   label: string;
   value: string;
@@ -71,10 +74,17 @@ export function createUploadInputId(fieldPath: (string | number)[], scopeId: str
     .toLowerCase()}`;
 }
 
-export function getFieldSelectOptions(fieldPath: (string | number)[]): SelectOption[] | null {
+export function getFieldSelectOptions(
+  fieldPath: (string | number)[],
+  filePath?: string
+): SelectOption[] | null {
   const pathKey = fieldPath
     .filter((segment): segment is string => typeof segment === "string")
     .join(".");
+
+  if (filePath === CMS_FILES.SERVICES && pathKey === "icon") {
+    return getServiceIconOptions();
+  }
 
   return FIELD_SELECT_OPTIONS[pathKey] || null;
 }

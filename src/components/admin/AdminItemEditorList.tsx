@@ -23,6 +23,7 @@ interface SiteConfigSection {
 }
 
 interface AdminItemEditorListProps {
+  selectedFile: string | null;
   items: DataItem[];
   fields: DynamicField[];
   password: string;
@@ -69,6 +70,7 @@ function resolveLocalItemId(item: DataItem): string {
 }
 
 export function AdminItemEditorList({
+  selectedFile,
   items,
   fields,
   password,
@@ -112,6 +114,7 @@ export function AdminItemEditorList({
         {siteConfigSections.map((section) => (
           <div key={`${siteConfigLocalId}-${section.key}`} className="rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-3">
             <ItemEditorComponent
+              currentFilePath={selectedFile}
               item={siteConfigItem}
               fields={fields}
               password={password}
@@ -157,6 +160,7 @@ export function AdminItemEditorList({
         return (
           <div key={localItemId} className="rounded-md border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-muted)] p-3">
             <ItemEditorComponent
+              currentFilePath={selectedFile}
               item={item}
               fields={fields}
               password={password}

@@ -110,16 +110,15 @@
       "jegan@growwell-landscape.com"
     ],
     "addresses": [
-      "Chennai, Tamil Nadu"
+      "1/145,East street, Poondi (Post),Kallagam (Via), Ariyalur (Dt), Tamilnadu  Pincode - 621653"
     ],
     "timings": [
-      "Monday - Saturday: 9:00 AM - 6:00 PM",
-      "Sunday: Closed"
+      "Monday - Sunday: 8:00 AM - 8:00 PM"
     ],
     "locations": [
       {
         "name": "GrowWell Landscapes - Landscape Contractor",
-        "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA"
+        "url": "https://goo.gl/maps/8zWizHXvAcb5v7w18"
       }
     ]
   },
@@ -128,12 +127,12 @@
       "id": "instagram",
       "name": "Instagram",
       "icon": "instagram",
-      "url": "https://instagram.com/greenformula_landscapers",
+      "url": "https://www.instagram.com/growwell_landscapes?igsh=Z2M5czlzZnNqOWo1",
       "enabled": true
     }
   ],
   "hero": {
-    "title": "Welcome to GrowWell Landscapes",
+    "title": "Welcome to GrowWell Landscapes and Constructions",
     "subtitle": "Landscape design, execution, and care",
     "description": "From terrace gardens and lawns to elegant green corners, we create outdoor spaces that feel fresh, functional, and built to last.",
     "ctaText": "Explore Services",
@@ -164,7 +163,7 @@
         "description": "Maintenance guidance and care that keeps landscapes looking their best"
       }
     ],
-    "image": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
+    "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg",
     "title": "Landscaping with Clarity, Care, and Lasting Appeal",
     "description": "We approach every outdoor space with a simple goal: make it look better, work better, and feel easier to enjoy. Our team combines design thinking, practical planning, and hands-on execution to shape gardens and landscapes that suit the property and the people using it."
   }
