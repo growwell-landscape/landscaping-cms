@@ -6,7 +6,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Check, ChevronDown, Plus, Trash2 } from "lucide-react";
 import type { DataItem, DynamicField, MediaUploadFieldState } from "@/types/cms";
 import { stringifyValue } from "@/lib/cms-utils";
 import {
@@ -24,7 +24,119 @@ import {
   toLabel,
 } from "@/components/admin/itemEditorUtils";
 
+interface SearchableSelectFieldProps {
+  disabled?: boolean;
+  options: Array<{ label: string; value: string }>;
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function SearchableSelectField({
+  disabled,
+  options,
+  placeholder = "Select a value",
+  value,
+  onChange,
+}: Readonly<SearchableSelectFieldProps>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const selectedOption = options.find((option) => option.value === value);
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const matchedOptions = normalizedQuery
+    ? options.filter((option) => {
+        const haystack = `${option.label} ${option.value}`.toLowerCase();
+        return haystack.includes(normalizedQuery);
+      })
+    : options;
+  const filteredOptions = selectedOption
+    ? [
+        selectedOption,
+        ...matchedOptions.filter((option) => option.value !== selectedOption.value),
+      ]
+    : matchedOptions;
+
+  return (
+    <div className="relative">
+      <div className="relative">
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={() => {
+            if (disabled) return;
+            setQuery("");
+            setIsOpen((current) => !current);
+          }}
+          className="admin-input flex w-full items-center rounded-lg px-3 py-2 pr-10 text-left disabled:opacity-50"
+        >
+          <span className={value ? "text-[var(--admin-color-foreground)]" : "text-[var(--admin-color-muted-foreground)]"}>
+            {selectedOption?.label || value || placeholder}
+          </span>
+        </button>
+        <button
+          type="button"
+          disabled={disabled}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            if (disabled) return;
+            setQuery("");
+            setIsOpen((current) => !current);
+          }}
+          className="absolute inset-y-0 right-0 inline-flex w-10 items-center justify-center text-[var(--admin-color-muted-foreground)] disabled:opacity-50"
+          aria-label="Toggle options"
+        >
+          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        </button>
+      </div>
+
+      {isOpen && (
+        <div
+          className="absolute z-20 mt-2 w-full rounded-lg border border-[var(--admin-color-border)] bg-[var(--admin-color-surface-elevated)] shadow-lg"
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          <div className="border-b border-[var(--admin-color-border)] p-2">
+            <input
+              type="text"
+              value={query}
+              autoFocus
+              placeholder="Search"
+              onChange={(e) => setQuery(e.target.value)}
+              className="admin-input w-full rounded-md px-3 py-2 text-sm"
+            />
+          </div>
+          <div className="max-h-56 overflow-y-auto">
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => {
+                    onChange(option.value);
+                    setQuery("");
+                    setIsOpen(false);
+                  }}
+                  className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-[var(--admin-color-foreground)] transition-colors hover:bg-[var(--admin-color-accent)]"
+                >
+                  <span>{option.label}</span>
+                  {value === option.value ? <Check className="h-4 w-4 text-[var(--admin-color-primary)]" /> : null}
+                </button>
+              ))
+            ) : (
+              <div className="px-3 py-2 text-sm text-[var(--admin-color-muted-foreground)]">
+                No matching options
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface ItemEditorComponentProps {
+  /** Current file path being edited */
+  currentFilePath?: string | null;
   /** Item to edit */
   item: DataItem;
   /** Available fields */
@@ -81,6 +193,7 @@ interface ItemEditorComponentProps {
  * Item Editor Component
  */
 export function ItemEditorComponent({
+  currentFilePath,
   item,
   fields,
   onFieldChange,
@@ -201,7 +314,7 @@ export function ItemEditorComponent({
       newValue = "";
     }
 
-    onFieldChange(fieldPath, [...currentArray, newValue]);
+    onFieldChange(fieldPath, [newValue, ...currentArray]);
   };
 
   const handleArrayRemove = (
@@ -262,7 +375,7 @@ export function ItemEditorComponent({
     }
 
     if (typeof value === "string") {
-      const selectOptions = getFieldSelectOptions(fieldPath);
+      const selectOptions = getFieldSelectOptions(fieldPath, currentFilePath || undefined);
       if (selectOptions) {
         const hasCurrentValue = selectOptions.some((option) => option.value === value);
         const options = hasCurrentValue
@@ -270,18 +383,12 @@ export function ItemEditorComponent({
           : [{ value, label: value || "Current Value" }, ...selectOptions];
 
         return (
-          <select
-            value={value}
-            onChange={(e) => onFieldChange(fieldPath, e.target.value)}
+          <SearchableSelectField
             disabled={disabled}
-            className="admin-input w-full rounded-lg px-3 py-2 disabled:opacity-50"
-          >
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            options={options}
+            value={value}
+            onChange={(nextValue) => onFieldChange(fieldPath, nextValue)}
+          />
         );
       }
     }
@@ -368,7 +475,7 @@ export function ItemEditorComponent({
                 >
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-medium text-[var(--admin-color-muted-foreground)]">
-                      {toLabel(fieldName)} #{index + 1}
+                      {toLabel(fieldName)} #{resolvedValue.length - index}
                     </p>
                     <button
                       type="button"
