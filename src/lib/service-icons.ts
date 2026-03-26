@@ -14,6 +14,11 @@ import {
 
 import type { Service } from "@/types/content";
 
+type ServiceIconOption = {
+  label: string;
+  value: string;
+};
+
 const serviceIconMap: Record<string, LucideIcon> = {
   "calendar-check": CalendarCheck,
   droplets: Droplets,
@@ -27,6 +32,14 @@ const serviceIconMap: Record<string, LucideIcon> = {
   sprout: Sprout,
   "tree-pine": TreePine,
 };
+
+const serviceIconOptions: ServiceIconOption[] = Object.keys(serviceIconMap).map((iconName) => ({
+  value: iconName,
+  label: iconName
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" "),
+}));
 
 function normalizeIconName(iconName: string): string {
   return iconName.trim().toLowerCase().replace(/[_\s]+/g, "-");
@@ -73,4 +86,8 @@ export function getServiceIcon(service: Pick<Service, "id" | "title" | "icon">):
   }
 
   return serviceIconMap[inferServiceIconName(service)] || Sprout;
+}
+
+export function getServiceIconOptions(): ServiceIconOption[] {
+  return serviceIconOptions;
 }
