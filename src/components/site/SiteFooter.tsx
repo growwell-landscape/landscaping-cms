@@ -80,8 +80,8 @@ export function SiteFooter({
                 </li>
               ))}
               {addresses.map((address, index) => (
-                <li className="flex items-center gap-2" key={`footer-address-${index}`}>
-                  <MapPin aria-hidden="true" className="h-4 w-4 text-[var(--site-color-primary)]" />
+                <li className="flex items-start gap-2" key={`footer-address-${index}`}>
+                  <MapPin aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[var(--site-color-primary)]" />
                   <span>{address}</span>
                 </li>
               ))}
