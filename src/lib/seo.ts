@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { SEOConfig, SiteConfig } from "@/types/config";
 
 import { resolveBaseUrlFromEnv } from "@/lib/app-url";
 import { createLocalizedPath } from "@/lib/site-i18n";
@@ -99,6 +100,34 @@ export function parseKeywords(value: string | undefined): string[] | undefined {
     .filter(Boolean);
 
   return keywords.length > 0 ? keywords : undefined;
+}
+
+/**
+ * Resolves the admin-configurable website/search title with safe fallbacks.
+ */
+export function resolveSearchTitle(
+  seo: Pick<SEOConfig, "searchTitle" | "title">,
+  site: Pick<SiteConfig, "name">
+): string {
+  return seo.searchTitle?.trim() || seo.title?.trim() || site.name?.trim() || "";
+}
+
+/**
+ * Builds a page title using the configured website/search title as suffix.
+ */
+export function buildPageTitle(
+  pageTitle: string,
+  seo: Pick<SEOConfig, "searchTitle" | "title">,
+  site: Pick<SiteConfig, "name">
+): string {
+  const resolvedPageTitle = pageTitle.trim();
+  const searchTitle = resolveSearchTitle(seo, site);
+
+  if (!resolvedPageTitle) {
+    return searchTitle;
+  }
+
+  return searchTitle ? `${resolvedPageTitle} | ${searchTitle}` : resolvedPageTitle;
 }
 
 /**

@@ -30,6 +30,7 @@ const ADMIN_CONFIG_LOCALIZED_FIELD_PATHS = [
   ["site", "tagline"],
   ["site", "description"],
   ["seo", "title"],
+  ["seo", "searchTitle"],
   ["seo", "description"],
 ] as const;
 const LANGUAGE_DEPENDENT_FILES = [

@@ -5,6 +5,7 @@ import { ServicesCatalogPage } from "@/components/site/ServicesCatalogPage";
 import { getActiveServices } from "@/lib/config-loader";
 import { ROUTES } from "@/lib/constants";
 import {
+  buildPageTitle,
   buildPageAlternates,
   parseKeywords,
   resolveMetadataBase,
@@ -27,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     language.defaultLanguageCode
   );
   const pageTitle = servicesCopy.title || "Our Services";
-  const title = `${pageTitle} | ${adminConfig.site.name}`;
+  const title = buildPageTitle(pageTitle, adminConfig.seo, adminConfig.site);
   const description =
     servicesCopy.subtitle ||
     adminConfig.seo.description;

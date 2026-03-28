@@ -9,6 +9,7 @@ import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
 import { ROUTES } from "@/lib/constants";
 import { getContactCollections } from "@/lib/contact-utils";
 import {
+  buildPageTitle,
   buildPageAlternates,
   parseKeywords,
   resolveMetadataBase,
@@ -92,7 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
     language.defaultLanguageCode
   );
   const contactTitle = contactCopy.title || "Contact Us";
-  const title = `${contactTitle} | ${adminConfig.site.name}`;
+  const title = buildPageTitle(contactTitle, adminConfig.seo, adminConfig.site);
   const description =
     contactCopy.subtitle ||
     adminConfig.seo.description;
