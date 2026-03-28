@@ -373,7 +373,8 @@ export function SiteHeader({
     setIsMobileSearchOpen(false);
   };
   const showLanguageSwitcher = languageOptions.length > 1;
-  const showServiceSearch = enabledServices.length > 0;
+  const showServiceSearch =
+    enabledServices.length > 0 && sitePathname !== ROUTES.SERVICES;
   const homeHref = createLocalizedPath(
     ROUTES.HOME,
     activeLanguageCode,
