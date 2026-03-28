@@ -28,7 +28,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       shouldIndexSite
         ? {
             allow: "/",
-            disallow: ["/admin", "/api"],
+            disallow: ["/admin", "/admin/info", "/api"],
             userAgent: "*",
           }
         : {
