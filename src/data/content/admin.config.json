@@ -179,11 +179,9 @@
       "secondaryCtaLink": "/services"
     },
     "companyIntroduction": {
-      "eyebrow": "Company Introduction",
       "title": "Who We Are",
       "description": "GrowWell Landscape and Construction brings together design sense, planting knowledge, and on-site execution to shape welcoming outdoor environments. From lawns and planting layouts to irrigation, green walls, terrace gardens, and long-term maintenance, we focus on solutions that look good in the short term and continue performing well after handover.",
-      "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg",
-      "imageFallbackText": "Landscapes planned with practical intent, clean execution, and long-term care in mind."
+      "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg"
     },
     "missionVision": {
       "title": "Our Direction",
@@ -217,19 +215,17 @@
     },
     "servicesOverview": {
       "title": "What We Handle",
-      "description": "Our work spans end-to-end landscaping and green-space support. Depending on the site, we help with:",
-      "introText": "Our current services include",
-      "emptyStateText": "Landscape design, execution, and maintenance support shaped around the needs of each site."
+      "description": "Our work spans end-to-end landscaping and green-space support. We help with:"
     },
     "founderSection": {
       "title": "Meet the Team",
-      "subtitle": "Add team members from the admin panel. If no profiles are added, this section stays hidden automatically.",
+      "subtitle": "",
       "description": "The people behind GrowWell combine site understanding, planning, and service execution to deliver landscapes with care and consistency.",
       "socialLabel": "Instagram"
     },
     "testimonialsSection": {
       "title": "What Clients Say",
-      "subtitle": "This section appears only when testimonials are added in admin."
+      "subtitle": ""
     },
     "cta": {
       "title": "Ready to Plan Your Outdoor Space?",
@@ -247,7 +243,7 @@
       "image": "/uploads/img-82e82b88432dcf0527fd9bd189b8b576.jpg",
       "instagramProfile": "",
       "sortOrder": 1,
-      "enabled": true
+      "enabled": false
     }
   ],
   "testimonials": [
@@ -256,6 +252,7 @@
       "role": "Residential Landscape Project",
       "quote": "The GrowWell team handled the work neatly and helped us choose practical planting ideas that suited our space and maintenance needs.",
       "image": "",
+      "rating": 4.8,
       "sortOrder": 1,
       "enabled": false
     }

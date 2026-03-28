@@ -504,6 +504,8 @@ export interface Testimonial {
   quote: string;
   /** Optional customer photo */
   image?: string;
+  /** Rating value out of 5 */
+  rating?: number;
   /** Display order */
   sortOrder?: number;
   /** Whether testimonial should be visible */
