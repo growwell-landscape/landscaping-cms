@@ -1,9 +1,9 @@
 {
   "site": {
-    "name": "GrowWell Landscapes and Constructions",
-    "companyName": "GrowWell Landscapes PVT Ltd",
+    "name": "GrowWell Landscape and Construction",
+    "companyName": "GrowWell Landscape PVT Ltd",
     "tagline": "Thoughtful landscape design and garden care",
-    "description": "GrowWell Landscapes designs, builds, and maintains inviting outdoor spaces, from terrace gardens and lawns to complete landscape transformations.",
+    "description": "GrowWell Landscape designs, builds, and maintains inviting outdoor spaces, from terrace gardens and lawns to complete landscape transformations.",
     "logo": {
       "displayMode": "image-only",
       "type": "image",
@@ -119,7 +119,7 @@
     "locations": [
       {
         "name": "GrowWell Landscapes - Landscape Contractor",
-        "url": "https://goo.gl/maps/8zWizHXvAcb5v7w18"
+        "url": "https://maps.app.goo.gl/mMjcNf8NQwuZgyJNA"
       }
     ]
   },
@@ -133,7 +133,7 @@
     }
   ],
   "hero": {
-    "title": "Welcome to GrowWell Landscapes and Constructions",
+    "title": "Welcome to GrowWell Landscape and Construction",
     "subtitle": "Landscape design, execution, and care",
     "description": "From terrace gardens and lawns to elegant green corners, we create outdoor spaces that feel fresh, functional, and built to last.",
     "ctaText": "Explore Services",
