@@ -286,6 +286,7 @@ export function SiteHeader({
   const scrollAnimationFrameIdRef = useRef<number | null>(null);
   const languageRefreshTimerRef = useRef<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -355,6 +356,7 @@ export function SiteHeader({
 
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsMobileSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -368,6 +370,7 @@ export function SiteHeader({
   const isTransparent = isLandingStylePage && !isScrolled;
   const startNavigation = () => {
     setIsMenuOpen(false);
+    setIsMobileSearchOpen(false);
   };
   const showLanguageSwitcher = languageOptions.length > 1;
   const showServiceSearch = enabledServices.length > 0;
@@ -428,41 +431,44 @@ export function SiteHeader({
             siteName={siteName}
           />
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className={cn("flex items-center gap-2 md:hidden", isMobileSearchOpen ? "flex-1" : "")}>
             {showServiceSearch ? (
               <HeaderSearch
                 activeLanguageCode={activeLanguageCode}
                 isTransparent={isTransparent}
                 languageCodes={normalizedLanguageCodes}
                 onNavigate={startNavigation}
+                onOpenChange={setIsMobileSearchOpen}
                 placeholder={searchPlaceholder}
                 services={enabledServices}
                 size="mobile"
               />
             ) : null}
-            <button
-              aria-controls="mobile-nav"
-              aria-expanded={isMenuOpen}
-              aria-label="Toggle navigation menu"
-              className={cn(
-                "inline-flex h-10 w-10 items-center justify-center rounded-[5px] border transition-colors",
-                isTransparent
-                  ? "text-[var(--site-color-hero-text)] hover:bg-white/15"
-                  : "border-[var(--site-color-border)] text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"
-              )}
-              style={
-                isTransparent
-                  ? {
-                      borderColor:
-                        "color-mix(in srgb, var(--site-color-hero-text) 50%, transparent)",
-                    }
-                  : undefined
-              }
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              type="button"
-            >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            {!isMobileSearchOpen ? (
+              <button
+                aria-controls="mobile-nav"
+                aria-expanded={isMenuOpen}
+                aria-label="Toggle navigation menu"
+                className={cn(
+                  "inline-flex h-10 w-10 items-center justify-center rounded-[5px] border transition-colors",
+                  isTransparent
+                    ? "text-[var(--site-color-hero-text)] hover:bg-white/15"
+                    : "border-[var(--site-color-border)] text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"
+                )}
+                style={
+                  isTransparent
+                    ? {
+                        borderColor:
+                          "color-mix(in srgb, var(--site-color-hero-text) 50%, transparent)",
+                      }
+                    : undefined
+                }
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                type="button"
+              >
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            ) : null}
           </div>
 
           <nav aria-label="Primary navigation" className="hidden md:block">

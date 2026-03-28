@@ -2,7 +2,13 @@
 
 import { Search, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import type {
+  ChangeEvent,
+  FocusEvent,
+  KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+} from "react";
 
 import { ROUTES } from "@/lib/constants";
 import { createLocalizedPath } from "@/lib/site-i18n";
@@ -14,6 +20,7 @@ interface HeaderSearchProps {
   isTransparent: boolean;
   languageCodes: string[];
   onNavigate: () => void;
+  onOpenChange?: (isOpen: boolean) => void;
   placeholder: string;
   size?: "desktop" | "mobile";
   services: Service[];
@@ -24,17 +31,20 @@ export function HeaderSearch({
   isTransparent,
   languageCodes,
   onNavigate,
+  onOpenChange,
   placeholder,
   size = "desktop",
   services,
 }: Readonly<HeaderSearchProps>) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
   const pathname = usePathname();
   const isMobile = size === "mobile";
+  const searchResultsId = useId();
 
   const filteredServices = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -54,6 +64,7 @@ export function HeaderSearch({
   useEffect(() => {
     setIsOpen(false);
     setQuery("");
+    onOpenChange?.(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -63,14 +74,12 @@ export function HeaderSearch({
       const target = event.target as Node | null;
       if (!target) return;
       if (containerRef.current?.contains(target)) return;
-      setIsOpen(false);
-      setQuery("");
+      setExpandedState(false);
     };
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsOpen(false);
-        setQuery("");
+        setExpandedState(false);
       }
     };
 
@@ -88,6 +97,18 @@ export function HeaderSearch({
     inputRef.current?.focus();
   }, [isOpen]);
 
+  const setExpandedState = (nextIsOpen: boolean, shouldResetQuery = true) => {
+    setIsOpen(nextIsOpen);
+    onOpenChange?.(nextIsOpen);
+    if (!nextIsOpen && shouldResetQuery) {
+      setQuery("");
+    }
+  };
+
+  const closeSearch = (shouldResetQuery = true) => {
+    setExpandedState(false, shouldResetQuery);
+  };
+
   const navigateToService = (serviceId: string) => {
     const href = createLocalizedPath(
       `${ROUTES.SERVICE_DETAIL}/${serviceId}`,
@@ -95,18 +116,103 @@ export function HeaderSearch({
       languageCodes
     );
     window.dispatchEvent(new CustomEvent("site:navigation-start"));
-    setIsOpen(false);
-    setQuery("");
+    setExpandedState(false);
     onNavigate();
     router.push(href);
   };
 
+  const focusResultByIndex = (index: number) => {
+    const resultButtons = Array.from(
+      containerRef.current?.querySelectorAll<HTMLButtonElement>("[data-service-id]") || []
+    );
+    if (resultButtons.length === 0) return;
+    const boundedIndex = Math.max(0, Math.min(index, resultButtons.length - 1));
+    resultButtons[boundedIndex]?.focus();
+  };
+
+  const handleSearchButtonClick = () => {
+    if (isOpen) {
+      closeSearch();
+      return;
+    }
+    setExpandedState(true, false);
+  };
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleInputKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && filteredServices[0]) {
+      event.preventDefault();
+      navigateToService(filteredServices[0].id);
+      return;
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      focusResultByIndex(0);
+      return;
+    }
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeSearch(false);
+      triggerButtonRef.current?.focus();
+    }
+  };
+
+  const handleResultClick = (event: ReactMouseEvent<HTMLButtonElement>) => {
+    const { serviceId } = event.currentTarget.dataset;
+    if (!serviceId) return;
+    navigateToService(serviceId);
+  };
+
+  const handleResultKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
+    const resultButtons = Array.from(
+      containerRef.current?.querySelectorAll<HTMLButtonElement>("[data-service-id]") || []
+    );
+    const currentIndex = resultButtons.findIndex((button) => button === event.currentTarget);
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      focusResultByIndex(currentIndex + 1);
+      return;
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (currentIndex <= 0) {
+        inputRef.current?.focus();
+        return;
+      }
+      focusResultByIndex(currentIndex - 1);
+      return;
+    }
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeSearch(false);
+      triggerButtonRef.current?.focus();
+    }
+  };
+
+  const handleContainerBlur = (event: FocusEvent<HTMLDivElement>) => {
+    const nextTarget = event.relatedTarget as Node | null;
+    if (!nextTarget || containerRef.current?.contains(nextTarget)) return;
+    closeSearch();
+  };
+
   return (
-    <div className="relative" ref={containerRef}>
+    <div
+      className={cn("relative", isMobile && isOpen ? "flex-1" : "")}
+      onBlurCapture={handleContainerBlur}
+      ref={containerRef}
+    >
       <div
         className={cn(
           "overflow-hidden rounded-[5px] transition-all duration-300 ease-out",
-          isOpen ? (isMobile ? "w-[240px]" : "w-[320px]") : "w-10",
+          isOpen ? (isMobile ? "w-full" : "w-[320px]") : "w-10",
           isTransparent && !isOpen
             ? "text-[var(--site-color-hero-text)]"
             : "text-[var(--site-color-foreground)]",
@@ -125,20 +231,17 @@ export function HeaderSearch({
       >
         <div className="flex h-10 items-center">
           <button
+            aria-controls={searchResultsId}
             aria-expanded={isOpen}
             aria-label="Search services"
             className={cn(
-              "inline-flex h-10 w-10 shrink-0 items-center justify-center transition-colors",
+              "inline-flex h-10 w-10 shrink-0 items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--site-color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--site-color-surface)]",
               isTransparent && !isOpen
                 ? "hover:bg-white/15"
                 : "hover:bg-[var(--site-color-muted)]"
             )}
-            onClick={() => {
-              if (isOpen) {
-                setQuery("");
-              }
-              setIsOpen((previousValue) => !previousValue);
-            }}
+            onClick={handleSearchButtonClick}
+            ref={triggerButtonRef}
             type="button"
           >
             {isOpen ? (
@@ -152,25 +255,24 @@ export function HeaderSearch({
               "min-w-0 transition-all duration-300 ease-out",
               isOpen
                 ? isMobile
-                  ? "w-[200px] opacity-100"
+                  ? "w-[calc(100%-40px)] opacity-100"
                   : "w-[280px] opacity-100"
                 : "w-0 opacity-0"
             )}
           >
             <input
+              aria-hidden={!isOpen}
               className={cn(
-                "h-10 w-full bg-transparent pr-4 text-sm outline-none placeholder:text-current/60",
-                isTransparent ? "text-[var(--site-color-hero-text)]" : "text-[var(--site-color-foreground)]"
+                "h-10 w-full bg-transparent pr-4 text-sm outline-none placeholder:text-current/60 focus-visible:outline-none",
+                isTransparent && !isOpen
+                  ? "text-[var(--site-color-hero-text)]"
+                  : "text-[var(--site-color-foreground)]"
               )}
-              onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && filteredServices[0]) {
-                  event.preventDefault();
-                  navigateToService(filteredServices[0].id);
-                }
-              }}
+              onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
               placeholder={placeholder}
               ref={inputRef}
+              tabIndex={isOpen ? 0 : -1}
               type="search"
               value={query}
             />
@@ -180,9 +282,10 @@ export function HeaderSearch({
 
       {isOpen ? (
         <div
+          id={searchResultsId}
           className={cn(
             "absolute top-full z-[70] mt-2 overflow-hidden rounded-[8px] border border-[var(--site-color-border)] bg-[var(--site-color-surface)] shadow-lg",
-            isMobile ? "right-0 w-[240px]" : "right-0 w-[320px]"
+            isMobile ? "left-0 right-0 w-full" : "right-0 w-[320px]"
           )}
         >
           <ul className="max-h-[320px] overflow-y-auto py-2">
@@ -190,8 +293,12 @@ export function HeaderSearch({
               filteredServices.map((service) => (
                 <li key={service.id}>
                   <button
-                    className="flex w-full flex-col items-start gap-1 px-4 py-3 text-left transition-colors hover:bg-[var(--site-color-muted)]"
-                    onClick={() => navigateToService(service.id)}
+                    aria-hidden={!isOpen}
+                    className="flex w-full flex-col items-start gap-1 px-4 py-3 text-left transition-colors hover:bg-[var(--site-color-muted)] focus-visible:bg-[var(--site-color-muted)] focus-visible:outline-none"
+                    data-service-id={service.id}
+                    onClick={handleResultClick}
+                    onKeyDown={handleResultKeyDown}
+                    tabIndex={isOpen ? 0 : -1}
                     type="button"
                   >
                     <span className="text-sm font-medium text-[var(--site-color-foreground)]">
