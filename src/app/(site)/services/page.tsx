@@ -69,31 +69,69 @@ export default async function ServicesPage() {
   ]);
   const services = localizeSiteContent(servicesRaw, siteData.language) as Service[];
   const servicesCopy = siteData.translations.services || {};
+  const navCopy = siteData.translations.nav || {};
   const contactCopy = siteData.translations.contact || {};
   const floatingContact = siteData.adminConfig.contact.floatingContact;
   const subtitle =
     servicesCopy.subtitle ||
     "Explore our wide range of professional landscaping and gardening services designed to transform your space.";
   const metadataBase = resolveMetadataBase();
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    hasPart: services.map((service) => ({
-      "@type": "Service",
-      description: service.shortDescription || service.description,
-      name: service.title,
-      url: toAbsoluteUrl(
-        createLocalizedPath(
-          `${ROUTES.SERVICE_DETAIL}/${service.id}`,
-          siteData.language.currentLanguageCode,
-          siteData.language.languageCodes
+  const homeUrl = toAbsoluteUrl(
+    createLocalizedPath(
+      ROUTES.HOME,
+      siteData.language.currentLanguageCode,
+      siteData.language.languageCodes
+    ),
+    metadataBase
+  );
+  const servicesUrl = toAbsoluteUrl(
+    createLocalizedPath(
+      ROUTES.SERVICES,
+      siteData.language.currentLanguageCode,
+      siteData.language.languageCodes
+    ),
+    metadataBase
+  );
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          item: homeUrl,
+          name: navCopy.home || "Home",
+          position: 1,
+        },
+        {
+          "@type": "ListItem",
+          item: servicesUrl,
+          name: servicesCopy.title || navCopy.services || "Services",
+          position: 2,
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      hasPart: services.map((service) => ({
+        "@type": "Service",
+        description: service.shortDescription || service.description,
+        name: service.title,
+        url: toAbsoluteUrl(
+          createLocalizedPath(
+            `${ROUTES.SERVICE_DETAIL}/${service.id}`,
+            siteData.language.currentLanguageCode,
+            siteData.language.languageCodes
+          ),
+          metadataBase
         ),
-        metadataBase
-      ),
-    })),
-    inLanguage: siteData.language.currentLanguageCode,
-    name: servicesCopy.title || "Our Services",
-  };
+      })),
+      inLanguage: siteData.language.currentLanguageCode,
+      name: servicesCopy.title || "Our Services",
+      url: servicesUrl,
+    },
+  ];
 
   return (
     <main>
