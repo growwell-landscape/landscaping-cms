@@ -13,6 +13,7 @@ import {
   buildPageAlternates,
   parseKeywords,
   resolveMetadataBase,
+  resolveSearchTitle,
   toAbsoluteUrl,
 } from "@/lib/seo";
 import { createLocalizedPath } from "@/lib/site-i18n";
@@ -85,6 +86,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { adminConfig, language, translations } = siteData;
   const contactCopy = translations.contact || {};
   const metadataBase = resolveMetadataBase();
+  const searchTitle = resolveSearchTitle(adminConfig.seo, adminConfig.site);
   const alternates = buildPageAlternates(
     ROUTES.CONTACT,
     language.currentLanguageCode,
@@ -110,6 +112,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       description,
       images: ogImage ? [{ url: ogImage }] : undefined,
+      siteName: searchTitle,
       title,
       type: "website",
       url: canonicalUrl,
