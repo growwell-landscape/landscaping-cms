@@ -21,7 +21,10 @@ import { createAdminThemeStyle, DEFAULT_THEME_CONFIG, normalizeThemeConfig } fro
 const SITE_CONFIG_SECTION_ORDER = [
   { key: "site", label: "Site Settings" },
   { key: "seo", label: "SEO Settings" },
-  { key: "about", label: "About Us" },
+  { key: "about", label: "Homepage About" },
+  { key: "aboutPage", label: "About Page" },
+  { key: "team", label: "Team" },
+  { key: "testimonials", label: "Testimonials" },
   { key: "contact", label: "Contact Details" },
   { key: "hero", label: "Hero Section" },
   { key: "theme", label: "Theme Settings" },

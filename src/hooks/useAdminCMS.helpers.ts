@@ -24,7 +24,14 @@ const LANGUAGE_AWARE_FILES = new Set<string>([
   CMS_FILES.PROJECTS,
   CMS_FILES.SERVICES,
 ]);
-const ADMIN_CONFIG_LOCALIZED_SECTIONS = ["hero", "about", "contact"] as const;
+const ADMIN_CONFIG_LOCALIZED_SECTIONS = [
+  "hero",
+  "about",
+  "aboutPage",
+  "contact",
+  "team",
+  "testimonials",
+] as const;
 const ADMIN_CONFIG_LOCALIZED_FIELD_PATHS = [
   ["site", "companyName"],
   ["site", "tagline"],

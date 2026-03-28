@@ -167,5 +167,97 @@
     "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg",
     "title": "Landscaping with Clarity, Care, and Lasting Appeal",
     "description": "We approach every outdoor space with a simple goal: make it look better, work better, and feel easier to enjoy. Our team combines design thinking, practical planning, and hands-on execution to shape gardens and landscapes that suit the property and the people using it."
-  }
+  },
+  "aboutPage": {
+    "hero": {
+      "title": "Creating Landscapes That Feel Natural, Practical, and Built to Last",
+      "subtitle": "About GrowWell Landscape and Construction",
+      "description": "GrowWell works with homeowners, commercial properties, and managed spaces to design, execute, and maintain landscapes that stay attractive and easy to care for over time.",
+      "primaryCtaText": "Talk to Our Team",
+      "primaryCtaLink": "/contact",
+      "secondaryCtaText": "Explore Services",
+      "secondaryCtaLink": "/services"
+    },
+    "companyIntroduction": {
+      "eyebrow": "Company Introduction",
+      "title": "Who We Are",
+      "description": "GrowWell Landscape and Construction brings together design sense, planting knowledge, and on-site execution to shape welcoming outdoor environments. From lawns and planting layouts to irrigation, green walls, terrace gardens, and long-term maintenance, we focus on solutions that look good in the short term and continue performing well after handover.",
+      "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg",
+      "imageFallbackText": "Landscapes planned with practical intent, clean execution, and long-term care in mind."
+    },
+    "missionVision": {
+      "title": "Our Direction",
+      "subtitle": "The way we think about every project, from small green upgrades to full landscape execution.",
+      "missionTitle": "Our Mission",
+      "missionDescription": "To deliver dependable landscaping solutions that improve how outdoor spaces look, function, and grow, while keeping the process clear and practical for every client.",
+      "visionTitle": "Our Vision",
+      "visionDescription": "To be the trusted landscaping partner for homes and businesses seeking thoughtful design, clean execution, and long-term garden care."
+    },
+    "whyChooseUs": {
+      "title": "Why Choose GrowWell",
+      "subtitle": "We keep the work simple to understand, carefully planned, and professionally executed.",
+      "items": [
+        {
+          "title": "Customized planning for each site",
+          "description": "Recommendations shaped around the space, climate, usage, and maintenance expectations."
+        },
+        {
+          "title": "Planting and irrigation with practical intent",
+          "description": "Selections and systems designed for healthier growth and easier upkeep."
+        },
+        {
+          "title": "Neat, accountable execution",
+          "description": "Attention to finish quality, site coordination, and clean handover."
+        },
+        {
+          "title": "Support beyond installation",
+          "description": "Ongoing maintenance services and AMC options when long-term care is needed."
+        }
+      ]
+    },
+    "servicesOverview": {
+      "title": "What We Handle",
+      "description": "Our work spans end-to-end landscaping and green-space support. Depending on the site, we help with:",
+      "introText": "Our current services include",
+      "emptyStateText": "Landscape design, execution, and maintenance support shaped around the needs of each site."
+    },
+    "founderSection": {
+      "title": "Meet the Team",
+      "subtitle": "Add team members from the admin panel. If no profiles are added, this section stays hidden automatically.",
+      "description": "The people behind GrowWell combine site understanding, planning, and service execution to deliver landscapes with care and consistency.",
+      "socialLabel": "Instagram"
+    },
+    "testimonialsSection": {
+      "title": "What Clients Say",
+      "subtitle": "This section appears only when testimonials are added in admin."
+    },
+    "cta": {
+      "title": "Ready to Plan Your Outdoor Space?",
+      "description": "Whether you need landscape execution, lawn development, irrigation, potted plant arrangements, or regular maintenance, we can help you take the next step with clarity.",
+      "primaryCtaText": "Contact GrowWell",
+      "primaryCtaLink": "/contact",
+      "secondaryCtaText": "Browse Services",
+      "secondaryCtaLink": "/services"
+    }
+  },
+  "team": [
+    {
+      "name": "N Dinesh Babu",
+      "designation": "IT Support",
+      "image": "/uploads/img-82e82b88432dcf0527fd9bd189b8b576.jpg",
+      "instagramProfile": "",
+      "sortOrder": 1,
+      "enabled": true
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Sample Client",
+      "role": "Residential Landscape Project",
+      "quote": "The GrowWell team handled the work neatly and helped us choose practical planting ideas that suited our space and maintenance needs.",
+      "image": "",
+      "sortOrder": 1,
+      "enabled": false
+    }
+  ]
 }
