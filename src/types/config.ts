@@ -331,6 +331,188 @@ export interface AboutConfig {
 }
 
 /**
+ * Dedicated About page hero configuration
+ */
+export interface AboutPageHeroConfig {
+  /** Main heading text */
+  title: string;
+  /** Short supporting line */
+  subtitle: string;
+  /** Introductory description */
+  description: string;
+  /** Primary call-to-action label */
+  primaryCtaText: string;
+  /** Primary call-to-action link */
+  primaryCtaLink: string;
+  /** Secondary call-to-action label */
+  secondaryCtaText?: string;
+  /** Secondary call-to-action link */
+  secondaryCtaLink?: string;
+}
+
+/**
+ * Company introduction block for About page
+ */
+export interface CompanyIntroductionConfig {
+  /** Optional small eyebrow label */
+  eyebrow?: string;
+  /** Section title */
+  title: string;
+  /** Section description */
+  description: string;
+  /** Optional section image */
+  image?: string;
+  /** Fallback copy when no image is set */
+  imageFallbackText?: string;
+}
+
+/**
+ * Mission and vision block configuration
+ */
+export interface MissionVisionConfig {
+  /** Section title */
+  title: string;
+  /** Optional supporting subtitle */
+  subtitle?: string;
+  /** Mission card title */
+  missionTitle: string;
+  /** Mission content */
+  missionDescription: string;
+  /** Vision card title */
+  visionTitle: string;
+  /** Vision content */
+  visionDescription: string;
+}
+
+/**
+ * Why choose us block configuration
+ */
+export interface WhyChooseUsConfig {
+  /** Section title */
+  title: string;
+  /** Optional subtitle */
+  subtitle?: string;
+  /** Benefit items */
+  items: AboutFeature[];
+}
+
+/**
+ * Services overview block configuration
+ */
+export interface ServicesOverviewConfig {
+  /** Section title */
+  title: string;
+  /** Optional lead-in copy before generated services summary */
+  description?: string;
+  /** Intro text shown before linked service names */
+  introText?: string;
+  /** Fallback text shown when no services are available */
+  emptyStateText?: string;
+}
+
+/**
+ * Team section heading/content configuration
+ */
+export interface FounderSectionConfig {
+  /** Section title */
+  title: string;
+  /** Optional subtitle */
+  subtitle?: string;
+  /** Optional intro paragraph */
+  description?: string;
+  /** Social link label used on team cards */
+  socialLabel?: string;
+}
+
+/**
+ * Testimonials section heading configuration
+ */
+export interface TestimonialsSectionConfig {
+  /** Section title */
+  title: string;
+  /** Optional subtitle */
+  subtitle?: string;
+}
+
+/**
+ * About page CTA configuration
+ */
+export interface AboutPageCTAConfig {
+  /** CTA heading */
+  title: string;
+  /** CTA supporting copy */
+  description: string;
+  /** Primary CTA label */
+  primaryCtaText: string;
+  /** Primary CTA link */
+  primaryCtaLink: string;
+  /** Secondary CTA label */
+  secondaryCtaText?: string;
+  /** Secondary CTA link */
+  secondaryCtaLink?: string;
+}
+
+/**
+ * Complete About page configuration
+ */
+export interface AboutPageConfig {
+  /** Hero content */
+  hero: AboutPageHeroConfig;
+  /** Company introduction content */
+  companyIntroduction: CompanyIntroductionConfig;
+  /** Mission and vision content */
+  missionVision: MissionVisionConfig;
+  /** Why choose us content */
+  whyChooseUs: WhyChooseUsConfig;
+  /** Services overview content */
+  servicesOverview: ServicesOverviewConfig;
+  /** Team section heading */
+  founderSection: FounderSectionConfig;
+  /** Testimonials section heading */
+  testimonialsSection: TestimonialsSectionConfig;
+  /** Bottom CTA content */
+  cta: AboutPageCTAConfig;
+}
+
+/**
+ * Team member profile
+ */
+export interface TeamMember {
+  /** Member name */
+  name: string;
+  /** Member role/title */
+  designation?: string;
+  /** Profile image */
+  image?: string;
+  /** Optional Instagram profile link */
+  instagramProfile?: string;
+  /** Display order */
+  sortOrder?: number;
+  /** Whether member should be visible */
+  enabled: boolean;
+}
+
+/**
+ * Customer testimonial item
+ */
+export interface Testimonial {
+  /** Customer name */
+  name: string;
+  /** Short role/company/location line */
+  role: string;
+  /** Testimonial quote */
+  quote: string;
+  /** Optional customer photo */
+  image?: string;
+  /** Rating value out of 5 */
+  rating?: number;
+  /** Display order */
+  sortOrder?: number;
+  /** Whether testimonial should be visible */
+  enabled: boolean;
+}
+
+/**
  * Main admin/site configuration
  */
 export interface AdminConfig {
@@ -348,6 +530,12 @@ export interface AdminConfig {
   hero: HeroConfig;
   /** About section configuration */
   about: AboutConfig;
+  /** Dedicated About page configuration */
+  aboutPage: AboutPageConfig;
+  /** Team profiles used on About page */
+  team: TeamMember[];
+  /** Testimonials used on About page */
+  testimonials: Testimonial[];
 }
 
 /**

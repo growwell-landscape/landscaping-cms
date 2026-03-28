@@ -363,11 +363,21 @@ export function ItemEditorComponent({
     }
 
     if (typeof value === "number") {
+      const isRatingField = fieldName.toLowerCase() === "rating";
       return (
         <input
           type="number"
+          step={isRatingField ? "0.1" : undefined}
+          min={isRatingField ? 0 : undefined}
+          max={isRatingField ? 5 : undefined}
           value={Number.isFinite(value) ? value : 0}
-          onChange={(e) => onFieldChange(fieldPath, Number(e.target.value))}
+          onChange={(e) => {
+            const nextValue = Number(e.target.value);
+            const sanitizedValue = isRatingField
+              ? Math.max(0, Math.min(5, nextValue))
+              : nextValue;
+            onFieldChange(fieldPath, sanitizedValue);
+          }}
           disabled={disabled}
           className="admin-input w-full rounded-lg px-3 py-2 disabled:opacity-50"
         />

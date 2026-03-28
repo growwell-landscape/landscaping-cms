@@ -62,6 +62,14 @@ function mapNavigationItems(
     },
     {
       href: createLocalizedPath(
+        ROUTES.ABOUT,
+        language.currentLanguageCode,
+        language.languageCodes
+      ),
+      label: getLabel(copy, "About", "about"),
+    },
+    {
+      href: createLocalizedPath(
         ROUTES.SERVICES,
         language.currentLanguageCode,
         language.languageCodes
