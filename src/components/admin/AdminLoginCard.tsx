@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
+
+import { ROUTES } from "@/lib/constants";
 
 interface AdminLoginCardProps {
   password: string;
@@ -85,6 +88,13 @@ export function AdminLoginCard({
             "Sign In"
           )}
         </button>
+
+        <p className="text-center text-sm text-[var(--admin-color-muted-foreground)]">
+          Need a client-friendly guide?{" "}
+          <Link href={ROUTES.ADMIN_INFO} className="font-medium text-[var(--admin-color-primary)] underline-offset-4 hover:underline">
+            Open admin dashboard info
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { CloudUpload, Loader, Menu, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/lib/constants";
 
 interface AdminHeaderProps {
   isLoading: boolean;
@@ -39,7 +41,12 @@ export function AdminHeader({
       <div className="w-full flex items-start justify-between md:w-auto">
         <div>
           <h1 className="admin-heading text-lg font-semibold">Dashboard</h1>
-          <p className="text-sm text-[var(--admin-color-muted-foreground)]">Manage content</p>
+          <p className="text-sm text-[var(--admin-color-muted-foreground)]">
+            Manage content.{" "}
+            <Link href={ROUTES.ADMIN_INFO} className="font-medium text-[var(--admin-color-primary)] underline-offset-4 hover:underline">
+              Client dashboard guide
+            </Link>
+          </p>
         </div>
         <Button
           type="button"

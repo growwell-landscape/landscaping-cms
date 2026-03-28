@@ -45,6 +45,8 @@ export const ROUTES = {
   ADMIN_LOGIN: "/admin/login",
   /** Admin dashboard */
   ADMIN_DASHBOARD: "/admin",
+  /** Admin information page */
+  ADMIN_INFO: "/admin/info",
   /** Admin projects management */
   ADMIN_PROJECTS: "/admin/projects",
   /** Admin services management */
