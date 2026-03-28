@@ -77,6 +77,8 @@ export interface SiteConfig {
 export interface SEOConfig {
   /** Page title for SEO */
   title: string;
+  /** Website/search-facing title used for site name and title suffixes */
+  searchTitle?: string;
   /** Page meta description */
   description: string;
   /** SEO keywords */

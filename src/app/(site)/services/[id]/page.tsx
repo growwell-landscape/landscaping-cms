@@ -16,6 +16,7 @@ import { ROUTES } from "@/lib/constants";
 import { getContactCollections } from "@/lib/contact-utils";
 import { getServiceIcon } from "@/lib/service-icons";
 import {
+  buildPageTitle,
   buildPageAlternates,
   parseKeywords,
   resolveMetadataBase,
@@ -56,7 +57,11 @@ export async function generateMetadata({
         follow: false,
         index: false,
       },
-      title: `Service Not Found | ${siteData.adminConfig.site.name}`,
+      title: buildPageTitle(
+        "Service Not Found",
+        siteData.adminConfig.seo,
+        siteData.adminConfig.site
+      ),
     };
   }
 
@@ -68,7 +73,11 @@ export async function generateMetadata({
     metadataBase,
     siteData.language.defaultLanguageCode
   );
-  const title = `${service.title} | ${siteData.adminConfig.site.name}`;
+  const title = buildPageTitle(
+    service.title,
+    siteData.adminConfig.seo,
+    siteData.adminConfig.site
+  );
   const description =
     service.shortDescription ||
     service.description ||

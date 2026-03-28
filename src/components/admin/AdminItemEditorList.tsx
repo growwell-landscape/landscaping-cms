@@ -14,6 +14,7 @@ const ADMIN_CONFIG_LANGUAGE_EDITABLE_FIELD_PATH_PREFIXES = [
   "site.tagline",
   "site.description",
   "seo.title",
+  "seo.searchTitle",
   "seo.description",
 ];
 

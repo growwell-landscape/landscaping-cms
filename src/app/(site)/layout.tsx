@@ -11,6 +11,7 @@ import {
   isSiteIndexable,
   parseKeywords,
   resolveMetadataBase,
+  resolveSearchTitle,
   toAbsoluteUrl,
 } from "@/lib/seo";
 import { stripLanguagePrefixFromPath } from "@/lib/site-i18n";
@@ -33,6 +34,7 @@ function getLogoText(text?: string): string {
 export async function generateMetadata(): Promise<Metadata> {
   const { adminConfig, language } = await getSiteCommonData();
   const seo = adminConfig.seo;
+  const searchTitle = resolveSearchTitle(seo, adminConfig.site);
   const metadataBase = resolveMetadataBase();
   const keywords = parseKeywords(seo.keywords);
   const ogImage = seo.ogImage
@@ -46,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const iconUrl = seo.favicon ? toAbsoluteUrl(seo.favicon, metadataBase) : undefined;
 
   return {
-    applicationName: adminConfig.site.name,
+    applicationName: searchTitle,
     metadataBase,
     description: seo.description,
     formatDetection: {
@@ -67,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seo.description,
       images: ogImage ? [{ url: ogImage }] : undefined,
       locale: language.currentLanguageCode,
-      siteName: adminConfig.site.name,
+      siteName: searchTitle,
       title: seo.title,
       type: "website",
       url: localizedHomeUrl,
@@ -105,6 +107,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
     getActiveServices(),
   ]);
   const { adminConfig, footerLabels, homeHref, language, navItems } = commonData;
+  const searchTitle = resolveSearchTitle(adminConfig.seo, adminConfig.site);
   const commonCopy = commonData.translations.common || {};
   const hasProjects = projects.length > 0;
   const hasServices = services.length > 0;
@@ -147,7 +150,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
       description: adminConfig.site.description || adminConfig.seo.description,
       inLanguage: language.currentLanguageCode,
       keywords: parseKeywords(adminConfig.seo.keywords)?.join(", "),
-      name: adminConfig.site.name,
+      name: searchTitle,
       publisher: {
         "@type": "Organization",
         name: adminConfig.site.companyName || adminConfig.site.name,
@@ -203,6 +206,10 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
         logo={adminConfig.site.logo}
         logoText={logoText}
         navItems={resolvedNavItems}
+        searchPlaceholder={
+          commonData.translations.services?.searchPlaceholder || "Search for a service..."
+        }
+        services={services}
         siteName={adminConfig.site.name}
       />
       <div className="flex min-h-screen flex-col">
