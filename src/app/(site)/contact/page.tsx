@@ -131,6 +131,7 @@ export default async function ContactPage() {
   const siteData = await getSiteCommonData();
   const { adminConfig } = siteData;
   const contactCopy = siteData.translations.contact || {};
+  const navCopy = siteData.translations.nav || {};
   const getInTouchSectionTitle = contactCopy.getInTouchSectionTitle || contactCopy.title || "Get in Touch";
   const mapActionLabel = contactCopy.mapAction || "Go to location";
   const timingsHeading = contactCopy.timingsTitle || contactCopy.businessHours || "Business Hours";
@@ -170,7 +171,33 @@ export default async function ContactPage() {
     ),
     metadataBase
   );
+  const homeUrl = toAbsoluteUrl(
+    createLocalizedPath(
+      ROUTES.HOME,
+      siteData.language.currentLanguageCode,
+      siteData.language.languageCodes
+    ),
+    metadataBase
+  );
   const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          item: homeUrl,
+          name: navCopy.home || "Home",
+          position: 1,
+        },
+        {
+          "@type": "ListItem",
+          item: contactUrl,
+          name: contactCopy.title || navCopy.contact || "Contact Us",
+          position: 2,
+        },
+      ],
+    },
     {
       "@context": "https://schema.org",
       "@type": "ContactPage",
