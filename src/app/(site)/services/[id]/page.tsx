@@ -20,6 +20,7 @@ import {
   buildPageAlternates,
   parseKeywords,
   resolveMetadataBase,
+  resolveSearchTitle,
   toAbsoluteUrl,
 } from "@/lib/seo";
 import { createLocalizedPath } from "@/lib/site-i18n";
@@ -50,6 +51,7 @@ export async function generateMetadata({
   const services = localizeSiteContent(servicesRaw, siteData.language) as Service[];
   const service = services.find((item) => item.id === id);
   const metadataBase = resolveMetadataBase();
+  const searchTitle = resolveSearchTitle(siteData.adminConfig.seo, siteData.adminConfig.site);
 
   if (!service) {
     return {
@@ -103,6 +105,7 @@ export async function generateMetadata({
     openGraph: {
       description,
       images: ogImage ? [{ url: ogImage }] : undefined,
+      siteName: searchTitle,
       title,
       type: "article",
       url: canonicalUrl,
