@@ -3,14 +3,20 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Check, ChevronDown, Languages, Menu, X } from "lucide-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
-import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
-import { createLocalizedPath, normalizeLanguageCode, stripLanguagePrefixFromPath } from "@/lib/site-i18n";
+import {
+  createLocalizedPath,
+  normalizeLanguageCode,
+  stripLanguagePrefixFromPath,
+} from "@/lib/site-i18n";
+import { cn } from "@/lib/utils";
 import type { LanguageConfig, LogoConfig } from "@/types/config";
+import type { Service } from "@/types/content";
 import type { SiteNavItem } from "@/types/site";
 
+import { HeaderSearch } from "./HeaderSearch";
 import { SiteLogo } from "./SiteLogo";
 
 interface SiteHeaderProps {
@@ -22,6 +28,8 @@ interface SiteHeaderProps {
   logo: LogoConfig;
   logoText: string;
   navItems: SiteNavItem[];
+  searchPlaceholder?: string;
+  services: Service[];
   siteName: string;
 }
 
@@ -77,9 +85,9 @@ function createLanguageHref(
   nextLanguageCode: string,
   languageCodes: string[]
 ): string {
-  const basePath = stripLanguagePrefixFromPath(pathname, languageCodes)
-    .split("?")[0]
-    .split("#")[0] || ROUTES.HOME;
+  const basePath =
+    stripLanguagePrefixFromPath(pathname, languageCodes).split("?")[0].split("#")[0] ||
+    ROUTES.HOME;
   const localizedPath = createLocalizedPath(basePath, nextLanguageCode, languageCodes);
   return searchParamsString ? `${localizedPath}?${searchParamsString}` : localizedPath;
 }
@@ -140,7 +148,9 @@ function LanguageSwitcher({
 
   useEffect(() => {
     if (!isOpen) return;
-    const activeIndex = languageOptions.findIndex((language) => language.code === activeLanguageCode);
+    const activeIndex = languageOptions.findIndex(
+      (language) => language.code === activeLanguageCode
+    );
     focusOption(activeIndex >= 0 ? activeIndex : 0);
   }, [activeLanguageCode, isOpen, languageOptions]);
 
@@ -163,10 +173,10 @@ function LanguageSwitcher({
         style={
           !isMobile && isTransparent
             ? {
-                borderColor:
-                  "color-mix(in srgb, var(--site-color-hero-text) 40%, transparent)",
                 backgroundColor:
                   "color-mix(in srgb, var(--site-color-hero-text) 15%, transparent)",
+                borderColor:
+                  "color-mix(in srgb, var(--site-color-hero-text) 40%, transparent)",
               }
             : undefined
         }
@@ -187,6 +197,7 @@ function LanguageSwitcher({
       </button>
       {isOpen ? (
         <div
+          aria-label={languageSwitcherAriaLabel}
           className={cn(
             "absolute z-[80] mt-2 overflow-hidden rounded-[8px] border border-[var(--site-color-border)] bg-[var(--site-color-surface)] shadow-lg",
             isMobile ? "left-0 right-0" : "right-0 w-48"
@@ -216,7 +227,6 @@ function LanguageSwitcher({
             }
           }}
           ref={listboxRef}
-          aria-label={languageSwitcherAriaLabel}
           role="listbox"
         >
           <ul className="max-h-72 overflow-y-auto py-1">
@@ -269,6 +279,8 @@ export function SiteHeader({
   logo,
   logoText,
   navItems,
+  searchPlaceholder = "Search for a service...",
+  services,
   siteName,
 }: SiteHeaderProps) {
   const scrollAnimationFrameIdRef = useRef<number | null>(null);
@@ -280,6 +292,10 @@ export function SiteHeader({
   const searchParams = useSearchParams();
   const normalizedLanguageCodes = Array.from(
     new Set(languageCodes.map((code) => normalizeLanguageCode(code)).filter(Boolean))
+  );
+  const enabledServices = useMemo(
+    () => services.filter((service) => service.enabled),
+    [services]
   );
   const languageNameMap = new Map(
     languages.map((language) => [
@@ -354,6 +370,7 @@ export function SiteHeader({
     setIsMenuOpen(false);
   };
   const showLanguageSwitcher = languageOptions.length > 1;
+  const showServiceSearch = enabledServices.length > 0;
   const homeHref = createLocalizedPath(
     ROUTES.HOME,
     activeLanguageCode,
@@ -402,7 +419,7 @@ export function SiteHeader({
               }
         }
       >
-        <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-4 md:px-8">
+        <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between gap-3 px-4 md:px-8">
           <SiteLogo
             companyName={companyName}
             homeHref={homeHref}
@@ -410,47 +427,70 @@ export function SiteHeader({
             logoText={logoText}
             siteName={siteName}
           />
-          <button
-            aria-controls="mobile-nav"
-            aria-expanded={isMenuOpen}
-            aria-label="Toggle navigation menu"
-            className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-[5px] border transition-colors md:hidden",
-              isTransparent
-                ? "text-[var(--site-color-hero-text)] hover:bg-white/15"
-                : "border-[var(--site-color-border)] text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"
-            )}
-            style={
-              isTransparent
-                ? {
-                    borderColor:
-                      "color-mix(in srgb, var(--site-color-hero-text) 50%, transparent)",
-                  }
-                : undefined
-            }
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-            type="button"
-          >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+
+          <div className="flex items-center gap-2 md:hidden">
+            {showServiceSearch ? (
+              <HeaderSearch
+                activeLanguageCode={activeLanguageCode}
+                isTransparent={isTransparent}
+                languageCodes={normalizedLanguageCodes}
+                onNavigate={startNavigation}
+                placeholder={searchPlaceholder}
+                services={enabledServices}
+                size="mobile"
+              />
+            ) : null}
+            <button
+              aria-controls="mobile-nav"
+              aria-expanded={isMenuOpen}
+              aria-label="Toggle navigation menu"
+              className={cn(
+                "inline-flex h-10 w-10 items-center justify-center rounded-[5px] border transition-colors",
+                isTransparent
+                  ? "text-[var(--site-color-hero-text)] hover:bg-white/15"
+                  : "border-[var(--site-color-border)] text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]"
+              )}
+              style={
+                isTransparent
+                  ? {
+                      borderColor:
+                        "color-mix(in srgb, var(--site-color-hero-text) 50%, transparent)",
+                    }
+                  : undefined
+              }
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              type="button"
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
 
           <nav aria-label="Primary navigation" className="hidden md:block">
             <ul className="flex items-center gap-4">
+              {showServiceSearch ? (
+                <li>
+                  <HeaderSearch
+                    activeLanguageCode={activeLanguageCode}
+                    isTransparent={isTransparent}
+                    languageCodes={normalizedLanguageCodes}
+                    onNavigate={startNavigation}
+                    placeholder={searchPlaceholder}
+                    services={enabledServices}
+                  />
+                </li>
+              ) : null}
               {navItems.map((item) => {
-                const active = isNavItemActive(
-                  item.href,
-                  pathname,
-                  normalizedLanguageCodes
-                );
+                const active = isNavItemActive(item.href, pathname, normalizedLanguageCodes);
                 return (
                   <li key={item.href}>
                     <Link
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "relative rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-200",
-                        isTransparent ? "text-[var(--site-color-hero-text)] hover:bg-white/20" : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]",
-                        active
-                          && "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
+                        isTransparent
+                          ? "text-[var(--site-color-hero-text)] hover:bg-white/20"
+                          : "text-[var(--site-color-foreground)] hover:bg-[var(--site-color-muted)]",
+                        active && "bg-[var(--site-color-accent)] text-[var(--site-color-primary)]"
                       )}
                       href={item.href}
                       onClick={startNavigation}
@@ -491,11 +531,7 @@ export function SiteHeader({
           >
             <ul className="space-y-1">
               {navItems.map((item) => {
-                const active = isNavItemActive(
-                  item.href,
-                  pathname,
-                  normalizedLanguageCodes
-                );
+                const active = isNavItemActive(item.href, pathname, normalizedLanguageCodes);
                 return (
                   <li key={item.href}>
                     <Link

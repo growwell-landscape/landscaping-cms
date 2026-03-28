@@ -203,6 +203,10 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
         logo={adminConfig.site.logo}
         logoText={logoText}
         navItems={resolvedNavItems}
+        searchPlaceholder={
+          commonData.translations.services?.searchPlaceholder || "Search for a service..."
+        }
+        services={services}
         siteName={adminConfig.site.name}
       />
       <div className="flex min-h-screen flex-col">
