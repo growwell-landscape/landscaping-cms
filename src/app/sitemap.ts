@@ -19,6 +19,11 @@ const STATIC_SITE_PATHS: Array<{
     priority: 1,
   },
   {
+    changeFrequency: "monthly",
+    path: ROUTES.ABOUT,
+    priority: 0.85,
+  },
+  {
     changeFrequency: "weekly",
     path: ROUTES.SERVICES,
     priority: 0.9,

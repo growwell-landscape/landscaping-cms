@@ -29,6 +29,8 @@ export const API_ENDPOINTS = {
 export const ROUTES = {
   /** Home page */
   HOME: "/",
+  /** About page */
+  ABOUT: "/about",
   /** Services listing page */
   SERVICES: "/services",
   /** Service detail page */

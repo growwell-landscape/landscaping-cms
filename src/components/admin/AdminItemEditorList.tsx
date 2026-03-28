@@ -5,11 +5,21 @@ import { Button } from "@/components/ui/button";
 import { ItemEditorComponent } from "@/components/admin/ItemEditorComponent";
 import type { DataItem, DynamicField, MediaUploadFieldState } from "@/types/cms";
 
-const ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS = ["hero", "about", "contact"];
+const ADMIN_CONFIG_LANGUAGE_EDITABLE_ROOT_PATHS = [
+  "hero",
+  "about",
+  "aboutPage",
+  "contact",
+  "team",
+  "testimonials",
+];
 const ADMIN_CONFIG_LANGUAGE_EDITABLE_FIELD_PATH_PREFIXES = [
   "hero",
   "about",
+  "aboutPage",
   "contact",
+  "team",
+  "testimonials",
   "site.companyName",
   "site.tagline",
   "site.description",

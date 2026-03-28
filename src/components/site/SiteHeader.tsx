@@ -323,6 +323,7 @@ export function SiteHeader({
     .split("#")[0] || ROUTES.HOME;
   const isLandingStylePage =
     sitePathname === ROUTES.HOME ||
+    sitePathname === ROUTES.ABOUT ||
     sitePathname === ROUTES.CONTACT ||
     sitePathname === ROUTES.SERVICES ||
     sitePathname.startsWith(`${ROUTES.SERVICES}/`);
