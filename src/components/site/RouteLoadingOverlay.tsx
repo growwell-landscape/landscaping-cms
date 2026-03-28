@@ -72,9 +72,22 @@ export function RouteLoadingOverlay() {
       }, 10000);
     };
 
+    const handleNavigationStart = () => {
+      setIsLoading(true);
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        setIsLoading(false);
+        timeoutRef.current = null;
+      }, 10000);
+    };
+
     document.addEventListener("click", handleClick, true);
+    window.addEventListener("site:navigation-start", handleNavigationStart);
     return () => {
       document.removeEventListener("click", handleClick, true);
+      window.removeEventListener("site:navigation-start", handleNavigationStart);
       if (timeoutRef.current !== null) {
         window.clearTimeout(timeoutRef.current);
       }
