@@ -238,6 +238,14 @@
   },
   "team": [
     {
+      "name": "R Sushmitha",
+      "designation": "Accounts & Admin Support",
+      "image": "",
+      "instagramProfile": "",
+      "sortOrder": 5,
+      "enabled": true
+    },
+    {
       "name": "J Kalaiyarasan",
       "designation": "Managing Director",
       "image": "/uploads/img-eb6a9d84b67047871ca0eec467179b17.jpg",
