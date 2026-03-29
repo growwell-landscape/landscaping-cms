@@ -238,6 +238,22 @@
   },
   "team": [
     {
+      "name": "J Kalaiyarasan",
+      "designation": "Managing Director",
+      "image": "/uploads/img-5578b0dc464e619f9e108bb7f2e9965d.jpg",
+      "instagramProfile": "",
+      "sortOrder": 3,
+      "enabled": true
+    },
+    {
+      "name": "N Jalapathi",
+      "designation": "Managing Director",
+      "image": "/uploads/img-65c736c53b0dd2bad4bc4c6bace9b0b4.jpg",
+      "instagramProfile": "",
+      "sortOrder": 2,
+      "enabled": true
+    },
+    {
       "name": "J Dinesh Kumar",
       "designation": "Founder & CEO",
       "image": "/uploads/img-67af5d6e1c2970e369bb3abc6ed1b00f.jpg",
