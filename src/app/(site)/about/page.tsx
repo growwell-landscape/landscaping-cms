@@ -195,7 +195,6 @@ export default async function AboutPage() {
       <AboutTeamSection
         description={aboutPage.founderSection.description}
         members={team}
-        socialLabel={aboutPage.founderSection.socialLabel}
         subtitle={aboutPage.founderSection.subtitle}
         title={aboutPage.founderSection.title}
       />

@@ -108,7 +108,7 @@
       "+91 9500836544"
     ],
     "emails": [
-      "jegan@growwell-landscape.com"
+      "info@growwell-landscape.com"
     ],
     "addresses": [
       "1/145,East street, Poondi (Post),Kallagam (Via), Ariyalur (Dt), Tamilnadu  Pincode - 621653"
@@ -238,12 +238,67 @@
   },
   "team": [
     {
+      "name": "M Kalaiyarasan",
+      "designation": "Horticulturist",
+      "image": "",
+      "instagramProfile": "",
+      "linkedinProfile": "",
+      "sortOrder": 7,
+      "enabled": true
+    },
+    {
+      "name": "V Vignesh",
+      "designation": "Horticulterist",
+      "image": "",
+      "instagramProfile": "",
+      "linkedinProfile": "",
+      "sortOrder": 6,
+      "enabled": true
+    },
+    {
+      "name": "R Sushmitha",
+      "designation": "Accounts & Admin Support",
+      "image": "",
+      "instagramProfile": "",
+      "linkedinProfile": "",
+      "sortOrder": 5,
+      "enabled": true
+    },
+    {
+      "name": "J Kalaiyarasan",
+      "designation": "Managing Director",
+      "image": "/uploads/img-eb6a9d84b67047871ca0eec467179b17.jpg",
+      "instagramProfile": "",
+      "linkedinProfile": "",
+      "sortOrder": 3,
+      "enabled": true
+    },
+    {
+      "name": "N Jalapathi",
+      "designation": "Managing Director",
+      "image": "/uploads/img-705ddc7f1b3840f6fd417e8333fa8a0b.jpg",
+      "instagramProfile": "",
+      "linkedinProfile": "",
+      "sortOrder": 2,
+      "enabled": true
+    },
+    {
+      "name": "J Dinesh Kumar",
+      "designation": "Founder & CEO",
+      "image": "/uploads/img-0751073244058731e6f25902fba4d49e.jpg",
+      "instagramProfile": "",
+      "linkedinProfile": "",
+      "sortOrder": 1,
+      "enabled": true
+    },
+    {
       "name": "N Dinesh Babu",
       "designation": "IT Support",
       "image": "/uploads/img-82e82b88432dcf0527fd9bd189b8b576.jpg",
       "instagramProfile": "",
-      "sortOrder": 1,
-      "enabled": false
+      "linkedinProfile": "https://www.linkedin.com/in/dinesh-babu-n-2067071ab?utm_source=share_via&utm_content=profile&utm_medium=growwell-landscape",
+      "sortOrder": 4,
+      "enabled": true
     }
   ],
   "testimonials": [
