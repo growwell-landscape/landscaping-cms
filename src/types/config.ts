@@ -486,6 +486,8 @@ export interface TeamMember {
   image?: string;
   /** Optional Instagram profile link */
   instagramProfile?: string;
+  /** Optional LinkedIn profile link */
+  linkedinProfile?: string;
   /** Display order */
   sortOrder?: number;
   /** Whether member should be visible */

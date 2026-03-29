@@ -1,4 +1,5 @@
 import type { TeamMember } from "@/types/config";
+import { Instagram, Linkedin } from "lucide-react";
 
 import { ScrollReveal } from "./ScrollReveal";
 import { SiteImage } from "./SiteImage";
@@ -6,14 +7,26 @@ import { SiteImage } from "./SiteImage";
 interface AboutTeamCardProps {
   delayMs?: number;
   member: TeamMember;
-  socialLabel?: string;
+}
+
+function getMemberInitials(name?: string): string {
+  const parts = (name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+
+  return `${parts[0].charAt(0)}${parts[parts.length - 1].charAt(0)}`.toUpperCase();
 }
 
 export function AboutTeamCard({
   delayMs = 0,
   member,
-  socialLabel,
 }: Readonly<AboutTeamCardProps>) {
+  const initials = getMemberInitials(member.name);
+
   return (
     <ScrollReveal
       className="w-full max-w-[360px] overflow-hidden rounded-[5px] border border-[var(--site-color-border)] bg-[var(--site-color-surface-elevated)] shadow-sm"
@@ -32,13 +45,39 @@ export function AboutTeamCard({
                 />
               </div>
             ) : (
-              <div className="h-20 w-20 rounded-full bg-[var(--site-color-accent)]" />
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--site-color-accent)] text-2xl font-semibold text-[var(--site-color-accent-foreground)]">
+                {initials}
+              </div>
             )}
             <div>
               {member.name ? (
-                <h3 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)]">
-                  {member.name}
-                </h3>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="site-heading text-2xl font-semibold text-[var(--site-color-foreground)]">
+                    {member.name}
+                  </h3>
+                  {member.linkedinProfile ? (
+                    <a
+                      aria-label="LinkedIn"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[var(--site-color-border)] text-[var(--site-color-primary)] transition-colors hover:bg-[var(--site-color-accent)]"
+                      href={member.linkedinProfile}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <Linkedin className="h-4 w-4" />
+                    </a>
+                  ) : null}
+                  {member.instagramProfile ? (
+                    <a
+                      aria-label="Instagram"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[var(--site-color-border)] text-[var(--site-color-primary)] transition-colors hover:bg-[var(--site-color-accent)]"
+                      href={member.instagramProfile}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <Instagram className="h-4 w-4" />
+                    </a>
+                  ) : null}
+                </div>
               ) : null}
               {member.designation ? (
                 <p className="mt-1 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--site-color-primary)]">
@@ -49,19 +88,33 @@ export function AboutTeamCard({
           </div>
         ) : null}
         {!member.image && !member.designation && member.name ? (
-          <h3 className="site-heading text-center text-l font-semibold text-[var(--site-color-foreground)]">
-            {member.name}
-          </h3>
-        ) : null}
-        {member.instagramProfile ? (
-          <a
-            className="mt-5 inline-flex w-full items-center justify-center text-sm font-semibold text-[var(--site-color-primary)] hover:underline"
-            href={member.instagramProfile}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {socialLabel || "Instagram"}
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <h3 className="site-heading text-center text-l font-semibold text-[var(--site-color-foreground)]">
+              {member.name}
+            </h3>
+            {member.linkedinProfile ? (
+              <a
+                aria-label="LinkedIn"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[var(--site-color-border)] text-[var(--site-color-primary)] transition-colors hover:bg-[var(--site-color-accent)]"
+                href={member.linkedinProfile}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+            ) : null}
+            {member.instagramProfile ? (
+              <a
+                aria-label="Instagram"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[var(--site-color-border)] text-[var(--site-color-primary)] transition-colors hover:bg-[var(--site-color-accent)]"
+                href={member.instagramProfile}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+            ) : null}
+          </div>
         ) : null}
       </div>
     </ScrollReveal>
