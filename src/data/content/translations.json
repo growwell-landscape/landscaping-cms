@@ -39,7 +39,7 @@
     },
     "footer": {
       "contactTitle": "Reach Us",
-      "copyright": "(c) 2023 - 2026 GrowWell Landscape Pvt Ltd. All rights reserved.",
+      "copyright": "(c) 2023 - { currentYear } GrowWell Landscape Pvt Ltd. All rights reserved.",
       "followUsTitle": "Stay Connected",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
