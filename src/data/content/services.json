@@ -5,16 +5,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Scheduled maintenance visits throughout the year"
+        "title": "Scheduled maintenance visits throughout the year",
+        "title_te": "ఏడాది పొడవునా షెడ్యూల్ చేయబడిన నిర్వహణ సందర్శనలు"
       },
       {
-        "title": "Preventive maintenance and regular inspections"
+        "title": "Preventive maintenance and regular inspections",
+        "title_te": "నివారణ నిర్వహణ మరియు సాధారణ తనిఖీలు"
       },
       {
-        "title": "Repair and replacement support (as per agreement)"
+        "title": "Repair and replacement support (as per agreement)",
+        "title_te": "మరమ్మత్తు మరియు భర్తీ మద్దతు (ఒప్పందం ప్రకారం)"
       },
       {
-        "title": "Covers multiple services (landscape, irrigation, etc.)"
+        "title": "Covers multiple services (landscape, irrigation, etc.)",
+        "title_te": "బహుళ సేవలను కవర్ చేస్తుంది (ల్యాండ్‌స్కేప్, నీటిపారుదల మొదలైనవి)"
       }
     ],
     "gallery": [],
@@ -22,7 +26,10 @@
     "image": "/uploads/img-8b50fc5d3c0cf56c4c343f48e5dc7b57.jpeg",
     "shortDescription": "An Annual Maintenance Contract (AMC) is a service agreement that provides regular maintenance and support for systems, equipment, or landscapes over a fixed period, typically one year.",
     "sortOrder": 9,
-    "title": "Annual Maintenance Contract (AMC)"
+    "title": "Annual Maintenance Contract (AMC)",
+    "description_te": "వార్షిక నిర్వహణ ఒప్పందం (AMC) అనేది ల్యాండ్‌స్కేపింగ్, నీటిపారుదల వ్యవస్థలు, ఆకుపచ్చ గోడలు, చెరువులు లేదా ఇతర సౌకర్యాల వంటి ఆస్తుల నిరంతర నిర్వహణ మరియు సరైన పనితీరును నిర్ధారించడానికి రూపొందించబడిన సమగ్ర సేవా ప్రణాళిక. AMC కింద, తనిఖీ, నివారణ నిర్వహణ, మరమ్మతులు మరియు భర్తీ (కాంట్రాక్ట్ నిబంధనల ప్రకారం) కోసం షెడ్యూల్ చేయబడిన సందర్శనలు నిర్వహించబడతాయి.\n\nఈ సేవ సమస్యలను ముందుగానే గుర్తించడంలో, ఊహించని బ్రేక్‌డౌన్‌లను తగ్గించడంలో మరియు స్థిరమైన నాణ్యతను కొనసాగించడంలో సహాయపడుతుంది. AMC ప్లాన్‌లు క్లయింట్ అవసరాల ఆధారంగా అనుకూలీకరించబడతాయి, శుభ్రపరచడం, సర్వీసింగ్, కత్తిరింపు, ఫలదీకరణం మరియు సిస్టమ్ తనిఖీలు వంటి సాధారణ కార్యకలాపాలను కవర్ చేస్తుంది. ఇది ఏడాది పొడవునా వృత్తిపరమైన సంరక్షణను అందించడం ద్వారా సౌలభ్యం, ఖర్చు ఆదా మరియు మనశ్శాంతిని అందిస్తుంది.",
+    "shortDescription_te": "యాన్యువల్ మెయింటెనెన్స్ కాంట్రాక్ట్ (AMC) అనేది నిర్ణీత వ్యవధిలో, సాధారణంగా ఒక సంవత్సరం పాటు సిస్టమ్‌లు, పరికరాలు లేదా ల్యాండ్‌స్కేప్‌ల కోసం సాధారణ నిర్వహణ మరియు మద్దతును అందించే సేవా ఒప్పందం.",
+    "title_te": "వార్షిక నిర్వహణ ఒప్పందం (AMC)"
   },
   {
     "id": "fish-pond-maintenance",
@@ -30,22 +37,28 @@
     "enabled": true,
     "features": [
       {
-        "title": "Water quality testing and management"
+        "title": "Water quality testing and management",
+        "title_te": "నీటి నాణ్యత పరీక్ష మరియు నిర్వహణ"
       },
       {
-        "title": "Removal of debris and sludge cleaning"
+        "title": "Removal of debris and sludge cleaning",
+        "title_te": "శిధిలాల తొలగింపు మరియు బురద శుభ్రపరచడం"
       },
       {
-        "title": "Algae control and prevention"
+        "title": "Algae control and prevention",
+        "title_te": "ఆల్గే నియంత్రణ మరియు నివారణ"
       },
       {
-        "title": "Fish health monitoring and care guidance"
+        "title": "Fish health monitoring and care guidance",
+        "title_te": "చేపల ఆరోగ్య పర్యవేక్షణ మరియు సంరక్షణ మార్గదర్శకత్వం"
       },
       {
-        "title": "Monitoring of pH, temperature, and oxygen levels"
+        "title": "Monitoring of pH, temperature, and oxygen levels",
+        "title_te": "pH, ఉష్ణోగ్రత మరియు ఆక్సిజన్ స్థాయిల పర్యవేక్షణ"
       },
       {
-        "title": "Regular inspection and maintenance schedules"
+        "title": "Regular inspection and maintenance schedules",
+        "title_te": "రెగ్యులర్ తనిఖీ మరియు నిర్వహణ షెడ్యూల్"
       }
     ],
     "gallery": [
@@ -55,7 +68,10 @@
     "image": "/uploads/img-b1e15686e376a771d73ba58992ce7793.jpeg",
     "shortDescription": "Fish pond maintenance involves regular care and management of ponds to ensure clean water, healthy fish, and a balanced aquatic environment.",
     "sortOrder": 8,
-    "title": "Fish Pond Maintenance"
+    "title": "Fish Pond Maintenance",
+    "description_te": "చేపల చెరువు నిర్వహణ సాధారణ శుభ్రత, నీటి నాణ్యత నిర్వహణ మరియు చేపల సంరక్షణ ద్వారా చెరువు పర్యావరణ వ్యవస్థను స్థిరంగా మరియు ఆరోగ్యంగా ఉంచడంపై దృష్టి పెడుతుంది. ఇందులో శిధిలాలను తొలగించడం, ఆల్గే పెరుగుదలను నియంత్రించడం, వడపోత వ్యవస్థలను తనిఖీ చేయడం మరియు నీటిలో సరైన ఆక్సిజన్ స్థాయిలను నిర్వహించడం వంటివి ఉంటాయి.\n\nవ్యాధులను నివారించడానికి మరియు చేపల శ్రేయస్సును నిర్ధారించడానికి pH స్థాయిలు, ఉష్ణోగ్రత మరియు పోషకాల సమతుల్యతను క్రమం తప్పకుండా పర్యవేక్షించడం అవసరం. సేవలో ఫీడింగ్ గైడెన్స్, పంపులు మరియు ఏరేటర్ల తనిఖీ మరియు కాలానుగుణ సర్దుబాట్లు కూడా ఉండవచ్చు. సరైన నిర్వహణ చెరువు యొక్క దృశ్యమాన ఆకర్షణను పెంచడమే కాకుండా అభివృద్ధి చెందుతున్న జల జీవన వ్యవస్థకు మద్దతు ఇస్తుంది.",
+    "shortDescription_te": "చేపల చెరువు నిర్వహణలో పరిశుభ్రమైన నీరు, ఆరోగ్యకరమైన చేపలు మరియు సమతుల్య జల వాతావరణం ఉండేలా చెరువుల యొక్క సాధారణ సంరక్షణ మరియు నిర్వహణ ఉంటుంది.",
+    "title_te": "చేపల చెరువు నిర్వహణ"
   },
   {
     "id": "tree-plantation",
@@ -63,16 +79,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Selection of suitable tree species"
+        "title": "Selection of suitable tree species",
+        "title_te": "తగిన చెట్ల జాతుల ఎంపిక"
       },
       {
-        "title": "Proper pit digging and soil preparation"
+        "title": "Proper pit digging and soil preparation",
+        "title_te": "సరైన గొయ్యి త్రవ్వడం మరియు నేల తయారీ"
       },
       {
-        "title": "Initial watering and care setup"
+        "title": "Initial watering and care setup",
+        "title_te": "ప్రారంభ నీరు త్రాగుట మరియు సంరక్షణ సెటప్"
       },
       {
-        "title": "Use of fertilizers and organic nutrients"
+        "title": "Use of fertilizers and organic nutrients",
+        "title_te": "ఎరువులు మరియు సేంద్రీయ పోషకాల వాడకం"
       }
     ],
     "gallery": [
@@ -86,7 +106,10 @@
     "image": "/uploads/img-1b2f962406d06d86aa216e6ef4c2f59d.jpeg",
     "shortDescription": "Tree plantation involves planting and establishing trees to enhance environmental quality, improve greenery, and support ecological balance.",
     "sortOrder": 7,
-    "title": "Tree Plantation"
+    "title": "Tree Plantation",
+    "description_te": "చెట్ల పెంపకం అనేది నివాస, వాణిజ్య లేదా బహిరంగ ప్రదేశాలలో చెట్లను ఎంచుకోవడం, నాటడం మరియు పోషణ చేసే ప్రక్రియ. ఇది సైట్ అసెస్‌మెంట్, నేల, వాతావరణం మరియు ప్రయోజనం (నీడ, పండు, అలంకారమైన) ఆధారంగా తగిన చెట్ల జాతులను ఎంచుకోవడం మరియు ఆరోగ్యకరమైన పెరుగుదలను నిర్ధారించడానికి సరైన నాటడం పద్ధతులను కలిగి ఉంటుంది.\n\nఈ ప్రక్రియలో మట్టిని సిద్ధం చేయడం, గుంటలు త్రవ్వడం, పోషకాలను జోడించడం మరియు చెట్ల మధ్య సరైన అంతరం ఉండేలా చూడడం కూడా ఉంటుంది. నాటడం తరువాత, నీరు త్రాగుట, కప్పడం మరియు తెగుళ్లు మరియు జంతువుల నుండి రక్షణ వంటి ప్రారంభ సంరక్షణ విజయవంతమైన స్థాపనకు అవసరం. చెట్ల పెంపకం మెరుగైన గాలి నాణ్యత, ఉష్ణోగ్రత నియంత్రణ, జీవవైవిధ్యం మరియు మొత్తం పర్యావరణ స్థిరత్వానికి దోహదం చేస్తుంది.",
+    "shortDescription_te": "చెట్ల పెంపకం అనేది పర్యావరణ నాణ్యతను పెంపొందించడానికి, పచ్చదనాన్ని మెరుగుపరచడానికి మరియు పర్యావరణ సమతుల్యతకు తోడ్పడటానికి చెట్లను నాటడం మరియు ఏర్పాటు చేయడం.",
+    "title_te": "చెట్ల పెంపకం"
   },
   {
     "id": "vertical-green-wall",
@@ -94,16 +117,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Space-efficient vertical planting solution"
+        "title": "Space-efficient vertical planting solution",
+        "title_te": "స్పేస్-సమర్థవంతమైన నిలువు నాటడం పరిష్కారం"
       },
       {
-        "title": "Suitable for indoor and outdoor walls"
+        "title": "Suitable for indoor and outdoor walls",
+        "title_te": "ఇండోర్ మరియు అవుట్డోర్ గోడలకు అనుకూలం"
       },
       {
-        "title": "Integrated irrigation and drainage systems"
+        "title": "Integrated irrigation and drainage systems",
+        "title_te": "ఇంటిగ్రేటెడ్ నీటిపారుదల మరియు పారుదల వ్యవస్థలు"
       },
       {
-        "title": "Variety of plant options based on environment"
+        "title": "Variety of plant options based on environment",
+        "title_te": "పర్యావరణం ఆధారంగా వివిధ రకాల మొక్కల ఎంపికలు"
       }
     ],
     "gallery": [
@@ -113,7 +140,10 @@
     "image": "/uploads/img-4c42fb9ed78834b6a5b3fa5ccd4b25f7.jpeg",
     "shortDescription": "A vertical green wall is a space-saving landscaping solution where plants are grown on vertically structured panels to enhance aesthetics and improve air quality.",
     "sortOrder": 6,
-    "title": "Vertical Green Wall"
+    "title": "Vertical Green Wall",
+    "description_te": "లివింగ్ వాల్ అని కూడా పిలువబడే నిలువు ఆకుపచ్చ గోడ, ఇంటి లోపల మరియు ఆరుబయట గోడలపై ప్రత్యేకంగా రూపొందించిన నిలువు నిర్మాణాలపై మొక్కలను వ్యవస్థాపించడం. ఈ వ్యవస్థలు నిలువు దిశలో మొక్కల పెరుగుదలకు తోడ్పడేందుకు సమీకృత నీటిపారుదలతో మట్టి-ఆధారిత లేదా హైడ్రోపోనిక్ సెటప్‌లను ఉపయోగిస్తాయి.\n\nక్షితిజ సమాంతర స్థలం పరిమితంగా ఉన్న పట్టణ ప్రదేశాలకు నిలువు ఆకుపచ్చ గోడలు అనువైనవి. అవి ఆధునిక మరియు రిఫ్రెష్ విజువల్ అప్పీల్‌ను జోడించడమే కాకుండా ఇండోర్ ఉష్ణోగ్రతలను తగ్గించడంలో, గాలి నాణ్యతను మెరుగుపరచడంలో మరియు సౌండ్ ఇన్సులేషన్‌ను అందించడంలో సహాయపడతాయి. ఇన్‌స్టాలేషన్ ప్రాసెస్‌లో స్ట్రక్చరల్ సెటప్, కాంతి పరిస్థితుల ఆధారంగా మొక్కల ఎంపిక, నీటిపారుదల వ్యవస్థ ఏకీకరణ మరియు కొనసాగుతున్న నిర్వహణ ప్రణాళిక ఉన్నాయి.",
+    "shortDescription_te": "వర్టికల్ గ్రీన్ వాల్ అనేది స్థలాన్ని ఆదా చేసే ల్యాండ్‌స్కేపింగ్ సొల్యూషన్, ఇక్కడ సౌందర్యాన్ని మెరుగుపరచడానికి మరియు గాలి నాణ్యతను మెరుగుపరచడానికి నిలువుగా నిర్మాణాత్మక ప్యానెల్‌లపై మొక్కలను పెంచుతారు.",
+    "title_te": "నిలువు ఆకుపచ్చ గోడ"
   },
   {
     "id": "potted-plants-installation",
@@ -121,16 +151,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Selection of suitable indoor and outdoor plants"
+        "title": "Selection of suitable indoor and outdoor plants",
+        "title_te": "తగిన ఇండోర్ మరియు అవుట్డోర్ మొక్కల ఎంపిక"
       },
       {
-        "title": "Decorative pot and container arrangements"
+        "title": "Decorative pot and container arrangements",
+        "title_te": "అలంకార కుండ మరియు కంటైనర్ ఏర్పాట్లు"
       },
       {
-        "title": "Placement based on sunlight and space conditions"
+        "title": "Placement based on sunlight and space conditions",
+        "title_te": "సూర్యకాంతి మరియు అంతరిక్ష పరిస్థితుల ఆధారంగా ప్లేస్‌మెంట్"
       },
       {
-        "title": "Aesthetic plant combinations and design layouts"
+        "title": "Aesthetic plant combinations and design layouts",
+        "title_te": "సౌందర్య మొక్కల కలయికలు మరియు డిజైన్ లేఅవుట్లు"
       }
     ],
     "gallery": [
@@ -143,7 +177,10 @@
     "image": "/uploads/img-cdfdf04278f7ca4383a44ef190fc176e.jpeg",
     "shortDescription": "Potted plants installation involves selecting, arranging, and placing plants in containers to enhance indoor and outdoor spaces with greenery.",
     "sortOrder": 4,
-    "title": "Potted Plants Installation"
+    "title": "Potted Plants Installation",
+    "description_te": "కుండీలలో పెట్టిన మొక్కల సంస్థాపన గృహాలు, కార్యాలయాలు, బాల్కనీలు, టెర్రస్‌లు మరియు వాణిజ్య ప్రాంతాలకు అనువైన అలంకరణ కంటైనర్‌లలో వ్యూహాత్మకంగా మొక్కలను ఉంచడం ద్వారా స్థలాలను అందంగా మార్చడంపై దృష్టి పెడుతుంది. ఈ ప్రక్రియలో లైటింగ్ పరిస్థితులు, స్థల లభ్యత మరియు సౌందర్య ప్రాధాన్యతల ఆధారంగా సరైన మొక్కలను ఎంచుకోవడంతోపాటు తగిన కుండలు, నేల మిశ్రమాలు మరియు డ్రైనేజీ వ్యవస్థలను ఎంచుకోవడం ఉంటుంది.\n\nఈ సేవ మొక్కల కలయికలు, కలర్ కోఆర్డినేషన్ మరియు ప్లేస్‌మెంట్ ప్యాటర్న్‌లను దృశ్యమానంగా ఆకట్టుకునే ఏర్పాట్లను కూడా పరిగణలోకి తీసుకుంటుంది. సరైన సంస్థాపన మొక్కల ఆరోగ్యం, సులభమైన నిర్వహణ మరియు సరైన పెరుగుదలను నిర్ధారిస్తుంది. సాంప్రదాయ ల్యాండ్‌స్కేపింగ్ సాధ్యం కాని ప్రాంతాల్లో పచ్చదనాన్ని జోడించడానికి ఇది సరైన పరిష్కారం.",
+    "shortDescription_te": "ఇండోర్ మరియు అవుట్‌డోర్ ప్రదేశాలను పచ్చదనంతో మెరుగుపరచడానికి మొక్కలను ఎంచుకోవడం, అమర్చడం మరియు కంటైనర్‌లలో ఉంచడం కుండల మొక్కల సంస్థాపనలో ఉంటుంది.",
+    "title_te": "జేబులో పెట్టిన మొక్కల సంస్థాపన"
   },
   {
     "id": "drip-irrigation-services",
@@ -151,16 +188,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Targeted water delivery to plant roots"
+        "title": "Targeted water delivery to plant roots",
+        "title_te": "మొక్కల మూలాలకు నీటి సరఫరా లక్ష్యంగా ఉంది"
       },
       {
-        "title": "Reduces water wastage and evaporation"
+        "title": "Reduces water wastage and evaporation",
+        "title_te": "నీటి వృధా మరియు ఆవిరిని తగ్గిస్తుంది"
       },
       {
-        "title": "Custom-designed irrigation layouts"
+        "title": "Custom-designed irrigation layouts",
+        "title_te": "అనుకూల-రూపకల్పన చేసిన నీటిపారుదల లేఅవుట్‌లు"
       },
       {
-        "title": "Installation of pipes, emitters, and control systems"
+        "title": "Installation of pipes, emitters, and control systems",
+        "title_te": "పైపులు, ఉద్గారకాలు మరియు నియంత్రణ వ్యవస్థల సంస్థాపన"
       }
     ],
     "gallery": [
@@ -170,7 +211,10 @@
     "image": "/uploads/img-d4f49fa042e7c625b10fac342fec5382.jpeg",
     "shortDescription": "Drip irrigation services provide efficient water delivery directly to plant roots, minimizing water wastage and promoting healthy plant growth.",
     "sortOrder": 3,
-    "title": "Drip Irrigation Services"
+    "title": "Drip Irrigation Services",
+    "description_te": "బిందు సేద్యం సేవల్లో పైపులు, కవాటాలు, గొట్టాలు మరియు ఉద్గారాల నెట్‌వర్క్ ద్వారా మొక్కల పునాదికి నెమ్మదిగా మరియు ఖచ్చితంగా నీటిని అందించే వ్యవస్థల రూపకల్పన, సంస్థాపన మరియు నిర్వహణ ఉంటుంది. ఈ పద్ధతి నీరు నేరుగా రూట్ జోన్‌కు చేరుకునేలా చేస్తుంది, బాష్పీభవనం మరియు ప్రవాహాన్ని తగ్గిస్తుంది.\n\nతోటలు, పచ్చిక బయళ్ళు, వ్యవసాయ క్షేత్రాలు మరియు నీటి సంరక్షణ ముఖ్యమైన ప్రదేశాలకు ఇది చాలా ఉపయోగకరంగా ఉంటుంది. మొక్కల రకాలు, నేల పరిస్థితులు మరియు భూభాగం ఆధారంగా బిందు సేద్యం వ్యవస్థలను అనుకూలీకరించవచ్చు. ఈ సేవలు సరైన పనితీరు మరియు దీర్ఘాయువును నిర్ధారించడానికి సిస్టమ్ మానిటరింగ్, క్లాగ్ ప్రివెన్షన్ మరియు ఆవర్తన నిర్వహణను కూడా కలిగి ఉంటాయి.",
+    "shortDescription_te": "బిందు సేద్యం సేవలు మొక్కల మూలాలకు నేరుగా సమర్ధవంతమైన నీటి పంపిణీని అందిస్తాయి, నీటి వృధాను తగ్గించడం మరియు ఆరోగ్యకరమైన మొక్కల పెరుగుదలను ప్రోత్సహిస్తాయి.",
+    "title_te": "బిందు సేద్యం సేవలు"
   },
   {
     "id": "regular-plant-and-tree-maintenance-services",
@@ -178,16 +222,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Routine watering and irrigation management"
+        "title": "Routine watering and irrigation management",
+        "title_te": "సాధారణ నీటిపారుదల మరియు నీటిపారుదల నిర్వహణ"
       },
       {
-        "title": "Pruning and trimming of plants and trees"
+        "title": "Pruning and trimming of plants and trees",
+        "title_te": "మొక్కలు మరియు చెట్లను కత్తిరించడం మరియు కత్తిరించడం"
       },
       {
-        "title": "Fertilization for healthy growth and flowering"
+        "title": "Fertilization for healthy growth and flowering",
+        "title_te": "ఆరోగ్యకరమైన పెరుగుదల మరియు పుష్పించే కోసం ఫలదీకరణం"
       },
       {
-        "title": "Tree health inspection and risk assessment"
+        "title": "Tree health inspection and risk assessment",
+        "title_te": "చెట్టు ఆరోగ్య తనిఖీ మరియు ప్రమాద అంచనా"
       }
     ],
     "gallery": [
@@ -202,7 +250,10 @@
     "image": "/uploads/img-a9a350c87838b6e9fc675dd6342ef867.jpeg",
     "shortDescription": "Regular plant and tree maintenance services ensure the healthy growth, appearance, and longevity of plants and trees through routine care and monitoring.",
     "sortOrder": 2,
-    "title": "Regular Plant and Tree Maintenance Services"
+    "title": "Regular Plant and Tree Maintenance Services",
+    "description_te": "క్రమం తప్పకుండా మొక్కలు మరియు చెట్ల నిర్వహణలో పచ్చదనాన్ని ఆరోగ్యంగా, సురక్షితంగా మరియు దృశ్యపరంగా ఆకర్షణీయంగా ఉంచడానికి కొనసాగుతున్న సంరక్షణ పద్ధతులు ఉంటాయి. ఇందులో నీరు త్రాగుట, కత్తిరింపు, కత్తిరించడం, ఫలదీకరణం, తెగులు మరియు వ్యాధి నిర్వహణ మరియు నేల సంరక్షణ ఉన్నాయి. సరైన నిర్వహణ మొక్కలు బలంగా పెరగడానికి సహాయపడుతుంది, పుష్పించే మరియు ఫలాలు కాస్తాయి మరియు వ్యాధుల వ్యాప్తిని నిరోధిస్తుంది.\n\nచెట్ల కోసం, సేవలలో నిర్మాణాత్మక కత్తిరింపు, చనిపోయిన లేదా ప్రమాదకరమైన కొమ్మలను తొలగించడం మరియు ప్రమాదాలను నివారించడానికి మొత్తం చెట్ల ఆరోగ్యాన్ని పర్యవేక్షించడం కూడా ఉన్నాయి. ఈ సేవలు మొక్కల రకాలు, కాలానుగుణ అవసరాలు మరియు పర్యావరణ పరిస్థితుల ఆధారంగా రూపొందించబడ్డాయి. రెగ్యులర్ నిర్వహణ ప్రకృతి దృశ్యం యొక్క అందాన్ని మెరుగుపరచడమే కాకుండా కాలక్రమేణా భద్రత మరియు స్థిరత్వాన్ని నిర్ధారిస్తుంది.",
+    "shortDescription_te": "సాధారణ మొక్క మరియు చెట్ల నిర్వహణ సేవలు సాధారణ సంరక్షణ మరియు పర్యవేక్షణ ద్వారా మొక్కలు మరియు చెట్ల ఆరోగ్యకరమైన పెరుగుదల, రూపాన్ని మరియు దీర్ఘాయువును నిర్ధారిస్తాయి.",
+    "title_te": "రెగ్యులర్ ప్లాంట్ మరియు ట్రీ మెయింటెనెన్స్ సర్వీసెస్"
   },
   {
     "id": "landscape-planning-and-execution",
@@ -210,16 +261,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Site analysis and customized landscape design"
+        "title": "Site analysis and customized landscape design",
+        "title_te": "సైట్ విశ్లేషణ మరియు అనుకూలీకరించిన ల్యాండ్‌స్కేప్ డిజైన్"
       },
       {
-        "title": "Selection of plants, trees, and greenery"
+        "title": "Selection of plants, trees, and greenery",
+        "title_te": "మొక్కలు, చెట్లు, పచ్చదనం ఎంపిక"
       },
       {
-        "title": "Irrigation system setup"
+        "title": "Irrigation system setup",
+        "title_te": "నీటిపారుదల వ్యవస్థ ఏర్పాటు"
       },
       {
-        "title": "End-to-end project execution and supervision"
+        "title": "End-to-end project execution and supervision",
+        "title_te": "ఎండ్-టు-ఎండ్ ప్రాజెక్ట్ ఎగ్జిక్యూషన్ మరియు పర్యవేక్షణ"
       }
     ],
     "gallery": [
@@ -232,7 +287,10 @@
     "image": "/uploads/img-e20671d3b9ffb97144e0945e30e600d7.jpeg",
     "shortDescription": "Landscape planning and execution is the process of designing and implementing outdoor spaces to enhance aesthetics, functionality, and environmental sustainability.",
     "sortOrder": 3,
-    "title": "Landscape planning and execution"
+    "title": "Landscape planning and execution",
+    "description_te": "ల్యాండ్‌స్కేప్ ప్లానింగ్ మరియు ఎగ్జిక్యూషన్‌లో మొక్కలు, పచ్చిక బయళ్ళు, నీటి లక్షణాలు మరియు మార్గాలు, డాబాలు మరియు గోడలు వంటి హార్డ్‌స్కేప్ ఎలిమెంట్స్ వంటి సహజ మూలకాలు కలపడం ద్వారా బాగా నిర్మాణాత్మకమైన బహిరంగ వాతావరణాన్ని సృష్టించడం ఉంటుంది. ప్లానింగ్ దశలో వాతావరణం, నేల పరిస్థితులు మరియు క్లయింట్ ప్రాధాన్యతల ఆధారంగా సైట్ విశ్లేషణ, సంభావిత రూపకల్పన, మొక్కల ఎంపిక మరియు లేఅవుట్ ప్రణాళిక ఉంటాయి.\n\nల్యాండ్ గ్రేడింగ్, మొక్కలు నాటడం, నీటిపారుదల వ్యవస్థాపన, హార్డ్‌స్కేప్‌ల నిర్మాణం మరియు లైటింగ్ సెటప్ వంటి కార్యకలాపాల ద్వారా డిజైన్‌ను వాస్తవికంగా మార్చడం అమలులో ఉంటుంది. రెసిడెన్షియల్ గార్డెన్‌లు, కమర్షియల్ స్పేస్‌లు లేదా పబ్లిక్ ల్యాండ్‌స్కేప్‌ల కోసం సౌందర్య లక్ష్యాలు మరియు ఆచరణాత్మక వినియోగం రెండింటితో సమలేఖనం చేసే సమతుల్య, దృశ్యమానంగా ఆకర్షణీయమైన మరియు క్రియాత్మకమైన బహిరంగ స్థలాన్ని సృష్టించడం లక్ష్యం.",
+    "shortDescription_te": "ల్యాండ్‌స్కేప్ ప్లానింగ్ మరియు ఎగ్జిక్యూషన్ అనేది సౌందర్యం, కార్యాచరణ మరియు పర్యావరణ సుస్థిరతను పెంపొందించడానికి బహిరంగ ప్రదేశాల రూపకల్పన మరియు అమలు ప్రక్రియ.",
+    "title_te": "ప్రకృతి దృశ్యం ప్రణాళిక మరియు అమలు"
   },
   {
     "id": "lawn-development-and-maintenance",
@@ -240,16 +298,20 @@
     "enabled": true,
     "features": [
       {
-        "title": "Complete lawn setup (soil prep, seeding, turfing)"
+        "title": "Complete lawn setup (soil prep, seeding, turfing)",
+        "title_te": "పూర్తి లాన్ సెటప్ (మట్టి తయారీ, విత్తనాలు, టర్ఫింగ్)"
       },
       {
-        "title": "Regular mowing and trimming"
+        "title": "Regular mowing and trimming",
+        "title_te": "రెగ్యులర్ మొవింగ్ మరియు ట్రిమ్మింగ్"
       },
       {
-        "title": "Efficient watering and irrigation management"
+        "title": "Efficient watering and irrigation management",
+        "title_te": "సమర్థవంతమైన నీటిపారుదల మరియు నీటిపారుదల నిర్వహణ"
       },
       {
-        "title": "Fertilization and soil health improvement"
+        "title": "Fertilization and soil health improvement",
+        "title_te": "ఫలదీకరణం మరియు నేల ఆరోగ్యం మెరుగుపడుతుంది"
       }
     ],
     "gallery": [
@@ -264,6 +326,9 @@
     "image": "/uploads/img-4ffa4fab8982cf25dd947afa847fa359.jpeg",
     "shortDescription": "Lawn development and maintenance is a complete service that covers the creation and ongoing care of healthy, green lawns for long-term beauty and sustainability.",
     "sortOrder": 5,
-    "title": "Lawn Development and Maintenance"
+    "title": "Lawn Development and Maintenance",
+    "description_te": "పచ్చిక అభివృద్ధి మరియు నిర్వహణ అనేది ఒక కొత్త పచ్చికను ఏర్పాటు చేయడం మరియు దాని నిరంతర ఆరోగ్యం మరియు రూపాన్ని సాధారణ నిర్వహణ ద్వారా నిర్ధారించడం. అభివృద్ధి దశలో నేల తయారీ, లెవలింగ్, తగిన గడ్డి రకాలను ఎంచుకోవడం, ఫలదీకరణం మరియు విత్తనాలు లేదా మట్టిగడ్డను అమర్చడం వంటివి ఉంటాయి.\n\nపచ్చికను ఏర్పాటు చేసిన తర్వాత, నిర్వహణ సేవలు అది పచ్చగా మరియు ఉత్సాహంగా ఉండేలా చూస్తాయి. ఇది క్రమం తప్పకుండా కోయడం, నీరు త్రాగుట, ఫలదీకరణం, కలుపు నియంత్రణ, గాలి మరియు తెగులు నిర్వహణ. మన్నిక మరియు సౌందర్యాన్ని నిర్వహించడానికి వాతావరణ పరిస్థితులు, నేల రకం మరియు వినియోగ నమూనాల ఆధారంగా సేవ అనుకూలీకరించబడింది.\n\nఆస్తి యొక్క విజువల్ అప్పీల్‌ను మెరుగుపరచడమే కాకుండా శుభ్రమైన, ఉపయోగించగల బహిరంగ స్థలాన్ని కూడా అందించే బాగా సమతుల్య పచ్చికను సృష్టించడం లక్ష్యం.",
+    "shortDescription_te": "లాన్ డెవలప్‌మెంట్ మరియు మెయింటెనెన్స్ అనేది దీర్ఘకాలిక అందం మరియు స్థిరత్వం కోసం ఆరోగ్యకరమైన, పచ్చని పచ్చిక బయళ్లను సృష్టించడం మరియు కొనసాగుతున్న సంరక్షణను కవర్ చేసే పూర్తి సేవ.",
+    "title_te": "పచ్చిక అభివృద్ధి మరియు నిర్వహణ"
   }
 ]

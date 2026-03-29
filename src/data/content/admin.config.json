@@ -22,11 +22,19 @@
       {
         "code": "en",
         "name": "English"
+      },
+      {
+        "code": "te",
+        "name": "తెలుగు"
       }
     ],
     "availableLanguages": [
-      "en"
-    ]
+      "en",
+      "te"
+    ],
+    "companyName_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్ PVT లిమిటెడ్",
+    "tagline_te": "ఆలోచనాత్మకమైన ప్రకృతి దృశ్యం రూపకల్పన మరియు తోట సంరక్షణ",
+    "description_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్ టెర్రేస్ గార్డెన్‌లు మరియు లాన్‌ల నుండి పూర్తి ల్యాండ్‌స్కేప్ పరివర్తనల వరకు బహిరంగ ప్రదేశాలను డిజైన్ చేస్తుంది, నిర్మిస్తుంది మరియు నిర్వహిస్తుంది."
   },
   "seo": {
     "title": "GrowWell Landscapes - Professional Landscaping Services",
@@ -34,7 +42,10 @@
     "description": "Elevate your outdoor spaces with GrowWell Landscapes. We create terrace gardens, lawns, planting concepts, and practical landscape solutions for homes and commercial properties.",
     "keywords": "landscaping services, landscape contractor, terrace garden, rooftop garden, garden design, lawn maintenance, vertical garden, villa landscaping, balcony garden, irrigation system, landscape design, garden maintenance, landscaping services, landscape company, garden design services, garden landscaping, professional landscaping, landscape contractors, outdoor landscaping services, garden maintenance services, landscape design company, landscaping services in Chennai, landscaping services in Bangalore, landscaping services in Hyderabad, landscaping services in Andhra Pradesh, landscaping services in AP, landscaping services in Tamil Nadu, landscaping services in TN, landscaping services in Telangana, landscaping services in TS, landscaping services in TG, garden maintenance in Chennai, garden maintenance in Bangalore, garden maintenance in Hyderabad, garden maintenance in Andhra Pradesh, garden maintenance in AP, garden maintenance in Tamil Nadu, garden maintenance in TN, garden maintenance in Telangana, garden maintenance in TS, garden maintenance in TG, landscape company near me, best landscaping company in Chennai, best landscaping company in Bangalore, best landscaping company in Hyderabad, best landscaping company in Andhra Pradesh, best landscaping company in Tamil Nadu, best landscaping company in Telangana, garden design services in Chennai, garden design services in Bangalore, garden design services in Hyderabad, landscape contractors in Chennai, landscape contractors in Bangalore, landscape contractors in Hyderabad, outdoor landscaping services in Chennai, outdoor landscaping services in Bangalore, outdoor landscaping services in Hyderabad, drip irrigation services, plant maintenance services, tree maintenance services, landscape planning and execution, garden setup services, potted plant installation, lawn care services, garden cleaning services, irrigation system installation, affordable landscaping services in Chennai, affordable landscaping services in Bangalore, affordable landscaping services in Hyderabad, best garden maintenance company near me, low cost landscaping services, residential landscaping services, commercial landscaping services, modern garden design ideas, small garden landscaping services, home garden setup services, hire landscaper near me, garden maintenance cost in Chennai, garden maintenance cost in Bangalore, garden maintenance cost in Hyderabad, landscaping company contact, book landscaping service, garden design consultation, growwell, growwell landscapes",
     "favicon": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png",
-    "ogImage": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png"
+    "ogImage": "/uploads/img-f4b6239d9b0476acc022b963b9887b97.png",
+    "title_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ - ప్రొఫెషనల్ ల్యాండ్‌స్కేపింగ్ సేవలు",
+    "searchTitle_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్ అండ్ కన్‌స్ట్రక్షన్ PVT LTD",
+    "description_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్‌లతో మీ బహిరంగ ప్రదేశాలను ఎలివేట్ చేయండి. మేము టెర్రేస్ గార్డెన్‌లు, పచ్చిక బయళ్ళు, మొక్కల పెంపకం భావనలు మరియు గృహాలు మరియు వాణిజ్య ప్రాపర్టీల కోసం ఆచరణాత్మక ప్రకృతి దృశ్యం పరిష్కారాలను సృష్టిస్తాము."
   },
   "theme": {
     "colors": {
@@ -92,11 +103,13 @@
     "address": "Chennai, Tamil Nadu",
     "location": {
       "name": "GrowWell Landscapes - Landscape Contractor",
-      "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA"
+      "url": "https://maps.app.goo.gl/zmCRae9YmHq5jEgEA",
+      "name_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ - ల్యాండ్‌స్కేప్ కాంట్రాక్టర్"
     },
     "whatsapp": {
       "number": "919384747150",
-      "defaultMessage": "Hi, I am looking for landscaping support for my space. Could you help me with the next steps?"
+      "defaultMessage": "Hi, I am looking for landscaping support for my space. Could you help me with the next steps?",
+      "defaultMessage_te": "హాయ్, నేను నా స్పేస్ కోసం ల్యాండ్‌స్కేపింగ్ సపోర్ట్ కోసం చూస్తున్నాను. తదుపరి దశల్లో మీరు నాకు సహాయం చేయగలరా?"
     },
     "floatingContact": {
       "enabled": true,
@@ -119,9 +132,11 @@
     "locations": [
       {
         "name": "GrowWell Landscapes - Landscape Contractor",
-        "url": "https://maps.app.goo.gl/mMjcNf8NQwuZgyJNA"
+        "url": "https://maps.app.goo.gl/mMjcNf8NQwuZgyJNA",
+        "name_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్స్ - ల్యాండ్‌స్కేప్ కాంట్రాక్టర్"
       }
-    ]
+    ],
+    "address_te": "చెన్నై, తమిళనాడు"
   },
   "socialMedia": [
     {
@@ -141,7 +156,12 @@
     "images": {
       "desktop": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg",
       "mobile": "/uploads/img-42cbbe6272f979493604cba8effa02a7.jpeg"
-    }
+    },
+    "title_te": "GrowWell ల్యాండ్‌స్కేప్ మరియు నిర్మాణానికి స్వాగతం",
+    "subtitle_te": "ల్యాండ్‌స్కేప్ డిజైన్, ఎగ్జిక్యూషన్ మరియు కేర్",
+    "description_te": "టెర్రేస్ గార్డెన్‌లు మరియు పచ్చిక బయళ్ల నుండి సొగసైన ఆకుపచ్చ మూలల వరకు, మేము తాజాగా, క్రియాత్మకంగా మరియు శాశ్వతంగా నిర్మించబడినట్లు భావించే బహిరంగ ప్రదేశాలను సృష్టిస్తాము.",
+    "ctaText_te": "సేవలను అన్వేషించండి",
+    "ctaLink_te": "/ సేవలు"
   },
   "about": {
     "ctaLink": "/contact",
@@ -149,24 +169,36 @@
     "features": [
       {
         "title": "Site-Specific Design",
-        "description": "Layouts shaped around your space, style, and practical needs"
+        "description": "Layouts shaped around your space, style, and practical needs",
+        "title_te": "సైట్-నిర్దిష్ట డిజైన్",
+        "description_te": "మీ స్థలం, శైలి మరియు ఆచరణాత్మక అవసరాలకు అనుగుణంగా లేఅవుట్‌లు రూపొందించబడ్డాయి"
       },
       {
         "title": "Balanced Plant Selection",
-        "description": "Planting choices made for climate, upkeep, and visual appeal"
+        "description": "Planting choices made for climate, upkeep, and visual appeal",
+        "title_te": "సమతుల్య మొక్కల ఎంపిక",
+        "description_te": "వాతావరణం, సంరక్షణ మరియు విజువల్ అప్పీల్ కోసం మొక్కలు నాటడం ఎంపికలు"
       },
       {
         "title": "Neat Professional Execution",
-        "description": "Clean installation with attention to finish, flow, and durability"
+        "description": "Clean installation with attention to finish, flow, and durability",
+        "title_te": "నీట్ ప్రొఫెషనల్ ఎగ్జిక్యూషన్",
+        "description_te": "పూర్తి, ప్రవాహం మరియు మన్నికపై శ్రద్ధతో సంస్థాపనను శుభ్రపరచండి"
       },
       {
         "title": "Ongoing Garden Support",
-        "description": "Maintenance guidance and care that keeps landscapes looking their best"
+        "description": "Maintenance guidance and care that keeps landscapes looking their best",
+        "title_te": "కొనసాగుతున్న గార్డెన్ సపోర్ట్",
+        "description_te": "ల్యాండ్‌స్కేప్‌లను ఉత్తమంగా కనిపించేలా ఉంచే నిర్వహణ మార్గదర్శకత్వం మరియు సంరక్షణ"
       }
     ],
     "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg",
     "title": "Landscaping with Clarity, Care, and Lasting Appeal",
-    "description": "We approach every outdoor space with a simple goal: make it look better, work better, and feel easier to enjoy. Our team combines design thinking, practical planning, and hands-on execution to shape gardens and landscapes that suit the property and the people using it."
+    "description": "We approach every outdoor space with a simple goal: make it look better, work better, and feel easier to enjoy. Our team combines design thinking, practical planning, and hands-on execution to shape gardens and landscapes that suit the property and the people using it.",
+    "ctaLink_te": "/ సంప్రదించండి",
+    "ctaText_te": "మా బృందంతో మాట్లాడండి",
+    "title_te": "క్లారిటీ, కేర్ మరియు లాస్టింగ్ అప్పీల్‌తో ల్యాండ్‌స్కేపింగ్",
+    "description_te": "మేము ప్రతి బహిరంగ స్థలాన్ని ఒక సాధారణ లక్ష్యంతో సంప్రదిస్తాము: దానిని మెరుగ్గా కనిపించేలా చేయడం, మెరుగ్గా పని చేయడం మరియు ఆనందించడం సులభం. మా బృందం డిజైన్ థింకింగ్, ప్రాక్టికల్ ప్లానింగ్ మరియు హ్యాండ్-ఆన్ ఎగ్జిక్యూషన్‌ను కలిపి తోటలు మరియు ల్యాండ్‌స్కేప్‌లను ఆస్తికి మరియు దానిని ఉపయోగించే వ్యక్తులకు సరిపోయేలా ఆకృతి చేస్తుంది."
   },
   "aboutPage": {
     "hero": {
@@ -176,12 +208,21 @@
       "primaryCtaText": "Talk to Our Team",
       "primaryCtaLink": "/contact",
       "secondaryCtaText": "Explore Services",
-      "secondaryCtaLink": "/services"
+      "secondaryCtaLink": "/services",
+      "title_te": "సహజంగా, ఆచరణాత్మకంగా మరియు చివరి వరకు నిర్మించబడిన ప్రకృతి దృశ్యాలను సృష్టించడం",
+      "subtitle_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్ మరియు నిర్మాణం గురించి",
+      "description_te": "GrowWell గృహయజమానులు, వాణిజ్య ప్రాపర్టీలు మరియు కాలక్రమేణా ఆకర్షణీయంగా మరియు సులభంగా శ్రద్ధ వహించే ల్యాండ్‌స్కేప్‌లను రూపొందించడానికి, అమలు చేయడానికి మరియు నిర్వహించడానికి నిర్వహించే స్థలాలతో పని చేస్తుంది.",
+      "primaryCtaText_te": "మా బృందంతో మాట్లాడండి",
+      "primaryCtaLink_te": "/ సంప్రదించండి",
+      "secondaryCtaText_te": "సేవలను అన్వేషించండి",
+      "secondaryCtaLink_te": "/ సేవలు"
     },
     "companyIntroduction": {
       "title": "Who We Are",
       "description": "GrowWell Landscape and Construction brings together design sense, planting knowledge, and on-site execution to shape welcoming outdoor environments. From lawns and planting layouts to irrigation, green walls, terrace gardens, and long-term maintenance, we focus on solutions that look good in the short term and continue performing well after handover.",
-      "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg"
+      "image": "/uploads/img-f287edbfa6783f74b95e50df12395559.jpeg",
+      "title_te": "మేము ఎవరు",
+      "description_te": "గ్రోవెల్ ల్యాండ్‌స్కేప్ మరియు కన్స్ట్రక్షన్ డిజైన్ సెన్స్, మొక్కల పెంపకం పరిజ్ఞానం మరియు ఆన్-సైట్ ఎగ్జిక్యూషన్‌ను కలిసి స్వాగతించే బహిరంగ వాతావరణాలను రూపొందించడానికి అందిస్తుంది. లాన్‌లు మరియు ప్లాంటింగ్ లేఅవుట్‌ల నుండి నీటిపారుదల, పచ్చని గోడలు, టెర్రస్ గార్డెన్‌లు మరియు దీర్ఘకాలిక నిర్వహణ వరకు, మేము స్వల్పకాలంలో మంచిగా కనిపించే పరిష్కారాలపై దృష్టి పెడతాము మరియు హ్యాండ్‌ఓవర్ తర్వాత మంచి పనితీరును కొనసాగిస్తాము."
     },
     "missionVision": {
       "title": "Our Direction",
@@ -189,7 +230,13 @@
       "missionTitle": "Our Mission",
       "missionDescription": "To deliver dependable landscaping solutions that improve how outdoor spaces look, function, and grow, while keeping the process clear and practical for every client.",
       "visionTitle": "Our Vision",
-      "visionDescription": "To be the trusted landscaping partner for homes and businesses seeking thoughtful design, clean execution, and long-term garden care."
+      "visionDescription": "To be the trusted landscaping partner for homes and businesses seeking thoughtful design, clean execution, and long-term garden care.",
+      "title_te": "మా డైరెక్షన్",
+      "subtitle_te": "చిన్న ఆకుపచ్చ అప్‌గ్రేడ్‌ల నుండి పూర్తి ల్యాండ్‌స్కేప్ ఎగ్జిక్యూషన్ వరకు ప్రతి ప్రాజెక్ట్ గురించి మనం ఆలోచించే విధానం.",
+      "missionTitle_te": "మా మిషన్",
+      "missionDescription_te": "ప్రతి క్లయింట్‌కు ప్రక్రియను స్పష్టంగా మరియు ఆచరణాత్మకంగా ఉంచుతూ, బహిరంగ ప్రదేశాలు ఎలా కనిపిస్తాయి, పని చేస్తాయి మరియు పెరుగుతాయి అనే విషయాన్ని మెరుగుపరిచే విశ్వసనీయమైన ల్యాండ్‌స్కేపింగ్ పరిష్కారాలను అందించడం.",
+      "visionTitle_te": "మా విజన్",
+      "visionDescription_te": "ఆలోచనాత్మకమైన డిజైన్, క్లీన్ ఎగ్జిక్యూషన్ మరియు దీర్ఘకాలిక తోట సంరక్షణను కోరుకునే గృహాలు మరియు వ్యాపారాల కోసం విశ్వసనీయ ల్యాండ్‌స్కేపింగ్ భాగస్వామిగా ఉండటానికి."
     },
     "whyChooseUs": {
       "title": "Why Choose GrowWell",
@@ -197,35 +244,53 @@
       "items": [
         {
           "title": "Customized planning for each site",
-          "description": "Recommendations shaped around the space, climate, usage, and maintenance expectations."
+          "description": "Recommendations shaped around the space, climate, usage, and maintenance expectations.",
+          "title_te": "ప్రతి సైట్ కోసం అనుకూలీకరించిన ప్రణాళిక",
+          "description_te": "స్థలం, వాతావరణం, వినియోగం మరియు నిర్వహణ అంచనాల ఆధారంగా సిఫార్సులు రూపొందించబడ్డాయి."
         },
         {
           "title": "Planting and irrigation with practical intent",
-          "description": "Selections and systems designed for healthier growth and easier upkeep."
+          "description": "Selections and systems designed for healthier growth and easier upkeep.",
+          "title_te": "ఆచరణాత్మక ఉద్దేశ్యంతో నాటడం మరియు నీటిపారుదల",
+          "description_te": "ఎంపికలు మరియు సిస్టమ్‌లు ఆరోగ్యకరమైన వృద్ధి మరియు సులభ నిర్వహణ కోసం రూపొందించబడ్డాయి."
         },
         {
           "title": "Neat, accountable execution",
-          "description": "Attention to finish quality, site coordination, and clean handover."
+          "description": "Attention to finish quality, site coordination, and clean handover.",
+          "title_te": "చక్కగా, బాధ్యతాయుతమైన అమలు",
+          "description_te": "నాణ్యతను పూర్తి చేయడం, సైట్ సమన్వయం మరియు క్లీన్ హ్యాండ్‌ఓవర్‌పై శ్రద్ధ."
         },
         {
           "title": "Support beyond installation",
-          "description": "Ongoing maintenance services and AMC options when long-term care is needed."
+          "description": "Ongoing maintenance services and AMC options when long-term care is needed.",
+          "title_te": "సంస్థాపనకు మించిన మద్దతు",
+          "description_te": "దీర్ఘకాలిక సంరక్షణ అవసరమైనప్పుడు కొనసాగుతున్న నిర్వహణ సేవలు మరియు AMC ఎంపికలు."
         }
-      ]
+      ],
+      "title_te": "గ్రోవెల్‌ను ఎందుకు ఎంచుకోవాలి",
+      "subtitle_te": "మేము పనిని అర్థం చేసుకోవడానికి సరళంగా ఉంచుతాము, జాగ్రత్తగా ప్లాన్ చేస్తాము మరియు వృత్తిపరంగా అమలు చేస్తాము."
     },
     "servicesOverview": {
       "title": "What We Handle",
-      "description": "Our work spans end-to-end landscaping and green-space support. We help with:"
+      "description": "Our work spans end-to-end landscaping and green-space support. We help with:",
+      "title_te": "మేము ఏమి నిర్వహిస్తాము",
+      "description_te": "మా పని ఎండ్-టు-ఎండ్ ల్యాండ్‌స్కేపింగ్ మరియు గ్రీన్-స్పేస్ సపోర్ట్‌ని విస్తరించింది. మేము సహాయం చేస్తాము:"
     },
     "founderSection": {
       "title": "Meet the Team",
       "subtitle": "",
       "description": "The people behind GrowWell combine site understanding, planning, and service execution to deliver landscapes with care and consistency.",
-      "socialLabel": "Instagram"
+      "socialLabel": "Instagram",
+      "title_te": "బృందాన్ని కలవండి",
+      "subtitle_te": "",
+      "description_te": "గ్రోవెల్ వెనుక ఉన్న వ్యక్తులు ల్యాండ్‌స్కేప్‌లను జాగ్రత్తగా మరియు అనుగుణ్యతతో అందించడానికి సైట్ అవగాహన, ప్రణాళిక మరియు సేవా అమలును మిళితం చేస్తారు.",
+      "socialLabel_te": "Instagram"
     },
     "testimonialsSection": {
       "title": "What Clients Say",
-      "subtitle": ""
+      "subtitle": "",
+      "title_te": "క్లయింట్లు ఏమి చెబుతారు",
+      "subtitle_te": ""
     },
     "cta": {
       "title": "Ready to Plan Your Outdoor Space?",
@@ -233,7 +298,13 @@
       "primaryCtaText": "Contact GrowWell",
       "primaryCtaLink": "/contact",
       "secondaryCtaText": "Browse Services",
-      "secondaryCtaLink": "/services"
+      "secondaryCtaLink": "/services",
+      "title_te": "మీ అవుట్‌డోర్ స్థలాన్ని ప్లాన్ చేయడానికి సిద్ధంగా ఉన్నారా?",
+      "description_te": "మీకు ల్యాండ్‌స్కేప్ ఎగ్జిక్యూషన్, లాన్ డెవలప్‌మెంట్, నీటిపారుదల, జేబులో పెట్టిన మొక్కల ఏర్పాట్లు లేదా సాధారణ నిర్వహణ అవసరం అయినా, తదుపరి దశను స్పష్టతతో తీసుకోవడంలో మేము మీకు సహాయం చేస్తాము.",
+      "primaryCtaText_te": "గ్రోవెల్‌ను సంప్రదించండి",
+      "primaryCtaLink_te": "/ సంప్రదించండి",
+      "secondaryCtaText_te": "సేవలను బ్రౌజ్ చేయండి",
+      "secondaryCtaLink_te": "/ సేవలు"
     }
   },
   "team": [
@@ -244,7 +315,11 @@
       "instagramProfile": "",
       "linkedinProfile": "",
       "sortOrder": 7,
-      "enabled": true
+      "enabled": true,
+      "name_te": "ఎం కలైయరసన్",
+      "designation_te": "హార్టికల్చరిస్ట్",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": ""
     },
     {
       "name": "V Vignesh",
@@ -253,7 +328,11 @@
       "instagramProfile": "",
       "linkedinProfile": "",
       "sortOrder": 6,
-      "enabled": true
+      "enabled": true,
+      "name_te": "వి విఘ్నేష్",
+      "designation_te": "హార్టికల్టరిస్ట్",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": ""
     },
     {
       "name": "R Sushmitha",
@@ -262,7 +341,11 @@
       "instagramProfile": "",
       "linkedinProfile": "",
       "sortOrder": 5,
-      "enabled": true
+      "enabled": true,
+      "name_te": "ఆర్ సుస్మిత",
+      "designation_te": "ఖాతాలు & అడ్మిన్ మద్దతు",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": ""
     },
     {
       "name": "J Kalaiyarasan",
@@ -271,7 +354,11 @@
       "instagramProfile": "",
       "linkedinProfile": "",
       "sortOrder": 3,
-      "enabled": true
+      "enabled": true,
+      "name_te": "జె కలైయరసన్",
+      "designation_te": "మేనేజింగ్ డైరెక్టర్",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": ""
     },
     {
       "name": "N Jalapathi",
@@ -280,7 +367,11 @@
       "instagramProfile": "",
       "linkedinProfile": "",
       "sortOrder": 2,
-      "enabled": true
+      "enabled": true,
+      "name_te": "ఎన్ జలపతి",
+      "designation_te": "మేనేజింగ్ డైరెక్టర్",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": ""
     },
     {
       "name": "J Dinesh Kumar",
@@ -289,7 +380,11 @@
       "instagramProfile": "",
       "linkedinProfile": "",
       "sortOrder": 1,
-      "enabled": true
+      "enabled": true,
+      "name_te": "జె దినేష్ కుమార్",
+      "designation_te": "వ్యవస్థాపకుడు & CEO",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": ""
     },
     {
       "name": "N Dinesh Babu",
@@ -298,7 +393,11 @@
       "instagramProfile": "",
       "linkedinProfile": "https://www.linkedin.com/in/dinesh-babu-n-2067071ab?utm_source=share_via&utm_content=profile&utm_medium=growwell-landscape",
       "sortOrder": 4,
-      "enabled": true
+      "enabled": true,
+      "name_te": "ఎన్ దినేష్ బాబు",
+      "designation_te": "IT మద్దతు",
+      "instagramProfile_te": "",
+      "linkedinProfile_te": "https://www.linkedin.com/in/dinesh-babu-n-2067071ab?utm_source=share_via&utm_content=profile&utm_medium=growwell-landscape"
     }
   ],
   "testimonials": [
@@ -309,7 +408,10 @@
       "image": "",
       "rating": 4.8,
       "sortOrder": 1,
-      "enabled": false
+      "enabled": false,
+      "name_te": "నమూనా క్లయింట్",
+      "role_te": "రెసిడెన్షియల్ ల్యాండ్‌స్కేప్ ప్రాజెక్ట్",
+      "quote_te": "గ్రోవెల్ బృందం పనిని చక్కగా నిర్వహించింది మరియు మా స్థలం మరియు నిర్వహణ అవసరాలకు సరిపోయే ఆచరణాత్మక మొక్కలు నాటడం ఆలోచనలను ఎంచుకోవడంలో మాకు సహాయపడింది."
     }
   ]
 }

@@ -14,7 +14,11 @@
     "location": "",
     "showGallery": true,
     "sortOrder": 3,
-    "title": "Plant Care & Maintenance"
+    "title": "Plant Care & Maintenance",
+    "category_te": "నిర్వహణ",
+    "description_te": "మొక్కలు ఆరోగ్యంగా, చక్కగా మరియు వృద్ధి చెందడానికి నీరు త్రాగుట, కత్తిరింపు మరియు చికిత్సతో సహా క్రమబద్ధమైన సంరక్షణ 🌿✨",
+    "location_te": "",
+    "title_te": "మొక్కల సంరక్షణ & నిర్వహణ"
   },
   {
     "id": "plants-and-trees-plantation-and-garden-setup",
@@ -33,7 +37,11 @@
     "location": "",
     "showGallery": true,
     "sortOrder": 2,
-    "title": "Plantation & Garden Setup"
+    "title": "Plantation & Garden Setup",
+    "category_te": "మొక్కలు మరియు చెట్లు",
+    "description_te": "తాజా, ఆకుపచ్చ మరియు సహజంగా శక్తివంతమైన బహిరంగ స్థలాన్ని సృష్టించడానికి చెట్లు మరియు మొక్కలను నాటడం జాగ్రత్తగా ప్లాన్ చేయండి 🌿✨",
+    "location_te": "",
+    "title_te": "ప్లాంటేషన్ & గార్డెన్ సెటప్"
   },
   {
     "id": "garden-lawn-development",
@@ -53,6 +61,10 @@
     "location": "",
     "showGallery": true,
     "sortOrder": 1,
-    "title": "Lawn Development"
+    "title": "Lawn Development",
+    "category_te": "తోట",
+    "description_te": "బేర్ ల్యాండ్ నుండి శక్తివంతమైన పచ్చని పచ్చిక వరకు - జాగ్రత్తగా మరియు ఖచ్చితత్వంతో రూపొందించబడింది 🌿✨",
+    "location_te": "",
+    "title_te": "పచ్చిక అభివృద్ధి"
   }
 ]
