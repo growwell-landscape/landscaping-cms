@@ -37,10 +37,20 @@ function getLabel(copy: Record<string, string>, fallback: string, key: string): 
   return copy[key] || fallback;
 }
 
+function resolveCurrentYearTokens(value: string): string {
+  return value.replace(/\{\s*currentYear\s*\}/gi, String(new Date().getFullYear()));
+}
+
 function mapFooterLabels(copy: Record<string, string>): SiteFooterLabels {
   return {
     contactTitle: getLabel(copy, "Contact", "contactTitle"),
-    copyright: getLabel(copy, "(c) 2026 GrowWell Landscapes Pvt Ltd. All rights reserved.", "copyright"),
+    copyright: resolveCurrentYearTokens(
+      getLabel(
+        copy,
+        "(c) 2023 - { currentYear } GrowWell Landscapes Pvt Ltd. All rights reserved.",
+        "copyright"
+      )
+    ),
     followUsTitle: getLabel(copy, "Follow Us", "followUsTitle"),
     privacyPolicy: getLabel(copy, "Privacy Policy", "privacyPolicy"),
     termsOfService: getLabel(copy, "Terms of Service", "termsOfService"),

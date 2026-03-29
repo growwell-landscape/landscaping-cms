@@ -8,7 +8,6 @@ import { SectionHeading } from "./SectionHeading";
 interface AboutTeamSectionProps {
   description?: string;
   members: TeamMember[];
-  socialLabel?: string;
   subtitle?: string;
   title: string;
 }
@@ -16,7 +15,6 @@ interface AboutTeamSectionProps {
 export function AboutTeamSection({
   description,
   members,
-  socialLabel,
   subtitle,
   title,
 }: Readonly<AboutTeamSectionProps>) {
@@ -48,7 +46,6 @@ export function AboutTeamSection({
               delayMs={80 + index * 40}
               key={`${member.name}-${index}`}
               member={member}
-              socialLabel={socialLabel}
             />
           ))}
         </div>
