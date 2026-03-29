@@ -238,12 +238,20 @@
   },
   "team": [
     {
+      "name": "J Dinesh Kumar",
+      "designation": "Founder & CEO",
+      "image": "/uploads/img-67af5d6e1c2970e369bb3abc6ed1b00f.jpg",
+      "instagramProfile": "",
+      "sortOrder": 1,
+      "enabled": true
+    },
+    {
       "name": "N Dinesh Babu",
       "designation": "IT Support",
       "image": "/uploads/img-82e82b88432dcf0527fd9bd189b8b576.jpg",
       "instagramProfile": "",
-      "sortOrder": 1,
-      "enabled": false
+      "sortOrder": 4,
+      "enabled": true
     }
   ],
   "testimonials": [
