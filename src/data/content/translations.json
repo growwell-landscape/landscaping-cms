@@ -1,5 +1,4 @@
 {
-  "id": "translations",
   "en": {
     "nav": {
       "home": "Home",
@@ -105,7 +104,7 @@
     },
     "footer": {
       "contactTitle": "మమ్మల్ని చేరుకోండి",
-      "copyright": "(సి) 2023 - {ప్రస్తుత సంవత్సరం } గ్రోవెల్ ల్యాండ్‌స్కేప్ ప్రైవేట్ లిమిటెడ్. అన్ని హక్కులు ప్రత్యేకించబడ్డాయి.",
+      "copyright": "(సి) 2023 - { currentYear } గ్రోవెల్ ల్యాండ్‌స్కేప్ ప్రైవేట్ లిమిటెడ్. అన్ని హక్కులు ప్రత్యేకించబడ్డాయి.",
       "followUsTitle": "కనెక్ట్ అయి ఉండండి",
       "privacyPolicy": "గోప్యతా విధానం",
       "termsOfService": "సేవా నిబంధనలు"
@@ -170,7 +169,7 @@
     },
     "footer": {
       "contactTitle": "எங்களை அடையுங்கள்",
-      "copyright": "(c) 2023 - { நடப்பாண்டு } GrowWell Landscape Pvt Ltd. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+      "copyright": "(c) 2023 - { currentYear } GrowWell Landscape Pvt Ltd. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
       "followUsTitle": "இணைந்திருங்கள்",
       "privacyPolicy": "தனியுரிமைக் கொள்கை",
       "termsOfService": "சேவை விதிமுறைகள்"
